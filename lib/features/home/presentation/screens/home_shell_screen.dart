@@ -7,10 +7,10 @@ import 'package:lexa_pos/core/design/app_text_styles.dart';
 import 'package:lexa_pos/core/widgets/app_button.dart';
 import 'package:lexa_pos/features/auth/domain/entities/user_role.dart';
 import 'package:lexa_pos/features/auth/presentation/providers/auth_providers.dart';
-import 'package:lexa_pos/features/auth/presentation/widgets/role_badge.dart';
+import 'package:lexa_pos/features/pos/presentation/screens/pos_screen.dart';
 import 'package:lexa_pos/router/app_router.dart';
 
-/// Post-auth shell with navigation rail — POS module placeholder.
+/// Post-auth shell with navigation rail + POS screen.
 class HomeShellScreen extends ConsumerWidget {
   const HomeShellScreen({super.key});
 
@@ -31,31 +31,8 @@ class HomeShellScreen extends ConsumerWidget {
                 ? () => context.go(AppRoutes.manager)
                 : null,
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.space32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Welcome, ${session?.user.name ?? 'Staff'}',
-                    style: AppTextStyles.headline,
-                  ),
-                  const SizedBox(height: AppSpacing.space8),
-                  if (session != null) RoleBadge(role: session.user.role),
-                  const SizedBox(height: AppSpacing.space32),
-                  Text(
-                    'POS screen — Module 3',
-                    style: AppTextStyles.title,
-                  ),
-                  const SizedBox(height: AppSpacing.space8),
-                  Text(
-                    'Product grid, cart, and checkout will be built here next.',
-                    style: AppTextStyles.body.copyWith(color: AppColors.muted),
-                  ),
-                ],
-              ),
-            ),
+          const Expanded(
+            child: PosScreen(),
           ),
         ],
       ),
