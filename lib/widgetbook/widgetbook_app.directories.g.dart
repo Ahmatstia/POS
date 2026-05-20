@@ -161,15 +161,13 @@ final directories = <_widgetbook.WidgetbookNode>[
   _widgetbook.WidgetbookFolder(
     name: 'widgets',
     children: [
-      _widgetbook.WidgetbookComponent(
+      _widgetbook.WidgetbookLeafComponent(
         name: 'Widget',
-        useCases: [
-          _widgetbook.WidgetbookUseCase(
-            name: 'Tokens',
-            builder: _lexa_pos_widgetbook_use_cases_design_tokens_use_case
-                .designTokensUseCase,
-          ),
-        ],
+        useCase: _widgetbook.WidgetbookUseCase(
+          name: 'Tokens',
+          builder: _lexa_pos_widgetbook_use_cases_design_tokens_use_case
+              .designTokensUseCase,
+        ),
       ),
     ],
   ),
