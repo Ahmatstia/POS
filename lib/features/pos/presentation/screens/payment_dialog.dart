@@ -378,7 +378,7 @@ class _PaymentDialogState extends ConsumerState<PaymentDialog> {
                       text: 'Complete',
                       onPressed: () {
                         Navigator.pop(context);
-                        _completeTransaction(context);
+                        _completeTransaction(context, amountReceived, change, subtotal);
                       },
                     ),
                   ),
@@ -392,7 +392,7 @@ class _PaymentDialogState extends ConsumerState<PaymentDialog> {
     );
   }
 
-  void _completeTransaction(BuildContext context) async {
+  void _completeTransaction(BuildContext context, int amountReceived, int change, int subtotal) async {
     final cart = ref.read(cartItemsProvider);
     final total = ref.read(cartTotalProvider);
     final paymentMethod = ref.read(paymentMethodProvider);
