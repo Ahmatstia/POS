@@ -25,7 +25,7 @@ class AppEmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.space32),
+        padding: const EdgeInsets.all(AppSpacing.s32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -33,23 +33,24 @@ class AppEmptyView extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.iconBackground,
-                borderRadius: BorderRadius.circular(AppSpacing.space16),
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(AppSpacing.s16),
+                border: Border.all(color: AppColors.border),
               ),
-              child: Icon(icon, size: 40, color: AppColors.muted),
+              child: Icon(icon, size: 40, color: AppColors.mutedText),
             ),
-            const SizedBox(height: AppSpacing.space24),
-            Text(title, style: AppTextStyles.title),
-            const SizedBox(height: AppSpacing.space8),
+            const SizedBox(height: AppSpacing.s24),
+            Text(title, style: AppTextStyles.heading24),
+            const SizedBox(height: AppSpacing.s8),
             Text(
               description,
-              style: AppTextStyles.body.copyWith(color: AppColors.muted),
+              style: AppTextStyles.body14.copyWith(color: AppColors.mutedText),
               textAlign: TextAlign.center,
             ),
             if (actionLabel != null && onAction != null) ...[
-              const SizedBox(height: AppSpacing.space24),
-              AppButton(
-                label: actionLabel!,
+              const SizedBox(height: AppSpacing.s24),
+              AppButton.primary(
+                text: actionLabel!,
                 onPressed: onAction,
               ),
             ],

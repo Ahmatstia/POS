@@ -29,32 +29,32 @@ class CartNotifier extends AsyncNotifier<Map<String, CartItem>> {
     required String productName,
     required int priceRupiah,
   }) async {
-    await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() async {
       final repo = ref.read(cartRepositoryProvider);
       await repo.addItem(
         productId: productId,
         productName: productName,
         priceRupiah: priceRupiah,
       );
-      state = await AsyncValue.guard(() => repo.getCart());
+      return repo.getCart();
     });
   }
 
   /// Remove item from cart.
   Future<void> removeItem(String productId) async {
-    await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() async {
       final repo = ref.read(cartRepositoryProvider);
       await repo.removeItem(productId);
-      state = await AsyncValue.guard(() => repo.getCart());
+      return repo.getCart();
     });
   }
 
   /// Update quantity (must be >= 1).
   Future<void> updateQuantity(String productId, int quantity) async {
-    await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() async {
       final repo = ref.read(cartRepositoryProvider);
       await repo.updateQuantity(productId, quantity);
-      state = await AsyncValue.guard(() => repo.getCart());
+      return repo.getCart();
     });
   }
 
@@ -78,10 +78,10 @@ class CartNotifier extends AsyncNotifier<Map<String, CartItem>> {
 
   /// Restore previously held order.
   Future<void> restoreHoldOrder(String holdId) async {
-    await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() async {
       final repo = ref.read(cartRepositoryProvider);
       await repo.restoreHoldOrder(holdId);
-      state = await AsyncValue.guard(() => repo.getCart());
+      return repo.getCart();
     });
   }
 }

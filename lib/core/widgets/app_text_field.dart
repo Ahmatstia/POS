@@ -5,7 +5,9 @@ import 'package:lexa_pos/core/design/app_radius.dart';
 import 'package:lexa_pos/core/design/app_spacing.dart';
 import 'package:lexa_pos/core/design/app_text_styles.dart';
 
-/// Labeled text field matching Lexa POS input spec (48px, focus ring, inline errors).
+/// Labeled text field matching Lexa POS input spec.
+/// Height: 48px, border-radius 8px, 2px indigo-400 focus ring.
+/// Label always shown above field — never placeholder-as-label.
 class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
@@ -86,8 +88,8 @@ class AppTextFieldState extends State<AppTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: AppTextStyles.label),
-        const SizedBox(height: AppSpacing.space8),
+        Text(widget.label, style: AppTextStyles.label14),
+        const SizedBox(height: AppSpacing.s8),
         _FieldContainer(
           hasError: hasError,
           focusNode: _focusNode,
@@ -100,13 +102,13 @@ class AppTextFieldState extends State<AppTextField> {
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
             inputFormatters: widget.inputFormatters,
-            style: AppTextStyles.body,
+            style: AppTextStyles.body14,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: AppTextStyles.body.copyWith(color: AppColors.subtle),
+              hintStyle: AppTextStyles.body14.copyWith(color: AppColors.subtleText),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.space16,
+                horizontal: AppSpacing.s16,
               ),
               prefixIcon: widget.prefixIcon,
               isDense: true,
@@ -121,10 +123,10 @@ class AppTextFieldState extends State<AppTextField> {
           ),
         ),
         if (hasError) ...[
-          const SizedBox(height: AppSpacing.space4),
+          const SizedBox(height: AppSpacing.s4),
           Text(
             _errorText!,
-            style: AppTextStyles.bodySmall.copyWith(color: AppColors.danger),
+            style: AppTextStyles.body12.copyWith(color: AppColors.danger),
           ),
         ],
       ],
@@ -151,7 +153,7 @@ class _FieldContainer extends StatelessWidget {
         final isFocused = focusNode.hasFocus;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          height: AppSpacing.space48,
+          height: AppSpacing.s48,
           decoration: BoxDecoration(
             color: AppColors.card,
             borderRadius: BorderRadius.circular(AppRadius.input),

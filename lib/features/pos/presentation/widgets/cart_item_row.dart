@@ -6,6 +6,7 @@ import 'package:lexa_pos/core/design/app_spacing.dart';
 import 'package:lexa_pos/core/design/app_text_styles.dart';
 import 'package:lexa_pos/core/utils/format_currency.dart';
 import 'package:lexa_pos/core/widgets/app_button.dart';
+import 'package:lexa_pos/core/widgets/app_toast.dart';
 import 'package:lexa_pos/features/pos/domain/entities/cart_item.dart';
 import 'package:lexa_pos/features/pos/presentation/providers/cart_provider.dart';
 
@@ -29,6 +30,17 @@ class _CartItemRowState extends ConsumerState<CartItemRowWidget> {
   }
 
   @override
+  void didUpdateWidget(CartItemRowWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.item.quantity != widget.item.quantity) {
+      final newQtyStr = widget.item.quantity.toString();
+      if (_qtyController.text != newQtyStr) {
+        _qtyController.text = newQtyStr;
+      }
+    }
+  }
+
+  @override
   void dispose() {
     _qtyController.dispose();
     super.dispose();
@@ -37,7 +49,7 @@ class _CartItemRowState extends ConsumerState<CartItemRowWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.space8),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.s8),
       child: Row(
         children: [
           // Product name + price
@@ -47,19 +59,19 @@ class _CartItemRowState extends ConsumerState<CartItemRowWidget> {
               children: [
                 Text(
                   widget.item.productName,
-                  style: AppTextStyles.bodySmall,
+                  style: AppTextStyles.body12,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: AppSpacing.space4),
+                const SizedBox(height: AppSpacing.s4),
                 Text(
                   formatCurrency(widget.item.priceRupiah),
-                  style: AppTextStyles.caption.copyWith(color: AppColors.muted),
+                  style: AppTextStyles.body12.copyWith(color: AppColors.mutedText),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.space12),
+          const SizedBox(width: AppSpacing.s12),
           // Quantity editor
           SizedBox(
             width: 80,
@@ -70,8 +82,8 @@ class _CartItemRowState extends ConsumerState<CartItemRowWidget> {
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.space8,
-                  vertical: AppSpacing.space4,
+                  horizontal: AppSpacing.s8,
+                  vertical: AppSpacing.s4,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppRadius.input),
@@ -91,23 +103,22 @@ class _CartItemRowState extends ConsumerState<CartItemRowWidget> {
               },
             ),
           ),
-          const SizedBox(width: AppSpacing.space12),
+          const SizedBox(width: AppSpacing.s12),
           // Total price
           SizedBox(
             width: 100,
             child: Text(
               formatCurrency(widget.item.total),
-              style: AppTextStyles.bodySmall.copyWith(
+              style: AppTextStyles.body12.copyWith(
                 fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.right,
             ),
           ),
-          const SizedBox(width: AppSpacing.space12),
+          const SizedBox(width: AppSpacing.s12),
           // Remove button
-          AppButton(
+          AppButton.icon(
             icon: Icons.close,
-            variant: AppButtonVariant.icon,
             onPressed: () => _removeItem(),
           ),
         ],
@@ -117,5 +128,11 @@ class _CartItemRowState extends ConsumerState<CartItemRowWidget> {
 
   void _removeItem() {
     ref.read(cartNotifierProvider.notifier).removeItem(widget.item.productId);
+    showAppToast(
+      context,
+      message: '${widget.item.productName} removed',
+      icon: Icons.delete_outline,
+      backgroundColor: AppColors.warning,
+    );
   }
 }

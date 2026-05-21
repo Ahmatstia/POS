@@ -1,94 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:lexa_pos/core/design/app_colors.dart';
-import 'package:lexa_pos/core/design/app_radius.dart';
-import 'package:lexa_pos/core/design/app_spacing.dart';
-import 'package:lexa_pos/core/design/app_text_styles.dart';
+import '../design/app_colors.dart';
+import '../design/app_spacing.dart';
+import '../design/app_text_styles.dart';
 
-/// Semantic status chip — always pairs color with visible label text.
-enum StatusBadgeType {
-  active,
-  inactive,
-  warning,
-  danger,
-}
+enum BadgeStatus { active, inactive, warning, danger }
 
-/// Compact status indicator for stock, orders, and connectivity.
+/// A status badge with 6px border radius.
 class StatusBadge extends StatelessWidget {
+  final String text;
+  final BadgeStatus status;
+
   const StatusBadge({
     super.key,
-    required this.label,
-    required this.type,
-    this.showDot = true,
+    required this.text,
+    required this.status,
   });
-
-  final String label;
-  final StatusBadgeType type;
-  final bool showDot;
 
   @override
   Widget build(BuildContext context) {
-    final colors = _resolveColors(type);
     return Container(
-      height: 24,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.space12),
-      decoration: BoxDecoration(
-        color: colors.background,
-        borderRadius: BorderRadius.circular(AppRadius.chip),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.s8,
+        vertical: AppSpacing.s4,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (showDot) ...[
-            Container(
-              width: 6,
-              height: 6,
-              decoration: BoxDecoration(
-                color: colors.foreground,
-                shape: BoxShape.circle,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.space8),
-          ],
-          Text(
-            label,
-            style: AppTextStyles.bodySmall.copyWith(
-              fontWeight: FontWeight.w500,
-              color: colors.foreground,
-            ),
-          ),
-        ],
+      decoration: BoxDecoration(
+        color: _getBackgroundColor(),
+        borderRadius: BorderRadius.circular(6.0), // Strict 6px
+      ),
+      child: Text(
+        text.toUpperCase(),
+        style: AppTextStyles.label12.copyWith(
+          color: _getTextColor(),
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
-}
 
-class _BadgeColors {
-  const _BadgeColors({
-    required this.background,
-    required this.foreground,
-  });
+  Color _getBackgroundColor() {
+    switch (status) {
+      case BadgeStatus.active:
+        return AppColors.success.withOpacity(0.1);
+      case BadgeStatus.inactive:
+        return AppColors.mutedText.withOpacity(0.1);
+      case BadgeStatus.warning:
+        return AppColors.warning.withOpacity(0.1);
+      case BadgeStatus.danger:
+        return AppColors.danger.withOpacity(0.1);
+    }
+  }
 
-  final Color background;
-  final Color foreground;
-}
-
-_BadgeColors _resolveColors(StatusBadgeType type) {
-  return switch (type) {
-    StatusBadgeType.active => const _BadgeColors(
-        background: AppColors.successMuted,
-        foreground: AppColors.success,
-      ),
-    StatusBadgeType.inactive => const _BadgeColors(
-        background: AppColors.inactiveMuted,
-        foreground: AppColors.muted,
-      ),
-    StatusBadgeType.warning => const _BadgeColors(
-        background: AppColors.warningMuted,
-        foreground: AppColors.warning,
-      ),
-    StatusBadgeType.danger => const _BadgeColors(
-        background: AppColors.dangerMuted,
-        foreground: AppColors.danger,
-      ),
-  };
+  Color _getTextColor() {
+    switch (status) {
+      case BadgeStatus.active:
+        return AppColors.success;
+      case BadgeStatus.inactive:
+        return AppColors.mutedText;
+      case BadgeStatus.warning:
+        return const Color(0xFFD97706); // amber-600
+      case BadgeStatus.danger:
+        return AppColors.danger;
+    }
+  }
 }

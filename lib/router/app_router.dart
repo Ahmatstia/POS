@@ -9,6 +9,7 @@ import 'package:lexa_pos/features/auth/presentation/screens/open_shift_screen.da
 import 'package:lexa_pos/features/auth/presentation/screens/pin_lock_screen.dart';
 import 'package:lexa_pos/features/home/presentation/screens/home_shell_screen.dart';
 import 'package:lexa_pos/features/home/presentation/screens/manager_dashboard_screen.dart';
+import 'package:lexa_pos/features/catalog/presentation/screens/catalog_management_screen.dart';
 
 /// Route path constants for deep links and navigation.
 abstract final class AppRoutes {
@@ -17,6 +18,7 @@ abstract final class AppRoutes {
   static const String shift = '/shift';
   static const String home = '/home';
   static const String manager = '/manager';
+  static const String catalog = '/catalog';
 }
 
 /// Provides the application [GoRouter] with auth, PIN, shift, and role guards.
@@ -52,6 +54,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'manager',
         builder: (context, state) => const ManagerDashboardScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.catalog,
+        name: 'catalog',
+        builder: (context, state) => const CatalogManagementScreen(),
+      ),
     ],
     redirect: (context, state) {
       final location = state.matchedLocation;
@@ -74,7 +81,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         return location == AppRoutes.shift ? null : AppRoutes.shift;
       }
 
-      if (location == AppRoutes.manager && !session.user.role.isManagerOrAbove) {
+      if ((location == AppRoutes.manager || location == AppRoutes.catalog) && 
+          !session.user.role.isManagerOrAbove) {
         return AppRoutes.home;
       }
 

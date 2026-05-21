@@ -23,26 +23,27 @@ class OpenShiftScreen extends ConsumerWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 440),
           child: AppCard(
+            padding: const EdgeInsets.all(AppSpacing.s32),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (session != null) RoleBadge(role: session.user.role),
-                const SizedBox(height: AppSpacing.space16),
-                Text('Open shift', style: AppTextStyles.title),
-                const SizedBox(height: AppSpacing.space8),
+                if (session != null) Align(alignment: Alignment.centerLeft, child: RoleBadge(role: session.user.role)),
+                if (session != null) const SizedBox(height: AppSpacing.s16),
+                Text('Open shift', style: AppTextStyles.heading24),
+                const SizedBox(height: AppSpacing.s8),
                 Text(
                   'Start your register shift before processing sales on this terminal.',
-                  style: AppTextStyles.body.copyWith(color: AppColors.muted),
+                  style: AppTextStyles.body14.copyWith(color: AppColors.mutedText),
                 ),
-                const SizedBox(height: AppSpacing.space32),
-                AppButton(
-                  label: 'Open shift',
-                  onPressed: isLoading
-                      ? null
-                      : () => ref.read(authNotifierProvider.notifier).openShift(),
-                  isLoading: isLoading,
-                  isExpanded: true,
+                const SizedBox(height: AppSpacing.s32),
+                SizedBox(
+                  width: double.infinity,
+                  child: AppButton.primary(
+                    text: 'Open shift',
+                    onPressed: () => ref.read(authNotifierProvider.notifier).openShift(),
+                    isLoading: isLoading,
+                  ),
                 ),
               ],
             ),

@@ -10,7 +10,7 @@ import 'package:lexa_pos/features/auth/presentation/providers/auth_providers.dar
 import 'package:lexa_pos/features/pos/presentation/screens/pos_screen.dart';
 import 'package:lexa_pos/router/app_router.dart';
 
-/// Post-auth shell with navigation rail + POS screen.
+/// Post-auth shell with navigation rail — POS module placeholder.
 class HomeShellScreen extends ConsumerWidget {
   const HomeShellScreen({super.key});
 
@@ -61,10 +61,10 @@ class _NavRail extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: AppSpacing.space24),
+          const SizedBox(height: AppSpacing.s24),
           const Icon(Icons.point_of_sale, color: AppColors.accent, size: 28),
-          const SizedBox(height: AppSpacing.space32),
-          _RailItem(icon: Icons.grid_view, label: 'POS', isActive: true),
+          const SizedBox(height: AppSpacing.s32),
+          const _RailItem(icon: Icons.grid_view, label: 'POS', isActive: true),
           if (onManager != null)
             _RailItem(
               icon: Icons.insights_outlined,
@@ -73,10 +73,9 @@ class _NavRail extends StatelessWidget {
             ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.space16),
-            child: AppButton(
-              label: 'Out',
-              variant: AppButtonVariant.tertiary,
+            padding: const EdgeInsets.all(AppSpacing.s16),
+            child: AppButton.tertiary(
+              text: 'Out',
               onPressed: onLogout,
             ),
           ),
@@ -109,7 +108,7 @@ class _RailItem extends StatelessWidget {
         onTap: onTap,
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.space12),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.s12),
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
@@ -122,13 +121,13 @@ class _RailItem extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: isActive ? AppColors.accent : AppColors.muted,
+                color: isActive ? AppColors.accent : AppColors.mutedText,
               ),
-              const SizedBox(height: AppSpacing.space4),
+              const SizedBox(height: AppSpacing.s4),
               Text(
                 label,
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: isActive ? AppColors.accent : AppColors.muted,
+                style: AppTextStyles.body12.copyWith(
+                  color: isActive ? AppColors.accent : AppColors.mutedText,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                 ),
               ),

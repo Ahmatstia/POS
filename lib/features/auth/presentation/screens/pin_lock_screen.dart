@@ -43,6 +43,7 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen> {
           ? authState.error! as AuthFailure
           : const AuthUnexpectedFailure();
       return Scaffold(
+        backgroundColor: AppColors.surface,
         body: AppErrorView(
           title: 'Unable to verify PIN',
           message: failure.message,
@@ -61,22 +62,22 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (session != null) RoleBadge(role: session.user.role),
-              const SizedBox(height: AppSpacing.space16),
+              const SizedBox(height: AppSpacing.s16),
               Text(
                 session?.user.name ?? 'Staff',
-                style: AppTextStyles.title,
+                style: AppTextStyles.heading24,
               ),
-              const SizedBox(height: AppSpacing.space8),
+              const SizedBox(height: AppSpacing.s8),
               Text(
                 'Enter your PIN to continue',
-                style: AppTextStyles.body.copyWith(color: AppColors.muted),
+                style: AppTextStyles.body14.copyWith(color: AppColors.mutedText),
               ),
-              const SizedBox(height: AppSpacing.space32),
+              const SizedBox(height: AppSpacing.s32),
               PinDots(
                 length: AppConfig.pinLength,
                 filled: _pin.length,
               ),
-              const SizedBox(height: AppSpacing.space48),
+              const SizedBox(height: AppSpacing.s48),
               PinPad(
                 shakeTrigger: _shakeTrigger,
                 onDigit: _onDigit,

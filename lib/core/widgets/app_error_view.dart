@@ -5,6 +5,7 @@ import 'package:lexa_pos/core/design/app_text_styles.dart';
 import 'package:lexa_pos/core/widgets/app_button.dart';
 
 /// Branded full-area error state with retry action and error code.
+/// Never shows a raw exception message — always uses typed failure codes.
 class AppErrorView extends StatelessWidget {
   const AppErrorView({
     super.key,
@@ -25,34 +26,40 @@ class AppErrorView extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.space32),
+          padding: const EdgeInsets.all(AppSpacing.s32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(
-                Icons.error_outline,
+                Icons.error_outline_rounded,
                 size: 48,
                 color: AppColors.danger,
               ),
-              const SizedBox(height: AppSpacing.space16),
-              Text(title, style: AppTextStyles.title, textAlign: TextAlign.center),
-              const SizedBox(height: AppSpacing.space8),
+              const SizedBox(height: AppSpacing.s16),
               Text(
-                message,
-                style: AppTextStyles.body.copyWith(color: AppColors.muted),
+                title,
+                style: AppTextStyles.heading20,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.space8),
+              const SizedBox(height: AppSpacing.s8),
+              Text(
+                message,
+                style: AppTextStyles.body14.copyWith(color: AppColors.mutedText),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.s8),
               Text(
                 'Error $errorCode',
-                style: AppTextStyles.caption,
+                style: AppTextStyles.body12.copyWith(color: AppColors.subtleText),
               ),
               if (onRetry != null) ...[
-                const SizedBox(height: AppSpacing.space24),
-                AppButton(
-                  label: 'Try again',
-                  onPressed: onRetry,
-                  isExpanded: true,
+                const SizedBox(height: AppSpacing.s24),
+                SizedBox(
+                  width: double.infinity,
+                  child: AppButton.primary(
+                    text: 'Try again',
+                    onPressed: onRetry,
+                  ),
                 ),
               ],
             ],

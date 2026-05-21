@@ -7,6 +7,7 @@ import 'package:lexa_pos/core/design/app_spacing.dart';
 import 'package:lexa_pos/core/design/app_text_styles.dart';
 import 'package:lexa_pos/core/widgets/app_empty_view.dart';
 import 'package:lexa_pos/core/widgets/app_error_view.dart';
+import 'package:lexa_pos/core/widgets/app_toast.dart';
 import 'package:lexa_pos/features/catalog/domain/entities/product.dart';
 import 'package:lexa_pos/features/pos/presentation/providers/cart_provider.dart';
 import 'package:lexa_pos/features/pos/presentation/widgets/product_card.dart';
@@ -30,35 +31,35 @@ class ProductGrid extends ConsumerWidget {
         if (products.isEmpty) {
           return const AppEmptyView(
             title: 'No Products',
-            subtitle: 'Stock your catalog to get started.',
+            description: 'Stock your catalog to get started.',
           );
         }
 
         return GridView.builder(
-          padding: const EdgeInsets.all(AppSpacing.space16),
+          padding: const EdgeInsets.all(AppSpacing.s16),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
             childAspectRatio: 0.75,
-            mainAxisSpacing: AppSpacing.space16,
-            crossAxisSpacing: AppSpacing.space16,
+            mainAxisSpacing: AppSpacing.s16,
+            crossAxisSpacing: AppSpacing.s16,
           ),
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
             return ProductCard(
               product: product,
-              onTap: () => _addToCart(ref, product),
+              onTap: () => _addToCart(context, ref, product),
             )
                 .animate()
                 .fadeIn(
-                  duration: 300.ms,
-                  delay: Duration(ms: index * 50),
+                  duration: const Duration(milliseconds: 300),
+                  delay: Duration(milliseconds: index * 50),
                 )
                 .scale(
                   begin: const Offset(0.95, 0.95),
                   end: const Offset(1.0, 1.0),
-                  duration: 300.ms,
-                  delay: Duration(ms: index * 50),
+                  duration: const Duration(milliseconds: 300),
+                  delay: Duration(milliseconds: index * 50),
                   curve: Curves.easeOut,
                 );
           },
@@ -67,19 +68,28 @@ class ProductGrid extends ConsumerWidget {
       loading: () => const _ProductGridSkeleton(),
       error: (error, stackTrace) => AppErrorView(
         title: 'Failed to Load Products',
-        subtitle: error.toString(),
+        message: error.toString(),
+        errorCode: 'ERR_CATALOG',
         onRetry: () => ref.refresh(activeProductsProvider),
       ),
     );
   }
 
-  void _addToCart(WidgetRef ref, dynamic product) {
+  void _addToCart(
+    BuildContext context,
+    WidgetRef ref,
+    dynamic product,
+  ) {
     ref.read(cartNotifierProvider.notifier).addItem(
           productId: product.id,
           productName: product.name,
           priceRupiah: product.priceRupiah,
         );
-    // TODO: Show toast "Added to cart"
+    showAppToast(
+      context,
+      message: '${product.name} added to cart',
+      icon: Icons.add_circle,
+    );
   }
 }
 
@@ -89,17 +99,17 @@ class _ProductGridSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.all(AppSpacing.space16),
+      padding: const EdgeInsets.all(AppSpacing.s16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         childAspectRatio: 0.75,
-        mainAxisSpacing: AppSpacing.space16,
-        crossAxisSpacing: AppSpacing.space16,
+        mainAxisSpacing: AppSpacing.s16,
+        crossAxisSpacing: AppSpacing.s16,
       ),
       itemCount: 12,
-      itemBuilder: (context, index) => const ProductCard(
-        product: _SkeletonProduct(),
-        onTap: null,
+      itemBuilder: (context, index) => ProductCard(
+        product: _skeletonProduct,
+        onTap: () {},
         isLoading: true,
       ),
     );
@@ -107,13 +117,13 @@ class _ProductGridSkeleton extends StatelessWidget {
 }
 
 /// Dummy for skeleton — not a real Product.
-class _SkeletonProduct {
-  final String id = '';
-  final String name = '';
-  final int priceRupiah = 0;
-  final int stockQuantity = 0;
-  final String? categoryId = null;
-  final String? imageUrl = null;
-  final bool isActive = true;
-  final int updatedAtMillis = 0;
-}
+const _skeletonProduct = Product(
+  id: '',
+  name: '',
+  priceRupiah: 0,
+  stockQuantity: 0,
+  categoryId: null,
+  imageUrl: null,
+  isActive: true,
+  updatedAtMillis: 0,
+);

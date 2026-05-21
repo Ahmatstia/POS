@@ -2,18 +2,19 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:lexa_pos/core/database/tables/products.dart';
 import 'package:lexa_pos/core/database/tables/sync_outbox.dart';
+import 'package:lexa_pos/core/database/tables/transactions.dart';
 
 part 'app_database.g.dart';
 
 /// Lexa POS on-device SQLite database (Drift).
-@DriftDatabase(tables: [Products, SyncOutbox])
+@DriftDatabase(tables: [Products, SyncOutbox, Transactions])
 class AppDatabase extends _$AppDatabase {
   /// Opens the default app database file on device storage.
   AppDatabase([QueryExecutor? executor])
       : super(executor ?? driftDatabase(name: 'lexa_pos'));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(

@@ -27,17 +27,18 @@ class PinPad extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         _PinRow(keys: const ['1', '2', '3'], onDigit: onDigit),
-        const SizedBox(height: AppSpacing.space12),
+        const SizedBox(height: AppSpacing.s12),
         _PinRow(keys: const ['4', '5', '6'], onDigit: onDigit),
-        const SizedBox(height: AppSpacing.space12),
+        const SizedBox(height: AppSpacing.s12),
         _PinRow(keys: const ['7', '8', '9'], onDigit: onDigit),
-        const SizedBox(height: AppSpacing.space12),
+        const SizedBox(height: AppSpacing.s12),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(width: 88),
+            const SizedBox(width: AppSpacing.s12),
             _PinKey(label: '0', onPressed: () => onDigit('0')),
-            const SizedBox(width: AppSpacing.space12),
+            const SizedBox(width: AppSpacing.s12),
             _PinKey(
               icon: Icons.backspace_outlined,
               semanticsLabel: 'Delete',
@@ -70,7 +71,7 @@ class _PinRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         for (var index = 0; index < keys.length; index++) ...[
-          if (index > 0) const SizedBox(width: AppSpacing.space12),
+          if (index > 0) const SizedBox(width: AppSpacing.s12),
           _PinKey(
             label: keys[index],
             onPressed: () => onDigit(keys[index]),
@@ -130,7 +131,7 @@ class _PinKeyState extends State<_PinKey> {
             ),
             child: widget.icon != null
                 ? Icon(widget.icon, color: AppColors.primary, size: 24)
-                : Text(widget.label!, style: AppTextStyles.headline),
+                : Text(widget.label!, style: AppTextStyles.heading24),
           ),
         ),
       ),
@@ -158,12 +159,12 @@ class PinDots extends StatelessWidget {
         return Container(
           width: 14,
           height: 14,
-          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.space8),
+          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.s8),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isFilled ? AppColors.accent : AppColors.border,
             border: Border.all(
-              color: isFilled ? AppColors.accent : AppColors.muted,
+              color: isFilled ? AppColors.accent : AppColors.mutedText,
             ),
           ),
         );

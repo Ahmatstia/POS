@@ -1,99 +1,129 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lexa_pos/core/design/app_colors.dart';
+import 'app_colors.dart';
 
-/// Lexa POS typography — Inter only, fixed scale and weights.
-abstract final class AppTextStyles {
-  static const List<FontFeature> _tabularNums = [
-    FontFeature.tabularFigures(),
-  ];
+/// Defines the typography scale and styles for the application.
+/// Uses 'Inter' family.
+/// Scale: 12 / 13 / 14 / 16 / 20 / 24 / 32px
+/// Weights: 400 (body), 500 (label), 600 (heading), 700 (numeral/price only)
+class AppTextStyles {
+  AppTextStyles._();
 
-  static TextStyle _inter({
-    required double fontSize,
-    required FontWeight fontWeight,
-    Color? color,
-    double? letterSpacing,
-    List<FontFeature>? fontFeatures,
-  }) {
-    return GoogleFonts.inter(
+  static const String _fontFamily = 'Inter';
+
+  // 12px
+  static const TextStyle body12 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+  
+  static const TextStyle label12 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  // 13px
+  static const TextStyle body13 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  static const TextStyle label13 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  // 14px
+  static const TextStyle body14 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  static const TextStyle label14 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  // 16px
+  static const TextStyle body16 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  static const TextStyle label16 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  static const TextStyle heading16 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  // 20px
+  static const TextStyle heading20 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  // 24px
+  static const TextStyle heading24 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  // 32px
+  static const TextStyle heading32 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 32,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primary,
+    decoration: TextDecoration.none,
+  );
+
+  /// Always Inter 700, tabular-nums, letter-spacing: -0.5px
+  /// For monetary values
+  static TextStyle price(double fontSize, {Color color = AppColors.primary}) {
+    return TextStyle(
+      fontFamily: _fontFamily,
       fontSize: fontSize,
-      fontWeight: fontWeight,
-      color: color ?? AppColors.primary,
-      letterSpacing: letterSpacing,
-      fontFeatures: fontFeatures,
+      fontWeight: FontWeight.w700,
+      letterSpacing: -0.5,
+      color: color,
+      decoration: TextDecoration.none,
+      fontFeatures: const [FontFeature.tabularFigures()],
     );
   }
-
-  /// 12px body — captions and helper text.
-  static TextStyle get bodySmall => _inter(
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-      );
-
-  /// 13px compact labels.
-  static TextStyle get caption => _inter(
-        fontSize: 13,
-        fontWeight: FontWeight.w400,
-        color: AppColors.muted,
-      );
-
-  /// 14px default body copy.
-  static TextStyle get body => _inter(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-      );
-
-  /// 14px medium-weight labels.
-  static TextStyle get label => _inter(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      );
-
-  /// 16px section headings.
-  static TextStyle get heading => _inter(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 20px screen titles.
-  static TextStyle get title => _inter(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 24px prominent headings.
-  static TextStyle get headline => _inter(
-        fontSize: 24,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 32px hero numerals and dashboard KPIs.
-  static TextStyle get display => _inter(
-        fontSize: 32,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 16px monetary values — tabular nums, tight tracking.
-  static TextStyle get price => _inter(
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.5,
-        fontFeatures: _tabularNums,
-      );
-
-  /// 24px large totals on receipts and checkout.
-  static TextStyle get priceLarge => _inter(
-        fontSize: 24,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.5,
-        fontFeatures: _tabularNums,
-      );
-
-  /// 32px checkout total display.
-  static TextStyle get priceDisplay => _inter(
-        fontSize: 32,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.5,
-        fontFeatures: _tabularNums,
-      );
 }

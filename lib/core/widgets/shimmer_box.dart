@@ -1,46 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:lexa_pos/core/design/app_colors.dart';
-import 'package:lexa_pos/core/design/app_radius.dart';
-import 'package:lexa_pos/core/design/app_spacing.dart';
 import 'package:shimmer/shimmer.dart';
+import '../design/app_colors.dart';
 
-/// Reusable skeleton block matching real content layout during loading.
+/// A reusable skeleton block using the shimmer package.
 class ShimmerBox extends StatelessWidget {
-  const ShimmerBox({
-    super.key,
-    this.width,
-    this.height = AppSpacing.space16,
-    this.borderRadius = AppRadius.input,
-  });
-
-  /// Product grid card skeleton — 3:4 aspect ratio preset.
-  const ShimmerBox.productCard({
-    super.key,
-    this.width = 120,
-  })  : height = 160,
-        borderRadius = AppRadius.card;
-
-  /// Single-line text skeleton preset.
-  const ShimmerBox.textLine({
-    super.key,
-    this.width = double.infinity,
-  })  : height = AppSpacing.space12,
-        borderRadius = AppRadius.chip;
-
-  final double? width;
+  final double width;
   final double height;
   final double borderRadius;
+
+  const ShimmerBox({
+    super.key,
+    required this.width,
+    required this.height,
+    this.borderRadius = 8.0,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: AppColors.border,
-      highlightColor: AppColors.card,
+      highlightColor: AppColors.surface,
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: AppColors.border,
+          color: AppColors.card,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
       ),

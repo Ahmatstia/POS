@@ -961,16 +961,615 @@ class SyncOutboxCompanion extends UpdateCompanion<SyncOutboxRow> {
   }
 }
 
+class $TransactionsTable extends Transactions
+    with TableInfo<$TransactionsTable, TransactionRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TransactionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    clientDefault: () => DateTime.now().millisecondsSinceEpoch.toString(),
+  );
+  static const VerificationMeta _itemsJsonMeta = const VerificationMeta(
+    'itemsJson',
+  );
+  @override
+  late final GeneratedColumn<String> itemsJson = GeneratedColumn<String>(
+    'items_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _subtotalRupiahMeta = const VerificationMeta(
+    'subtotalRupiah',
+  );
+  @override
+  late final GeneratedColumn<int> subtotalRupiah = GeneratedColumn<int>(
+    'subtotal_rupiah',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _taxRupiahMeta = const VerificationMeta(
+    'taxRupiah',
+  );
+  @override
+  late final GeneratedColumn<int> taxRupiah = GeneratedColumn<int>(
+    'tax_rupiah',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalRupiahMeta = const VerificationMeta(
+    'totalRupiah',
+  );
+  @override
+  late final GeneratedColumn<int> totalRupiah = GeneratedColumn<int>(
+    'total_rupiah',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _amountReceivedRupiahMeta =
+      const VerificationMeta('amountReceivedRupiah');
+  @override
+  late final GeneratedColumn<int> amountReceivedRupiah = GeneratedColumn<int>(
+    'amount_received_rupiah',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _changeRupiahMeta = const VerificationMeta(
+    'changeRupiah',
+  );
+  @override
+  late final GeneratedColumn<int> changeRupiah = GeneratedColumn<int>(
+    'change_rupiah',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _paymentMethodMeta = const VerificationMeta(
+    'paymentMethod',
+  );
+  @override
+  late final GeneratedColumn<String> paymentMethod = GeneratedColumn<String>(
+    'payment_method',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedAtMillisMeta = const VerificationMeta(
+    'completedAtMillis',
+  );
+  @override
+  late final GeneratedColumn<int> completedAtMillis = GeneratedColumn<int>(
+    'completed_at_millis',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    itemsJson,
+    subtotalRupiah,
+    taxRupiah,
+    totalRupiah,
+    amountReceivedRupiah,
+    changeRupiah,
+    paymentMethod,
+    completedAtMillis,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'transactions';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TransactionRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('items_json')) {
+      context.handle(
+        _itemsJsonMeta,
+        itemsJson.isAcceptableOrUnknown(data['items_json']!, _itemsJsonMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_itemsJsonMeta);
+    }
+    if (data.containsKey('subtotal_rupiah')) {
+      context.handle(
+        _subtotalRupiahMeta,
+        subtotalRupiah.isAcceptableOrUnknown(
+          data['subtotal_rupiah']!,
+          _subtotalRupiahMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_subtotalRupiahMeta);
+    }
+    if (data.containsKey('tax_rupiah')) {
+      context.handle(
+        _taxRupiahMeta,
+        taxRupiah.isAcceptableOrUnknown(data['tax_rupiah']!, _taxRupiahMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_taxRupiahMeta);
+    }
+    if (data.containsKey('total_rupiah')) {
+      context.handle(
+        _totalRupiahMeta,
+        totalRupiah.isAcceptableOrUnknown(
+          data['total_rupiah']!,
+          _totalRupiahMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_totalRupiahMeta);
+    }
+    if (data.containsKey('amount_received_rupiah')) {
+      context.handle(
+        _amountReceivedRupiahMeta,
+        amountReceivedRupiah.isAcceptableOrUnknown(
+          data['amount_received_rupiah']!,
+          _amountReceivedRupiahMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_amountReceivedRupiahMeta);
+    }
+    if (data.containsKey('change_rupiah')) {
+      context.handle(
+        _changeRupiahMeta,
+        changeRupiah.isAcceptableOrUnknown(
+          data['change_rupiah']!,
+          _changeRupiahMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_changeRupiahMeta);
+    }
+    if (data.containsKey('payment_method')) {
+      context.handle(
+        _paymentMethodMeta,
+        paymentMethod.isAcceptableOrUnknown(
+          data['payment_method']!,
+          _paymentMethodMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_paymentMethodMeta);
+    }
+    if (data.containsKey('completed_at_millis')) {
+      context.handle(
+        _completedAtMillisMeta,
+        completedAtMillis.isAcceptableOrUnknown(
+          data['completed_at_millis']!,
+          _completedAtMillisMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_completedAtMillisMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  TransactionRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TransactionRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      itemsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}items_json'],
+      )!,
+      subtotalRupiah: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}subtotal_rupiah'],
+      )!,
+      taxRupiah: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tax_rupiah'],
+      )!,
+      totalRupiah: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_rupiah'],
+      )!,
+      amountReceivedRupiah: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amount_received_rupiah'],
+      )!,
+      changeRupiah: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}change_rupiah'],
+      )!,
+      paymentMethod: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_method'],
+      )!,
+      completedAtMillis: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}completed_at_millis'],
+      )!,
+    );
+  }
+
+  @override
+  $TransactionsTable createAlias(String alias) {
+    return $TransactionsTable(attachedDatabase, alias);
+  }
+}
+
+class TransactionRow extends DataClass implements Insertable<TransactionRow> {
+  final String id;
+
+  /// JSON array of {productId, productName, quantity, priceRupiah}.
+  final String itemsJson;
+  final int subtotalRupiah;
+  final int taxRupiah;
+  final int totalRupiah;
+  final int amountReceivedRupiah;
+  final int changeRupiah;
+
+  /// cash, card, transfer.
+  final String paymentMethod;
+  final int completedAtMillis;
+  const TransactionRow({
+    required this.id,
+    required this.itemsJson,
+    required this.subtotalRupiah,
+    required this.taxRupiah,
+    required this.totalRupiah,
+    required this.amountReceivedRupiah,
+    required this.changeRupiah,
+    required this.paymentMethod,
+    required this.completedAtMillis,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['items_json'] = Variable<String>(itemsJson);
+    map['subtotal_rupiah'] = Variable<int>(subtotalRupiah);
+    map['tax_rupiah'] = Variable<int>(taxRupiah);
+    map['total_rupiah'] = Variable<int>(totalRupiah);
+    map['amount_received_rupiah'] = Variable<int>(amountReceivedRupiah);
+    map['change_rupiah'] = Variable<int>(changeRupiah);
+    map['payment_method'] = Variable<String>(paymentMethod);
+    map['completed_at_millis'] = Variable<int>(completedAtMillis);
+    return map;
+  }
+
+  TransactionsCompanion toCompanion(bool nullToAbsent) {
+    return TransactionsCompanion(
+      id: Value(id),
+      itemsJson: Value(itemsJson),
+      subtotalRupiah: Value(subtotalRupiah),
+      taxRupiah: Value(taxRupiah),
+      totalRupiah: Value(totalRupiah),
+      amountReceivedRupiah: Value(amountReceivedRupiah),
+      changeRupiah: Value(changeRupiah),
+      paymentMethod: Value(paymentMethod),
+      completedAtMillis: Value(completedAtMillis),
+    );
+  }
+
+  factory TransactionRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TransactionRow(
+      id: serializer.fromJson<String>(json['id']),
+      itemsJson: serializer.fromJson<String>(json['itemsJson']),
+      subtotalRupiah: serializer.fromJson<int>(json['subtotalRupiah']),
+      taxRupiah: serializer.fromJson<int>(json['taxRupiah']),
+      totalRupiah: serializer.fromJson<int>(json['totalRupiah']),
+      amountReceivedRupiah: serializer.fromJson<int>(
+        json['amountReceivedRupiah'],
+      ),
+      changeRupiah: serializer.fromJson<int>(json['changeRupiah']),
+      paymentMethod: serializer.fromJson<String>(json['paymentMethod']),
+      completedAtMillis: serializer.fromJson<int>(json['completedAtMillis']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'itemsJson': serializer.toJson<String>(itemsJson),
+      'subtotalRupiah': serializer.toJson<int>(subtotalRupiah),
+      'taxRupiah': serializer.toJson<int>(taxRupiah),
+      'totalRupiah': serializer.toJson<int>(totalRupiah),
+      'amountReceivedRupiah': serializer.toJson<int>(amountReceivedRupiah),
+      'changeRupiah': serializer.toJson<int>(changeRupiah),
+      'paymentMethod': serializer.toJson<String>(paymentMethod),
+      'completedAtMillis': serializer.toJson<int>(completedAtMillis),
+    };
+  }
+
+  TransactionRow copyWith({
+    String? id,
+    String? itemsJson,
+    int? subtotalRupiah,
+    int? taxRupiah,
+    int? totalRupiah,
+    int? amountReceivedRupiah,
+    int? changeRupiah,
+    String? paymentMethod,
+    int? completedAtMillis,
+  }) => TransactionRow(
+    id: id ?? this.id,
+    itemsJson: itemsJson ?? this.itemsJson,
+    subtotalRupiah: subtotalRupiah ?? this.subtotalRupiah,
+    taxRupiah: taxRupiah ?? this.taxRupiah,
+    totalRupiah: totalRupiah ?? this.totalRupiah,
+    amountReceivedRupiah: amountReceivedRupiah ?? this.amountReceivedRupiah,
+    changeRupiah: changeRupiah ?? this.changeRupiah,
+    paymentMethod: paymentMethod ?? this.paymentMethod,
+    completedAtMillis: completedAtMillis ?? this.completedAtMillis,
+  );
+  TransactionRow copyWithCompanion(TransactionsCompanion data) {
+    return TransactionRow(
+      id: data.id.present ? data.id.value : this.id,
+      itemsJson: data.itemsJson.present ? data.itemsJson.value : this.itemsJson,
+      subtotalRupiah: data.subtotalRupiah.present
+          ? data.subtotalRupiah.value
+          : this.subtotalRupiah,
+      taxRupiah: data.taxRupiah.present ? data.taxRupiah.value : this.taxRupiah,
+      totalRupiah: data.totalRupiah.present
+          ? data.totalRupiah.value
+          : this.totalRupiah,
+      amountReceivedRupiah: data.amountReceivedRupiah.present
+          ? data.amountReceivedRupiah.value
+          : this.amountReceivedRupiah,
+      changeRupiah: data.changeRupiah.present
+          ? data.changeRupiah.value
+          : this.changeRupiah,
+      paymentMethod: data.paymentMethod.present
+          ? data.paymentMethod.value
+          : this.paymentMethod,
+      completedAtMillis: data.completedAtMillis.present
+          ? data.completedAtMillis.value
+          : this.completedAtMillis,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TransactionRow(')
+          ..write('id: $id, ')
+          ..write('itemsJson: $itemsJson, ')
+          ..write('subtotalRupiah: $subtotalRupiah, ')
+          ..write('taxRupiah: $taxRupiah, ')
+          ..write('totalRupiah: $totalRupiah, ')
+          ..write('amountReceivedRupiah: $amountReceivedRupiah, ')
+          ..write('changeRupiah: $changeRupiah, ')
+          ..write('paymentMethod: $paymentMethod, ')
+          ..write('completedAtMillis: $completedAtMillis')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    itemsJson,
+    subtotalRupiah,
+    taxRupiah,
+    totalRupiah,
+    amountReceivedRupiah,
+    changeRupiah,
+    paymentMethod,
+    completedAtMillis,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TransactionRow &&
+          other.id == this.id &&
+          other.itemsJson == this.itemsJson &&
+          other.subtotalRupiah == this.subtotalRupiah &&
+          other.taxRupiah == this.taxRupiah &&
+          other.totalRupiah == this.totalRupiah &&
+          other.amountReceivedRupiah == this.amountReceivedRupiah &&
+          other.changeRupiah == this.changeRupiah &&
+          other.paymentMethod == this.paymentMethod &&
+          other.completedAtMillis == this.completedAtMillis);
+}
+
+class TransactionsCompanion extends UpdateCompanion<TransactionRow> {
+  final Value<String> id;
+  final Value<String> itemsJson;
+  final Value<int> subtotalRupiah;
+  final Value<int> taxRupiah;
+  final Value<int> totalRupiah;
+  final Value<int> amountReceivedRupiah;
+  final Value<int> changeRupiah;
+  final Value<String> paymentMethod;
+  final Value<int> completedAtMillis;
+  final Value<int> rowid;
+  const TransactionsCompanion({
+    this.id = const Value.absent(),
+    this.itemsJson = const Value.absent(),
+    this.subtotalRupiah = const Value.absent(),
+    this.taxRupiah = const Value.absent(),
+    this.totalRupiah = const Value.absent(),
+    this.amountReceivedRupiah = const Value.absent(),
+    this.changeRupiah = const Value.absent(),
+    this.paymentMethod = const Value.absent(),
+    this.completedAtMillis = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  TransactionsCompanion.insert({
+    this.id = const Value.absent(),
+    required String itemsJson,
+    required int subtotalRupiah,
+    required int taxRupiah,
+    required int totalRupiah,
+    required int amountReceivedRupiah,
+    required int changeRupiah,
+    required String paymentMethod,
+    required int completedAtMillis,
+    this.rowid = const Value.absent(),
+  }) : itemsJson = Value(itemsJson),
+       subtotalRupiah = Value(subtotalRupiah),
+       taxRupiah = Value(taxRupiah),
+       totalRupiah = Value(totalRupiah),
+       amountReceivedRupiah = Value(amountReceivedRupiah),
+       changeRupiah = Value(changeRupiah),
+       paymentMethod = Value(paymentMethod),
+       completedAtMillis = Value(completedAtMillis);
+  static Insertable<TransactionRow> custom({
+    Expression<String>? id,
+    Expression<String>? itemsJson,
+    Expression<int>? subtotalRupiah,
+    Expression<int>? taxRupiah,
+    Expression<int>? totalRupiah,
+    Expression<int>? amountReceivedRupiah,
+    Expression<int>? changeRupiah,
+    Expression<String>? paymentMethod,
+    Expression<int>? completedAtMillis,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (itemsJson != null) 'items_json': itemsJson,
+      if (subtotalRupiah != null) 'subtotal_rupiah': subtotalRupiah,
+      if (taxRupiah != null) 'tax_rupiah': taxRupiah,
+      if (totalRupiah != null) 'total_rupiah': totalRupiah,
+      if (amountReceivedRupiah != null)
+        'amount_received_rupiah': amountReceivedRupiah,
+      if (changeRupiah != null) 'change_rupiah': changeRupiah,
+      if (paymentMethod != null) 'payment_method': paymentMethod,
+      if (completedAtMillis != null) 'completed_at_millis': completedAtMillis,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  TransactionsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? itemsJson,
+    Value<int>? subtotalRupiah,
+    Value<int>? taxRupiah,
+    Value<int>? totalRupiah,
+    Value<int>? amountReceivedRupiah,
+    Value<int>? changeRupiah,
+    Value<String>? paymentMethod,
+    Value<int>? completedAtMillis,
+    Value<int>? rowid,
+  }) {
+    return TransactionsCompanion(
+      id: id ?? this.id,
+      itemsJson: itemsJson ?? this.itemsJson,
+      subtotalRupiah: subtotalRupiah ?? this.subtotalRupiah,
+      taxRupiah: taxRupiah ?? this.taxRupiah,
+      totalRupiah: totalRupiah ?? this.totalRupiah,
+      amountReceivedRupiah: amountReceivedRupiah ?? this.amountReceivedRupiah,
+      changeRupiah: changeRupiah ?? this.changeRupiah,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      completedAtMillis: completedAtMillis ?? this.completedAtMillis,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (itemsJson.present) {
+      map['items_json'] = Variable<String>(itemsJson.value);
+    }
+    if (subtotalRupiah.present) {
+      map['subtotal_rupiah'] = Variable<int>(subtotalRupiah.value);
+    }
+    if (taxRupiah.present) {
+      map['tax_rupiah'] = Variable<int>(taxRupiah.value);
+    }
+    if (totalRupiah.present) {
+      map['total_rupiah'] = Variable<int>(totalRupiah.value);
+    }
+    if (amountReceivedRupiah.present) {
+      map['amount_received_rupiah'] = Variable<int>(amountReceivedRupiah.value);
+    }
+    if (changeRupiah.present) {
+      map['change_rupiah'] = Variable<int>(changeRupiah.value);
+    }
+    if (paymentMethod.present) {
+      map['payment_method'] = Variable<String>(paymentMethod.value);
+    }
+    if (completedAtMillis.present) {
+      map['completed_at_millis'] = Variable<int>(completedAtMillis.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TransactionsCompanion(')
+          ..write('id: $id, ')
+          ..write('itemsJson: $itemsJson, ')
+          ..write('subtotalRupiah: $subtotalRupiah, ')
+          ..write('taxRupiah: $taxRupiah, ')
+          ..write('totalRupiah: $totalRupiah, ')
+          ..write('amountReceivedRupiah: $amountReceivedRupiah, ')
+          ..write('changeRupiah: $changeRupiah, ')
+          ..write('paymentMethod: $paymentMethod, ')
+          ..write('completedAtMillis: $completedAtMillis, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ProductsTable products = $ProductsTable(this);
   late final $SyncOutboxTable syncOutbox = $SyncOutboxTable(this);
+  late final $TransactionsTable transactions = $TransactionsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [products, syncOutbox];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    products,
+    syncOutbox,
+    transactions,
+  ];
 }
 
 typedef $$ProductsTableCreateCompanionBuilder =
@@ -1456,6 +2055,294 @@ typedef $$SyncOutboxTableProcessedTableManager =
       SyncOutboxRow,
       PrefetchHooks Function()
     >;
+typedef $$TransactionsTableCreateCompanionBuilder =
+    TransactionsCompanion Function({
+      Value<String> id,
+      required String itemsJson,
+      required int subtotalRupiah,
+      required int taxRupiah,
+      required int totalRupiah,
+      required int amountReceivedRupiah,
+      required int changeRupiah,
+      required String paymentMethod,
+      required int completedAtMillis,
+      Value<int> rowid,
+    });
+typedef $$TransactionsTableUpdateCompanionBuilder =
+    TransactionsCompanion Function({
+      Value<String> id,
+      Value<String> itemsJson,
+      Value<int> subtotalRupiah,
+      Value<int> taxRupiah,
+      Value<int> totalRupiah,
+      Value<int> amountReceivedRupiah,
+      Value<int> changeRupiah,
+      Value<String> paymentMethod,
+      Value<int> completedAtMillis,
+      Value<int> rowid,
+    });
+
+class $$TransactionsTableFilterComposer
+    extends Composer<_$AppDatabase, $TransactionsTable> {
+  $$TransactionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get itemsJson => $composableBuilder(
+    column: $table.itemsJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get subtotalRupiah => $composableBuilder(
+    column: $table.subtotalRupiah,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taxRupiah => $composableBuilder(
+    column: $table.taxRupiah,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalRupiah => $composableBuilder(
+    column: $table.totalRupiah,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get amountReceivedRupiah => $composableBuilder(
+    column: $table.amountReceivedRupiah,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get changeRupiah => $composableBuilder(
+    column: $table.changeRupiah,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentMethod => $composableBuilder(
+    column: $table.paymentMethod,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get completedAtMillis => $composableBuilder(
+    column: $table.completedAtMillis,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$TransactionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TransactionsTable> {
+  $$TransactionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get itemsJson => $composableBuilder(
+    column: $table.itemsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get subtotalRupiah => $composableBuilder(
+    column: $table.subtotalRupiah,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taxRupiah => $composableBuilder(
+    column: $table.taxRupiah,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalRupiah => $composableBuilder(
+    column: $table.totalRupiah,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get amountReceivedRupiah => $composableBuilder(
+    column: $table.amountReceivedRupiah,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get changeRupiah => $composableBuilder(
+    column: $table.changeRupiah,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get paymentMethod => $composableBuilder(
+    column: $table.paymentMethod,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get completedAtMillis => $composableBuilder(
+    column: $table.completedAtMillis,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$TransactionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TransactionsTable> {
+  $$TransactionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get itemsJson =>
+      $composableBuilder(column: $table.itemsJson, builder: (column) => column);
+
+  GeneratedColumn<int> get subtotalRupiah => $composableBuilder(
+    column: $table.subtotalRupiah,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get taxRupiah =>
+      $composableBuilder(column: $table.taxRupiah, builder: (column) => column);
+
+  GeneratedColumn<int> get totalRupiah => $composableBuilder(
+    column: $table.totalRupiah,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get amountReceivedRupiah => $composableBuilder(
+    column: $table.amountReceivedRupiah,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get changeRupiah => $composableBuilder(
+    column: $table.changeRupiah,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentMethod => $composableBuilder(
+    column: $table.paymentMethod,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get completedAtMillis => $composableBuilder(
+    column: $table.completedAtMillis,
+    builder: (column) => column,
+  );
+}
+
+class $$TransactionsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TransactionsTable,
+          TransactionRow,
+          $$TransactionsTableFilterComposer,
+          $$TransactionsTableOrderingComposer,
+          $$TransactionsTableAnnotationComposer,
+          $$TransactionsTableCreateCompanionBuilder,
+          $$TransactionsTableUpdateCompanionBuilder,
+          (
+            TransactionRow,
+            BaseReferences<_$AppDatabase, $TransactionsTable, TransactionRow>,
+          ),
+          TransactionRow,
+          PrefetchHooks Function()
+        > {
+  $$TransactionsTableTableManager(_$AppDatabase db, $TransactionsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TransactionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TransactionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TransactionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> itemsJson = const Value.absent(),
+                Value<int> subtotalRupiah = const Value.absent(),
+                Value<int> taxRupiah = const Value.absent(),
+                Value<int> totalRupiah = const Value.absent(),
+                Value<int> amountReceivedRupiah = const Value.absent(),
+                Value<int> changeRupiah = const Value.absent(),
+                Value<String> paymentMethod = const Value.absent(),
+                Value<int> completedAtMillis = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TransactionsCompanion(
+                id: id,
+                itemsJson: itemsJson,
+                subtotalRupiah: subtotalRupiah,
+                taxRupiah: taxRupiah,
+                totalRupiah: totalRupiah,
+                amountReceivedRupiah: amountReceivedRupiah,
+                changeRupiah: changeRupiah,
+                paymentMethod: paymentMethod,
+                completedAtMillis: completedAtMillis,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                required String itemsJson,
+                required int subtotalRupiah,
+                required int taxRupiah,
+                required int totalRupiah,
+                required int amountReceivedRupiah,
+                required int changeRupiah,
+                required String paymentMethod,
+                required int completedAtMillis,
+                Value<int> rowid = const Value.absent(),
+              }) => TransactionsCompanion.insert(
+                id: id,
+                itemsJson: itemsJson,
+                subtotalRupiah: subtotalRupiah,
+                taxRupiah: taxRupiah,
+                totalRupiah: totalRupiah,
+                amountReceivedRupiah: amountReceivedRupiah,
+                changeRupiah: changeRupiah,
+                paymentMethod: paymentMethod,
+                completedAtMillis: completedAtMillis,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$TransactionsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TransactionsTable,
+      TransactionRow,
+      $$TransactionsTableFilterComposer,
+      $$TransactionsTableOrderingComposer,
+      $$TransactionsTableAnnotationComposer,
+      $$TransactionsTableCreateCompanionBuilder,
+      $$TransactionsTableUpdateCompanionBuilder,
+      (
+        TransactionRow,
+        BaseReferences<_$AppDatabase, $TransactionsTable, TransactionRow>,
+      ),
+      TransactionRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1464,4 +2351,6 @@ class $AppDatabaseManager {
       $$ProductsTableTableManager(_db, _db.products);
   $$SyncOutboxTableTableManager get syncOutbox =>
       $$SyncOutboxTableTableManager(_db, _db.syncOutbox);
+  $$TransactionsTableTableManager get transactions =>
+      $$TransactionsTableTableManager(_db, _db.transactions);
 }

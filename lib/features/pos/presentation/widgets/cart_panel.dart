@@ -31,22 +31,24 @@ class CartPanel extends ConsumerWidget {
 
     return Container(
       width: 320,
-      color: AppColors.card,
-      border: const Border(left: BorderSide(color: AppColors.border)),
+      decoration: const BoxDecoration(
+        color: AppColors.card,
+        border: Border(left: BorderSide(color: AppColors.border)),
+      ),
       child: Column(
         children: [
           // Header
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.space16),
+            padding: const EdgeInsets.all(AppSpacing.s16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Cart', style: AppTextStyles.title),
-                const SizedBox(height: AppSpacing.space4),
+                Text('Cart', style: AppTextStyles.heading24),
+                const SizedBox(height: AppSpacing.s4),
                 Text(
                   '$itemCount item${itemCount == 1 ? '' : 's'}',
-                  style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.muted,
+                  style: AppTextStyles.body12.copyWith(
+                    color: AppColors.mutedText,
                   ),
                 ),
               ],
@@ -59,15 +61,15 @@ class CartPanel extends ConsumerWidget {
                 ? Center(
                     child: Text(
                       'No items',
-                      style: AppTextStyles.body.copyWith(
-                        color: AppColors.muted,
+                      style: AppTextStyles.body14.copyWith(
+                        color: AppColors.mutedText,
                       ),
                     ),
                   )
                 : SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.space12,
-                      vertical: AppSpacing.space12,
+                      horizontal: AppSpacing.s12,
+                      vertical: AppSpacing.s12,
                     ),
                     child: Column(
                       children: items
@@ -79,21 +81,22 @@ class CartPanel extends ConsumerWidget {
           const Divider(height: 1, color: AppColors.border),
           // Totals
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.space16),
+            padding: const EdgeInsets.all(AppSpacing.s16),
             child: AppCard(
+              padding: const EdgeInsets.all(AppSpacing.s16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _TotalRow(label: 'Subtotal', amount: subtotal),
-                  const SizedBox(height: AppSpacing.space8),
+                  const SizedBox(height: AppSpacing.s8),
                   _TotalRow(label: 'Tax (10%)', amount: tax),
                   const Divider(
-                    height: AppSpacing.space16,
+                    height: AppSpacing.s16,
                     color: AppColors.border,
                   ),
                   Text(
                     formatCurrency(total),
-                    style: AppTextStyles.headline.copyWith(
+                    style: AppTextStyles.heading20.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.right,
@@ -104,17 +107,19 @@ class CartPanel extends ConsumerWidget {
           ),
           // Payment method
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.space16),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.s16),
             child: PaymentMethodSelector(),
           ),
-          const SizedBox(height: AppSpacing.space16),
+          const SizedBox(height: AppSpacing.s16),
           // Charge button (sticky bottom)
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.space16),
-            child: AppButton(
-              label: 'Charge',
-              onPressed: isEmpty ? null : onCheckout,
-              isExpanded: true,
+            padding: const EdgeInsets.all(AppSpacing.s16),
+            child: SizedBox(
+              width: double.infinity,
+              child: AppButton.primary(
+                text: 'Charge',
+                onPressed: isEmpty ? null : onCheckout,
+              ),
             ),
           ),
         ],
@@ -137,10 +142,10 @@ class _TotalRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: AppTextStyles.bodySmall),
+        Text(label, style: AppTextStyles.body12),
         Text(
           formatCurrency(amount),
-          style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600),
+          style: AppTextStyles.body12.copyWith(fontWeight: FontWeight.w600),
         ),
       ],
     );

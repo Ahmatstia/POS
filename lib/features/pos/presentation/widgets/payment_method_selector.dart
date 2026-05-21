@@ -1,49 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lexa_pos/core/design/app_colors.dart';
 import 'package:lexa_pos/core/design/app_radius.dart';
 import 'package:lexa_pos/core/design/app_spacing.dart';
 import 'package:lexa_pos/core/design/app_text_styles.dart';
+import 'package:lexa_pos/features/pos/presentation/providers/payment_provider.dart';
 
-/// Payment method selector — Cash / Card / Transfer (visual split bar).
-class PaymentMethodSelector extends StatefulWidget {
+/// Payment method selector — Cash / Card / Transfer (required for checkout).
+class PaymentMethodSelector extends ConsumerWidget {
   const PaymentMethodSelector({super.key});
 
   @override
-  State<PaymentMethodSelector> createState() => _PaymentMethodSelectorState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(paymentMethodProvider);
 
-class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
-  late PaymentMethod _selected;
-
-  @override
-  void initState() {
-    super.initState();
-    _selected = PaymentMethod.cash;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Row(
       children: [
         _MethodButton(
           label: 'Cash',
           icon: Icons.money,
-          isActive: _selected == PaymentMethod.cash,
-          onTap: () => setState(() => _selected = PaymentMethod.cash),
+          isActive: selected == PaymentMethod.cash,
+          onTap: () => ref.read(paymentMethodProvider.notifier).state =
+              PaymentMethod.cash,
         ),
-        const SizedBox(width: AppSpacing.space8),
+        const SizedBox(width: AppSpacing.s8),
         _MethodButton(
           label: 'Card',
           icon: Icons.credit_card,
-          isActive: _selected == PaymentMethod.card,
-          onTap: () => setState(() => _selected = PaymentMethod.card),
+          isActive: selected == PaymentMethod.card,
+          onTap: () => ref.read(paymentMethodProvider.notifier).state =
+              PaymentMethod.card,
         ),
-        const SizedBox(width: AppSpacing.space8),
+        const SizedBox(width: AppSpacing.s8),
         _MethodButton(
           label: 'Transfer',
           icon: Icons.account_balance,
-          isActive: _selected == PaymentMethod.transfer,
-          onTap: () => setState(() => _selected = PaymentMethod.transfer),
+          isActive: selected == PaymentMethod.transfer,
+          onTap: () => ref.read(paymentMethodProvider.notifier).state =
+              PaymentMethod.transfer,
         ),
       ],
     );
@@ -70,8 +64,8 @@ class _MethodButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.space12,
-            vertical: AppSpacing.space12,
+            horizontal: AppSpacing.s12,
+            vertical: AppSpacing.s12,
           ),
           decoration: BoxDecoration(
             color: isActive ? AppColors.accent : AppColors.surface,
@@ -87,10 +81,10 @@ class _MethodButton extends StatelessWidget {
                 color: isActive ? Colors.white : AppColors.primary,
                 size: 20,
               ),
-              const SizedBox(height: AppSpacing.space4),
+              const SizedBox(height: AppSpacing.s4),
               Text(
                 label,
-                style: AppTextStyles.caption.copyWith(
+                style: AppTextStyles.body12.copyWith(
                   color: isActive ? Colors.white : AppColors.primary,
                   fontWeight: FontWeight.w500,
                 ),
@@ -103,4 +97,19 @@ class _MethodButton extends StatelessWidget {
   }
 }
 
-enum PaymentMethod { cash, card, transfer }
+enum PaymentMethod {
+  cash,
+  card,
+  transfer;
+
+  String get displayName {
+    switch (this) {
+      case PaymentMethod.cash:
+        return 'Cash';
+      case PaymentMethod.card:
+        return 'Card';
+      case PaymentMethod.transfer:
+        return 'Transfer';
+    }
+  }
+}

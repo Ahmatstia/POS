@@ -43,7 +43,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           Expanded(
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(AppSpacing.space48),
+                padding: const EdgeInsets.all(AppSpacing.s48),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 400),
                   child: isLoading
@@ -84,20 +84,20 @@ class _BrandPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.primary,
-      padding: const EdgeInsets.all(AppSpacing.space48),
+      padding: const EdgeInsets.all(AppSpacing.s48),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             AppConfig.appName,
-            style: AppTextStyles.display.copyWith(color: AppColors.onAccent),
+            style: AppTextStyles.heading32.copyWith(color: AppColors.card),
           ),
-          const SizedBox(height: AppSpacing.space16),
+          const SizedBox(height: AppSpacing.s16),
           Text(
             'Fast, trustworthy point of sale for Southeast Asia merchants.',
-            style: AppTextStyles.body.copyWith(
-              color: AppColors.subtle,
+            style: AppTextStyles.body16.copyWith(
+              color: AppColors.subtleText,
             ),
           ),
         ],
@@ -122,33 +122,34 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
+      padding: const EdgeInsets.all(AppSpacing.s32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Sign in', style: AppTextStyles.title),
-          const SizedBox(height: AppSpacing.space8),
+          Text('Sign in', style: AppTextStyles.heading24),
+          const SizedBox(height: AppSpacing.s8),
           Text(
             'Use your staff credentials to access this terminal.',
-            style: AppTextStyles.body.copyWith(color: AppColors.muted),
+            style: AppTextStyles.body14.copyWith(color: AppColors.mutedText),
           ),
           if (errorMessage != null) ...[
+            const SizedBox(height: AppSpacing.s24),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(AppSpacing.space12),
+              padding: const EdgeInsets.all(AppSpacing.s12),
               decoration: BoxDecoration(
-                color: AppColors.dangerMuted,
+                color: AppColors.danger.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(AppRadius.input),
                 border: Border.all(color: AppColors.danger),
               ),
               child: Text(
                 errorMessage!,
-                style: AppTextStyles.bodySmall.copyWith(color: AppColors.danger),
+                style: AppTextStyles.body12.copyWith(color: AppColors.danger),
               ),
             ),
-            const SizedBox(height: AppSpacing.space20),
           ],
-          const SizedBox(height: AppSpacing.space32),
+          const SizedBox(height: AppSpacing.s32),
           AppTextField(
             key: emailKey,
             name: 'email',
@@ -158,7 +159,7 @@ class _LoginForm extends StatelessWidget {
             autofocus: true,
             validator: Validators.email,
           ),
-          const SizedBox(height: AppSpacing.space20),
+          const SizedBox(height: AppSpacing.s20),
           AppTextField(
             key: passwordKey,
             name: 'password',
@@ -168,16 +169,19 @@ class _LoginForm extends StatelessWidget {
             validator: Validators.password,
             onSubmitted: (_) => onSubmit(),
           ),
-          const SizedBox(height: AppSpacing.space32),
-          AppButton(
-            label: 'Sign in',
-            onPressed: onSubmit,
-            isExpanded: true,
+          const SizedBox(height: AppSpacing.s32),
+          SizedBox(
+            width: double.infinity,
+            child: AppButton.primary(
+              text: 'Sign in',
+              onPressed: onSubmit,
+            ),
           ),
-          const SizedBox(height: AppSpacing.space24),
+          const SizedBox(height: AppSpacing.s24),
           Text(
             'Demo: cashier@lexa.pos / cashier123',
-            style: AppTextStyles.caption,
+            style: AppTextStyles.body12.copyWith(color: AppColors.subtleText),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -193,19 +197,20 @@ class _LoginFormSkeleton extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: AppColors.border,
       highlightColor: AppColors.card,
-      child: const AppCard(
+      child: AppCard(
+        padding: const EdgeInsets.all(AppSpacing.s32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ShimmerBox(width: 120, height: AppSpacing.space24),
-            SizedBox(height: AppSpacing.space12),
-            ShimmerBox(height: AppSpacing.space12),
-            SizedBox(height: AppSpacing.space32),
-            ShimmerBox(height: AppSpacing.space48),
-            SizedBox(height: AppSpacing.space20),
-            ShimmerBox(height: AppSpacing.space48),
-            SizedBox(height: AppSpacing.space32),
-            ShimmerBox(height: AppSpacing.space48),
+          children: const [
+            ShimmerBox(width: 120, height: AppSpacing.s24),
+            SizedBox(height: AppSpacing.s12),
+            ShimmerBox(width: double.infinity, height: AppSpacing.s12),
+            SizedBox(height: AppSpacing.s32),
+            ShimmerBox(width: double.infinity, height: AppSpacing.s48),
+            SizedBox(height: AppSpacing.s20),
+            ShimmerBox(width: double.infinity, height: AppSpacing.s48),
+            SizedBox(height: AppSpacing.s32),
+            ShimmerBox(width: double.infinity, height: AppSpacing.s48),
           ],
         ),
       ),

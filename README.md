@@ -41,8 +41,8 @@ flutter run -t lib/main_widgetbook.dart
 
 ## Auth demo accounts
 
-| Role    | Email            | Password   | PIN  |
-| ------- | ---------------- | ---------- | ---- |
-| Cashier | cashier@lexa.pos | cashier123 | 1234 |
-| Manager | manager@lexa.pos | manager123 | 5678 |
-| Owner   | owner@lexa.pos   | owner123   | 9999 |
+| Role    | Email              | Password    | PIN  |
+|---------|--------------------|-------------|------|
+| Cashier | cashier@lexa.pos   | cashier123  | 1234 |
+| Manager | manager@lexa.pos   | manager123  | 5678 |
+| Owner   | owner@lexa.pos     | owner123    | 9999 |

@@ -57,16 +57,30 @@ class _CardContentState extends State<_CardContent> {
               Expanded(
                 flex: 3,
                 child: Container(
-                  color: AppColors.surface,
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(AppRadius.card - 1), // account for border
+                      topRight: Radius.circular(AppRadius.card - 1),
+                    ),
+                  ),
                   child: Center(
                     child: widget.product.imageUrl != null
-                        ? Image.network(
-                            widget.product.imageUrl!,
-                            fit: BoxFit.cover,
+                        ? ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(AppRadius.card - 1),
+                              topRight: Radius.circular(AppRadius.card - 1),
+                            ),
+                            child: Image.network(
+                              widget.product.imageUrl!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
                           )
                         : Icon(
                             Icons.image_not_supported_outlined,
-                            color: AppColors.muted,
+                            color: AppColors.mutedText,
                             size: 48,
                           ),
                   ),
@@ -77,8 +91,8 @@ class _CardContentState extends State<_CardContent> {
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.space8,
-                    vertical: AppSpacing.space8,
+                    horizontal: AppSpacing.s8,
+                    vertical: AppSpacing.s8,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,13 +100,13 @@ class _CardContentState extends State<_CardContent> {
                     children: [
                       Text(
                         widget.product.name,
-                        style: AppTextStyles.bodySmall,
+                        style: AppTextStyles.body12,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         formatCurrency(widget.product.priceRupiah),
-                        style: AppTextStyles.bodySmall.copyWith(
+                        style: AppTextStyles.body12.copyWith(
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
                         ),
@@ -105,21 +119,22 @@ class _CardContentState extends State<_CardContent> {
           ),
           // Stock badge (top-right)
           Positioned(
-            top: AppSpacing.space8,
-            right: AppSpacing.space8,
+            top: AppSpacing.s8,
+            right: AppSpacing.s8,
             child: _StockBadge(quantity: widget.product.stockQuantity),
           ),
           // Out-of-stock overlay
           if (widget.product.stockQuantity == 0 || !widget.product.isActive)
             Container(
-              color: Colors.black.withOpacity(0.4),
-              child: const Center(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(AppRadius.card),
+              ),
+              child: Center(
                 child: Text(
                   'Out of Stock',
-                  style: TextStyle(
+                  style: AppTextStyles.label12.copyWith(
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
                   ),
                 ),
               ),
@@ -128,11 +143,11 @@ class _CardContentState extends State<_CardContent> {
       ),
     )
         .animate()
-        .fadeIn(duration: 300.ms)
+        .fadeIn(duration: const Duration(milliseconds: 300))
         .scale(
           begin: const Offset(0.95, 0.95),
           end: const Offset(1.0, 1.0),
-          duration: 300.ms,
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
   }
@@ -152,8 +167,8 @@ class _StockBadge extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.space8,
-        vertical: AppSpacing.space4,
+        horizontal: AppSpacing.s8,
+        vertical: AppSpacing.s4,
       ),
       decoration: BoxDecoration(
         color: color,
@@ -161,7 +176,7 @@ class _StockBadge extends StatelessWidget {
       ),
       child: Text(
         quantity.toString(),
-        style: AppTextStyles.caption.copyWith(
+        style: AppTextStyles.body12.copyWith(
           color: Colors.white,
           fontWeight: FontWeight.w600,
         ),
@@ -185,7 +200,7 @@ class _ProductCardSkeleton extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.space8),
+              padding: const EdgeInsets.all(AppSpacing.s8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
