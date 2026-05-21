@@ -1,31 +1,22 @@
-/// Item in the shopping cart during a transaction.
-class CartItem {
-  const CartItem({
-    required this.productId,
-    required this.productName,
-    required this.priceRupiah,
-    required this.quantity,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String productId;
-  final String productName;
-  final int priceRupiah;
-  final int quantity;
+part 'cart_item.freezed.dart';
+part 'cart_item.g.dart';
+
+/// Item in the shopping cart during a transaction.
+@freezed
+class CartItem with _$CartItem {
+  const CartItem._();
+
+  const factory CartItem({
+    required String productId,
+    required String productName,
+    required int priceRupiah,
+    required int quantity,
+  }) = _CartItem;
+
+  factory CartItem.fromJson(Map<String, dynamic> json) => _$CartItemFromJson(json);
 
   /// Total for this line item (priceRupiah × quantity).
   int get total => priceRupiah * quantity;
-
-  /// Immutable copy with optional overrides.
-  CartItem copyWith({
-    String? productId,
-    String? productName,
-    int? priceRupiah,
-    int? quantity,
-  }) =>
-      CartItem(
-        productId: productId ?? this.productId,
-        productName: productName ?? this.productName,
-        priceRupiah: priceRupiah ?? this.priceRupiah,
-        quantity: quantity ?? this.quantity,
-      );
 }

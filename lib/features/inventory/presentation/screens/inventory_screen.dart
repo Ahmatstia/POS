@@ -9,12 +9,20 @@ import 'package:lexa_pos/core/widgets/app_card.dart';
 import 'package:lexa_pos/core/widgets/status_badge.dart';
 import 'package:lexa_pos/router/app_router.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lexa_pos/features/inventory/presentation/providers/inventory_provider.dart';
+import 'package:lexa_pos/features/inventory/presentation/widgets/product_form_dialog.dart';
+import 'package:lexa_pos/core/utils/format_currency.dart';
+import 'package:lexa_pos/features/catalog/domain/entities/product.dart';
+
 /// Inventory Management Screen for tracking stock and doing adjustments.
-class InventoryScreen extends StatelessWidget {
+class InventoryScreen extends ConsumerWidget {
   const InventoryScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productsAsync = ref.watch(inventoryProductsProvider);
+
     return Scaffold(
       backgroundColor: AppColors.surface,
       appBar: AppBar(
@@ -29,6 +37,13 @@ class InventoryScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s16),
+            child: AppButton.primary(
+              text: '+ Tambah Produk',
+              onPressed: () => ProductFormDialog.show(context),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.s16),
             child: AppButton.secondary(
               text: 'Export CSV',
               onPressed: () {},
@@ -36,78 +51,90 @@ class InventoryScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.s32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const _MetricCardsRow(),
-            const SizedBox(height: AppSpacing.s24),
-            const _LowStockAlertBanner(),
-            const SizedBox(height: AppSpacing.s24),
-            AppCard(
-              level: AppCardLevel.level1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(AppSpacing.s20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Stock List', style: AppTextStyles.heading20),
-                        AppButton.secondary(
-                          text: 'Filter',
-                          onPressed: () {},
-                        ),
-                      ],
+      body: productsAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
+        data: (products) => SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacing.s32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _MetricCardsRow(),
+              const SizedBox(height: AppSpacing.s24),
+              const _LowStockAlertBanner(),
+              const SizedBox(height: AppSpacing.s24),
+              AppCard(
+                level: AppCardLevel.level1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(AppSpacing.s20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Stock List', style: AppTextStyles.heading20),
+                          AppButton.secondary(
+                            text: 'Filter',
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const Divider(height: 1, color: AppColors.border),
-                  const _InventoryTableHeader(),
-                  const Divider(height: 1, color: AppColors.border),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 4, // Mock data
-                    separatorBuilder: (context, index) => const Divider(height: 1, color: AppColors.border),
-                    itemBuilder: (context, index) {
-                      return _InventoryTableRow(index: index);
-                    },
-                  ),
-                ],
+                    const Divider(height: 1, color: AppColors.border),
+                    const _InventoryTableHeader(),
+                    const Divider(height: 1, color: AppColors.border),
+                    if (products.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.all(AppSpacing.s32),
+                        child: Center(child: Text('Belum ada produk.')),
+                      )
+                    else
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: products.length,
+                        separatorBuilder: (context, index) => const Divider(height: 1, color: AppColors.border),
+                        itemBuilder: (context, index) {
+                          return _InventoryTableRow(product: products[index]);
+                        },
+                      ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _MetricCardsRow extends StatelessWidget {
+class _MetricCardsRow extends ConsumerWidget {
   const _MetricCardsRow();
 
   @override
-  Widget build(BuildContext context) {
-    return const Row(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final metrics = ref.watch(inventoryMetricsProvider);
+    
+    return Row(
       children: [
         _MetricCard(
           title: 'Total SKU',
-          value: '124',
+          value: '${metrics.totalSku}',
           icon: Icons.inventory_2_outlined,
         ),
-        SizedBox(width: AppSpacing.s16),
+        const SizedBox(width: AppSpacing.s16),
         _MetricCard(
           title: 'Stok Rendah',
-          value: '5',
+          value: '${metrics.lowStockCount}',
           icon: Icons.warning_amber_rounded,
-          isWarning: true,
+          isWarning: metrics.lowStockCount > 0,
         ),
-        SizedBox(width: AppSpacing.s16),
+        const SizedBox(width: AppSpacing.s16),
         _MetricCard(
           title: 'Nilai Inventori',
-          value: 'Rp 45.250.000',
+          value: formatCurrency(metrics.totalValue),
           icon: Icons.monetization_on_outlined,
         ),
       ],
@@ -240,13 +267,13 @@ class _InventoryTableHeader extends StatelessWidget {
 }
 
 class _InventoryTableRow extends StatelessWidget {
-  const _InventoryTableRow({required this.index});
+  const _InventoryTableRow({super.key, required this.product});
 
-  final int index;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
-    final isLowStock = index == 0;
+    final isLowStock = product.stockQuantity <= product.minStock;
     
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s20, vertical: AppSpacing.s12),
@@ -255,24 +282,24 @@ class _InventoryTableRow extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Text(
-              isLowStock ? 'Mie Goreng Spesial' : 'Kopi Tubruk',
+              product.name,
               style: AppTextStyles.body14.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
           Expanded(
             flex: 1,
             child: Text(
-              isLowStock ? '4' : '120',
+              '${product.stockQuantity}',
               style: AppTextStyles.body14.copyWith(
                 color: isLowStock ? AppColors.danger : AppColors.primary,
                 fontWeight: isLowStock ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             flex: 1,
             child: Text(
-              '10',
+              '${product.minStock}',
               style: AppTextStyles.body14,
             ),
           ),
@@ -289,7 +316,7 @@ class _InventoryTableRow extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              'Hari ini, 14:30',
+              'Hari ini',
               style: AppTextStyles.body14.copyWith(color: AppColors.mutedText),
             ),
           ),
@@ -299,8 +326,8 @@ class _InventoryTableRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 AppButton.secondary(
-                  text: 'Restock',
-                  onPressed: () {},
+                  text: 'Edit',
+                  onPressed: () => ProductFormDialog.show(context, product: product),
                 ),
               ],
             ),

@@ -1,22 +1,22 @@
-/// Sellable catalog item for POS — immutable value object.
-class Product {
-  const Product({
-    required this.id,
-    required this.name,
-    required this.priceRupiah,
-    required this.stockQuantity,
-    this.categoryId,
-    this.imageUrl,
-    required this.isActive,
-    required this.updatedAtMillis,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String id;
-  final String name;
-  final int priceRupiah;
-  final int stockQuantity;
-  final String? categoryId;
-  final String? imageUrl;
-  final bool isActive;
-  final int updatedAtMillis;
+part 'product.freezed.dart';
+part 'product.g.dart';
+
+/// Sellable catalog item for POS — immutable value object.
+@freezed
+class Product with _$Product {
+  const factory Product({
+    required String id,
+    required String name,
+    required int priceRupiah,
+    required int stockQuantity,
+    @Default(10) int minStock,
+    String? categoryId,
+    String? imageUrl,
+    required bool isActive,
+    required int updatedAtMillis,
+  }) = _Product;
+
+  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 }

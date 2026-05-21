@@ -6,28 +6,28 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart';
 @UseCase(name: 'Active', type: StatusBadge)
 Widget statusBadgeActiveUseCase(BuildContext context) {
   return const _BadgePreview(
-    child: StatusBadge(label: 'In stock', type: StatusBadgeType.active),
+    child: StatusBadge(text: 'In stock', status: BadgeStatus.active),
   );
 }
 
 @UseCase(name: 'Inactive', type: StatusBadge)
 Widget statusBadgeInactiveUseCase(BuildContext context) {
   return const _BadgePreview(
-    child: StatusBadge(label: 'Archived', type: StatusBadgeType.inactive),
+    child: StatusBadge(text: 'Archived', status: BadgeStatus.inactive),
   );
 }
 
 @UseCase(name: 'Warning', type: StatusBadge)
 Widget statusBadgeWarningUseCase(BuildContext context) {
   return const _BadgePreview(
-    child: StatusBadge(label: 'Low stock', type: StatusBadgeType.warning),
+    child: StatusBadge(text: 'Low stock', status: BadgeStatus.warning),
   );
 }
 
 @UseCase(name: 'Danger', type: StatusBadge)
 Widget statusBadgeDangerUseCase(BuildContext context) {
   return const _BadgePreview(
-    child: StatusBadge(label: 'Out of stock', type: StatusBadgeType.danger),
+    child: StatusBadge(text: 'Out of stock', status: BadgeStatus.danger),
   );
 }
 
@@ -35,13 +35,13 @@ Widget statusBadgeDangerUseCase(BuildContext context) {
 Widget statusBadgeAllUseCase(BuildContext context) {
   return const _BadgePreview(
     child: Wrap(
-      spacing: AppSpacing.space12,
-      runSpacing: AppSpacing.space12,
+      spacing: AppSpacing.s12,
+      runSpacing: AppSpacing.s12,
       children: [
-        StatusBadge(label: 'In stock', type: StatusBadgeType.active),
-        StatusBadge(label: 'Draft', type: StatusBadgeType.inactive),
-        StatusBadge(label: 'Low stock', type: StatusBadgeType.warning),
-        StatusBadge(label: 'Voided', type: StatusBadgeType.danger),
+        StatusBadge(text: 'In stock', status: BadgeStatus.active),
+        StatusBadge(text: 'Draft', status: BadgeStatus.inactive),
+        StatusBadge(text: 'Low stock', status: BadgeStatus.warning),
+        StatusBadge(text: 'Voided', status: BadgeStatus.danger),
       ],
     ),
   );
@@ -56,7 +56,7 @@ class _BadgePreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.space24),
+        padding: const EdgeInsets.all(AppSpacing.s24),
         child: child,
       ),
     );

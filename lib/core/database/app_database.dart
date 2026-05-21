@@ -14,7 +14,7 @@ class AppDatabase extends _$AppDatabase {
       : super(executor ?? driftDatabase(name: 'lexa_pos'));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -22,7 +22,15 @@ class AppDatabase extends _$AppDatabase {
           await migrator.createAll();
           await _seedDemoProducts();
         },
-        onUpgrade: (Migrator migrator, int from, int to) async {},
+        onUpgrade: (Migrator migrator, int from, int to) async {
+          if (from < 3) {
+            try {
+              await migrator.addColumn(products, products.minStock);
+            } catch (e) {
+              // Ignore if column already exists
+            }
+          }
+        },
       );
 
   Future<void> _seedDemoProducts() async {

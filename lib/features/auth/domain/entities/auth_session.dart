@@ -1,32 +1,19 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lexa_pos/features/auth/domain/entities/user.dart';
 
+part 'auth_session.freezed.dart';
+part 'auth_session.g.dart';
+
 /// Active authenticated session including tokens and PIN verification state.
-class AuthSession {
-  const AuthSession({
-    required this.user,
-    required this.accessToken,
-    required this.refreshToken,
-    this.isPinVerified = false,
-    this.isShiftOpen = false,
-  });
+@freezed
+class AuthSession with _$AuthSession {
+  const factory AuthSession({
+    required User user,
+    required String accessToken,
+    required String refreshToken,
+    @Default(false) bool isPinVerified,
+    @Default(false) bool isShiftOpen,
+  }) = _AuthSession;
 
-  final User user;
-  final String accessToken;
-  final String refreshToken;
-  final bool isPinVerified;
-  final bool isShiftOpen;
-
-  /// Returns a copy with updated PIN verification flag.
-  AuthSession copyWith({
-    bool? isPinVerified,
-    bool? isShiftOpen,
-  }) {
-    return AuthSession(
-      user: user,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      isPinVerified: isPinVerified ?? this.isPinVerified,
-      isShiftOpen: isShiftOpen ?? this.isShiftOpen,
-    );
-  }
+  factory AuthSession.fromJson(Map<String, dynamic> json) => _$AuthSessionFromJson(json);
 }

@@ -116,6 +116,7 @@ class CartPanel extends ConsumerWidget {
             padding: const EdgeInsets.all(AppSpacing.s16),
             child: SizedBox(
               width: double.infinity,
+              height: 56, // spec: 56px height for charge button
               child: AppButton.primary(
                 text: 'Charge',
                 onPressed: isEmpty ? null : onCheckout,

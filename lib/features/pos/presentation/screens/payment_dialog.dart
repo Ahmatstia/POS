@@ -10,6 +10,7 @@ import 'package:lexa_pos/core/design/app_text_styles.dart';
 import 'package:lexa_pos/core/utils/format_currency.dart';
 import 'package:lexa_pos/core/widgets/app_button.dart';
 import 'package:lexa_pos/core/widgets/app_toast.dart';
+import 'package:lexa_pos/features/pos/presentation/widgets/payment_success_overlay.dart';
 import 'package:lexa_pos/features/auth/presentation/widgets/pin_pad.dart';
 import 'package:lexa_pos/features/pos/domain/entities/cart_item.dart';
 import 'package:lexa_pos/features/pos/presentation/providers/cart_provider.dart';
@@ -392,21 +393,19 @@ class _PaymentDialogState extends ConsumerState<PaymentDialog> {
   void _completeTransaction(BuildContext context) {
     final cart = ref.read(cartItemsProvider);
     // Write transaction to database
-    final db = ref.read(databaseProvider);
+    final db = ref.read(appDatabaseProvider);
 
     db.transaction(() async {
-      // Write transaction (will be called from _showReceiptPreview)
       // For now, just clear the cart
     });
 
-    ref.read(cartNotifierProvider.notifier).clearCart();
-    HapticFeedback.heavyImpact();
-
-    showAppToast(
+    PaymentSuccessOverlay.show(
       context,
-      message: 'Transaction completed',
-      icon: Icons.check_circle,
-      backgroundColor: AppColors.success,
+      onComplete: () {
+        ref.read(cartNotifierProvider.notifier).clearCart();
+        HapticFeedback.heavyImpact();
+        // Return to POS screen
+      },
     );
   }
 

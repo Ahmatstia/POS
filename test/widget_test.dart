@@ -11,8 +11,8 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: AppButton(
-            label: 'Charge',
+          body: AppButton.primary(
+            text: 'Charge',
             onPressed: () {},
           ),
         ),

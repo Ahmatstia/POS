@@ -18,12 +18,14 @@ class AppButton extends StatefulWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final double? height;
 
   const AppButton.primary({
     super.key,
     required this.text,
     this.onPressed,
     this.isLoading = false,
+    this.height,
   })  : variant = AppButtonVariant.primary,
         icon = null;
 
@@ -32,6 +34,7 @@ class AppButton extends StatefulWidget {
     required this.text,
     this.onPressed,
     this.isLoading = false,
+    this.height,
   })  : variant = AppButtonVariant.secondary,
         icon = null;
 
@@ -40,6 +43,7 @@ class AppButton extends StatefulWidget {
     required this.text,
     this.onPressed,
     this.isLoading = false,
+    this.height,
   })  : variant = AppButtonVariant.tertiary,
         icon = null;
 
@@ -48,6 +52,7 @@ class AppButton extends StatefulWidget {
     required this.text,
     this.onPressed,
     this.isLoading = false,
+    this.height,
   })  : variant = AppButtonVariant.danger,
         icon = null;
 
@@ -56,6 +61,7 @@ class AppButton extends StatefulWidget {
     required this.icon,
     this.onPressed,
     this.isLoading = false,
+    this.height,
   })  : variant = AppButtonVariant.iconOnly,
         text = null;
 
@@ -76,7 +82,7 @@ class _AppButtonState extends State<AppButton> {
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: SizedBox(
-        height: AppSpacing.s48,
+        height: widget.height ?? AppSpacing.s48,
         child: ElevatedButton(
           onPressed: widget.isLoading ? null : widget.onPressed,
           style: _getButtonStyle(),
@@ -171,8 +177,8 @@ class _AppButtonState extends State<AppButton> {
         return ElevatedButton.styleFrom(
           backgroundColor: AppColors.danger,
           foregroundColor: AppColors.card,
-          disabledBackgroundColor: AppColors.danger.withOpacity(0.5),
-          disabledForegroundColor: AppColors.card.withOpacity(0.5),
+          disabledBackgroundColor: AppColors.danger.withValues(alpha: 0.5),
+          disabledForegroundColor: AppColors.card.withValues(alpha: 0.5),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -187,8 +193,8 @@ class _AppButtonState extends State<AppButton> {
   Widget _buildChild() {
     if (widget.isLoading) {
       final color = widget.variant == AppButtonVariant.primary || widget.variant == AppButtonVariant.danger
-          ? AppColors.card
-          : AppColors.accent;
+          ? AppColors.primary.withValues(alpha: 0.1)
+          : AppColors.primary.withValues(alpha: 0.2);
       return SizedBox(
         width: 20,
         height: 20,

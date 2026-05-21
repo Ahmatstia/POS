@@ -50,6 +50,18 @@ class $ProductsTable extends Products
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _minStockMeta = const VerificationMeta(
+    'minStock',
+  );
+  @override
+  late final GeneratedColumn<int> minStock = GeneratedColumn<int>(
+    'min_stock',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(10),
+  );
   static const VerificationMeta _categoryIdMeta = const VerificationMeta(
     'categoryId',
   );
@@ -105,6 +117,7 @@ class $ProductsTable extends Products
     name,
     priceRupiah,
     stockQuantity,
+    minStock,
     categoryId,
     imageUrl,
     isActive,
@@ -153,6 +166,12 @@ class $ProductsTable extends Products
           data['stock_quantity']!,
           _stockQuantityMeta,
         ),
+      );
+    }
+    if (data.containsKey('min_stock')) {
+      context.handle(
+        _minStockMeta,
+        minStock.isAcceptableOrUnknown(data['min_stock']!, _minStockMeta),
       );
     }
     if (data.containsKey('category_id')) {
@@ -207,6 +226,10 @@ class $ProductsTable extends Products
         DriftSqlType.int,
         data['${effectivePrefix}stock_quantity'],
       )!,
+      minStock: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}min_stock'],
+      )!,
       categoryId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}category_id'],
@@ -240,6 +263,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
   /// Price in whole Indonesian Rupiah (no fractional IDR in retail).
   final int priceRupiah;
   final int stockQuantity;
+  final int minStock;
   final String? categoryId;
   final String? imageUrl;
   final bool isActive;
@@ -251,6 +275,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     required this.name,
     required this.priceRupiah,
     required this.stockQuantity,
+    required this.minStock,
     this.categoryId,
     this.imageUrl,
     required this.isActive,
@@ -263,6 +288,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     map['name'] = Variable<String>(name);
     map['price_rupiah'] = Variable<int>(priceRupiah);
     map['stock_quantity'] = Variable<int>(stockQuantity);
+    map['min_stock'] = Variable<int>(minStock);
     if (!nullToAbsent || categoryId != null) {
       map['category_id'] = Variable<String>(categoryId);
     }
@@ -280,6 +306,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       name: Value(name),
       priceRupiah: Value(priceRupiah),
       stockQuantity: Value(stockQuantity),
+      minStock: Value(minStock),
       categoryId: categoryId == null && nullToAbsent
           ? const Value.absent()
           : Value(categoryId),
@@ -301,6 +328,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       name: serializer.fromJson<String>(json['name']),
       priceRupiah: serializer.fromJson<int>(json['priceRupiah']),
       stockQuantity: serializer.fromJson<int>(json['stockQuantity']),
+      minStock: serializer.fromJson<int>(json['minStock']),
       categoryId: serializer.fromJson<String?>(json['categoryId']),
       imageUrl: serializer.fromJson<String?>(json['imageUrl']),
       isActive: serializer.fromJson<bool>(json['isActive']),
@@ -315,6 +343,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       'name': serializer.toJson<String>(name),
       'priceRupiah': serializer.toJson<int>(priceRupiah),
       'stockQuantity': serializer.toJson<int>(stockQuantity),
+      'minStock': serializer.toJson<int>(minStock),
       'categoryId': serializer.toJson<String?>(categoryId),
       'imageUrl': serializer.toJson<String?>(imageUrl),
       'isActive': serializer.toJson<bool>(isActive),
@@ -327,6 +356,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     String? name,
     int? priceRupiah,
     int? stockQuantity,
+    int? minStock,
     Value<String?> categoryId = const Value.absent(),
     Value<String?> imageUrl = const Value.absent(),
     bool? isActive,
@@ -336,6 +366,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     name: name ?? this.name,
     priceRupiah: priceRupiah ?? this.priceRupiah,
     stockQuantity: stockQuantity ?? this.stockQuantity,
+    minStock: minStock ?? this.minStock,
     categoryId: categoryId.present ? categoryId.value : this.categoryId,
     imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
     isActive: isActive ?? this.isActive,
@@ -351,6 +382,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       stockQuantity: data.stockQuantity.present
           ? data.stockQuantity.value
           : this.stockQuantity,
+      minStock: data.minStock.present ? data.minStock.value : this.minStock,
       categoryId: data.categoryId.present
           ? data.categoryId.value
           : this.categoryId,
@@ -369,6 +401,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           ..write('name: $name, ')
           ..write('priceRupiah: $priceRupiah, ')
           ..write('stockQuantity: $stockQuantity, ')
+          ..write('minStock: $minStock, ')
           ..write('categoryId: $categoryId, ')
           ..write('imageUrl: $imageUrl, ')
           ..write('isActive: $isActive, ')
@@ -383,6 +416,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     name,
     priceRupiah,
     stockQuantity,
+    minStock,
     categoryId,
     imageUrl,
     isActive,
@@ -396,6 +430,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           other.name == this.name &&
           other.priceRupiah == this.priceRupiah &&
           other.stockQuantity == this.stockQuantity &&
+          other.minStock == this.minStock &&
           other.categoryId == this.categoryId &&
           other.imageUrl == this.imageUrl &&
           other.isActive == this.isActive &&
@@ -407,6 +442,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
   final Value<String> name;
   final Value<int> priceRupiah;
   final Value<int> stockQuantity;
+  final Value<int> minStock;
   final Value<String?> categoryId;
   final Value<String?> imageUrl;
   final Value<bool> isActive;
@@ -417,6 +453,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     this.name = const Value.absent(),
     this.priceRupiah = const Value.absent(),
     this.stockQuantity = const Value.absent(),
+    this.minStock = const Value.absent(),
     this.categoryId = const Value.absent(),
     this.imageUrl = const Value.absent(),
     this.isActive = const Value.absent(),
@@ -428,6 +465,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     required String name,
     required int priceRupiah,
     this.stockQuantity = const Value.absent(),
+    this.minStock = const Value.absent(),
     this.categoryId = const Value.absent(),
     this.imageUrl = const Value.absent(),
     this.isActive = const Value.absent(),
@@ -441,6 +479,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     Expression<String>? name,
     Expression<int>? priceRupiah,
     Expression<int>? stockQuantity,
+    Expression<int>? minStock,
     Expression<String>? categoryId,
     Expression<String>? imageUrl,
     Expression<bool>? isActive,
@@ -452,6 +491,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
       if (name != null) 'name': name,
       if (priceRupiah != null) 'price_rupiah': priceRupiah,
       if (stockQuantity != null) 'stock_quantity': stockQuantity,
+      if (minStock != null) 'min_stock': minStock,
       if (categoryId != null) 'category_id': categoryId,
       if (imageUrl != null) 'image_url': imageUrl,
       if (isActive != null) 'is_active': isActive,
@@ -465,6 +505,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     Value<String>? name,
     Value<int>? priceRupiah,
     Value<int>? stockQuantity,
+    Value<int>? minStock,
     Value<String?>? categoryId,
     Value<String?>? imageUrl,
     Value<bool>? isActive,
@@ -476,6 +517,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
       name: name ?? this.name,
       priceRupiah: priceRupiah ?? this.priceRupiah,
       stockQuantity: stockQuantity ?? this.stockQuantity,
+      minStock: minStock ?? this.minStock,
       categoryId: categoryId ?? this.categoryId,
       imageUrl: imageUrl ?? this.imageUrl,
       isActive: isActive ?? this.isActive,
@@ -498,6 +540,9 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     }
     if (stockQuantity.present) {
       map['stock_quantity'] = Variable<int>(stockQuantity.value);
+    }
+    if (minStock.present) {
+      map['min_stock'] = Variable<int>(minStock.value);
     }
     if (categoryId.present) {
       map['category_id'] = Variable<String>(categoryId.value);
@@ -524,6 +569,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
           ..write('name: $name, ')
           ..write('priceRupiah: $priceRupiah, ')
           ..write('stockQuantity: $stockQuantity, ')
+          ..write('minStock: $minStock, ')
           ..write('categoryId: $categoryId, ')
           ..write('imageUrl: $imageUrl, ')
           ..write('isActive: $isActive, ')
@@ -1578,6 +1624,7 @@ typedef $$ProductsTableCreateCompanionBuilder =
       required String name,
       required int priceRupiah,
       Value<int> stockQuantity,
+      Value<int> minStock,
       Value<String?> categoryId,
       Value<String?> imageUrl,
       Value<bool> isActive,
@@ -1590,6 +1637,7 @@ typedef $$ProductsTableUpdateCompanionBuilder =
       Value<String> name,
       Value<int> priceRupiah,
       Value<int> stockQuantity,
+      Value<int> minStock,
       Value<String?> categoryId,
       Value<String?> imageUrl,
       Value<bool> isActive,
@@ -1623,6 +1671,11 @@ class $$ProductsTableFilterComposer
 
   ColumnFilters<int> get stockQuantity => $composableBuilder(
     column: $table.stockQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get minStock => $composableBuilder(
+    column: $table.minStock,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1676,6 +1729,11 @@ class $$ProductsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get minStock => $composableBuilder(
+    column: $table.minStock,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get categoryId => $composableBuilder(
     column: $table.categoryId,
     builder: (column) => ColumnOrderings(column),
@@ -1721,6 +1779,9 @@ class $$ProductsTableAnnotationComposer
     column: $table.stockQuantity,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get minStock =>
+      $composableBuilder(column: $table.minStock, builder: (column) => column);
 
   GeneratedColumn<String> get categoryId => $composableBuilder(
     column: $table.categoryId,
@@ -1774,6 +1835,7 @@ class $$ProductsTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<int> priceRupiah = const Value.absent(),
                 Value<int> stockQuantity = const Value.absent(),
+                Value<int> minStock = const Value.absent(),
                 Value<String?> categoryId = const Value.absent(),
                 Value<String?> imageUrl = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
@@ -1784,6 +1846,7 @@ class $$ProductsTableTableManager
                 name: name,
                 priceRupiah: priceRupiah,
                 stockQuantity: stockQuantity,
+                minStock: minStock,
                 categoryId: categoryId,
                 imageUrl: imageUrl,
                 isActive: isActive,
@@ -1796,6 +1859,7 @@ class $$ProductsTableTableManager
                 required String name,
                 required int priceRupiah,
                 Value<int> stockQuantity = const Value.absent(),
+                Value<int> minStock = const Value.absent(),
                 Value<String?> categoryId = const Value.absent(),
                 Value<String?> imageUrl = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
@@ -1806,6 +1870,7 @@ class $$ProductsTableTableManager
                 name: name,
                 priceRupiah: priceRupiah,
                 stockQuantity: stockQuantity,
+                minStock: minStock,
                 categoryId: categoryId,
                 imageUrl: imageUrl,
                 isActive: isActive,

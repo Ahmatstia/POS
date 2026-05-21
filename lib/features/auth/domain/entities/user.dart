@@ -1,18 +1,19 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lexa_pos/features/auth/domain/entities/user_role.dart';
 
-/// Authenticated staff member identity.
-class User {
-  const User({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.role,
-    required this.storeId,
-  });
+part 'user.freezed.dart';
+part 'user.g.dart';
 
-  final String id;
-  final String name;
-  final String email;
-  final UserRole role;
-  final String storeId;
+/// Authenticated staff member identity.
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+    required String name,
+    required String email,
+    required UserRole role,
+    required String storeId,
+  }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

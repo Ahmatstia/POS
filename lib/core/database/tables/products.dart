@@ -12,6 +12,8 @@ class Products extends Table {
   IntColumn get priceRupiah => integer()();
 
   IntColumn get stockQuantity => integer().withDefault(const Constant(0))();
+  
+  IntColumn get minStock => integer().withDefault(const Constant(10))();
 
   TextColumn get categoryId => text().nullable()();
 
