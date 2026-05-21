@@ -117,7 +117,7 @@ class _CartItemRowState extends ConsumerState<CartItemRowWidget> {
           ),
           const SizedBox(width: AppSpacing.s12),
           // Remove button
-          AppButton.icon(
+          AppButton.iconOnly(
             icon: Icons.close,
             onPressed: () => _removeItem(),
           ),

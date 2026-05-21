@@ -9,9 +9,10 @@ class CartItem with _$CartItem {
   const CartItem._();
 
   const factory CartItem({
-    required String productId,
+    required int productId,
     required String productName,
-    required int priceRupiah,
+    required int priceRupiah, // Selling price
+    required int costPrice,
     required int quantity,
   }) = _CartItem;
 

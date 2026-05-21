@@ -83,7 +83,8 @@ class ProductGrid extends ConsumerWidget {
     ref.read(cartNotifierProvider.notifier).addItem(
           productId: product.id,
           productName: product.name,
-          priceRupiah: product.priceRupiah,
+          priceRupiah: product.sellingPrice,
+          costPrice: product.costPrice,
         );
     showAppToast(
       context,
@@ -117,13 +118,17 @@ class _ProductGridSkeleton extends StatelessWidget {
 }
 
 /// Dummy for skeleton — not a real Product.
-const _skeletonProduct = Product(
-  id: '',
+final _skeletonProduct = Product(
+  id: 0,
+  categoryId: 1,
   name: '',
-  priceRupiah: 0,
-  stockQuantity: 0,
-  categoryId: null,
-  imageUrl: null,
+  sku: '',
+  sellingPrice: 0,
+  costPrice: 0,
+  unit: 'pcs',
+  minStock: 0,
+  currentStock: 0,
   isActive: true,
-  updatedAtMillis: 0,
+  createdAt: DateTime.now(),
+  updatedAt: DateTime.now(),
 );

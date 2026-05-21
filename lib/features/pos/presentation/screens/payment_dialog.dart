@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lexa_pos/core/database/app_database.dart';
 import 'package:lexa_pos/core/database/database_provider.dart';
 import 'package:lexa_pos/core/design/app_colors.dart';
 import 'package:lexa_pos/core/design/app_radius.dart';
@@ -390,14 +392,45 @@ class _PaymentDialogState extends ConsumerState<PaymentDialog> {
     );
   }
 
-  void _completeTransaction(BuildContext context) {
+  void _completeTransaction(BuildContext context) async {
     final cart = ref.read(cartItemsProvider);
+    final total = ref.read(cartTotalProvider);
+    final paymentMethod = ref.read(paymentMethodProvider);
+    
     // Write transaction to database
     final db = ref.read(appDatabaseProvider);
 
-    db.transaction(() async {
-      // For now, just clear the cart
-    });
+    int paymentMethodId = 0;
+    if (paymentMethod.name == 'card') paymentMethodId = 2;
+    if (paymentMethod.name == 'transfer') paymentMethodId = 3;
+
+    final tx = TransactionsCompanion(
+      shiftId: const drift.Value(1),
+      totalAmount: drift.Value(total),
+      paymentMethod: drift.Value(paymentMethodId),
+      amountPaid: drift.Value(amountReceived),
+      changeAmount: drift.Value(change),
+      subtotal: drift.Value(subtotal),
+      cashierId: const drift.Value(1), // Default for now
+      invoiceNumber: drift.Value('INV-${DateTime.now().millisecondsSinceEpoch}'),
+      status: const drift.Value(1), // 1 = completed
+      createdAt: drift.Value(DateTime.now()),
+      updatedAt: drift.Value(DateTime.now()),
+      isDeleted: const drift.Value(false),
+    );
+    
+    final txItems = cart.map((item) => TransactionItemsCompanion(
+      productId: drift.Value(item.productId),
+      productName: drift.Value(item.productName),
+      quantity: drift.Value(item.quantity),
+      unitPrice: drift.Value(item.priceRupiah),
+      costPrice: drift.Value(item.costPrice),
+      subtotal: drift.Value(item.total),
+      createdAt: drift.Value(DateTime.now()),
+      updatedAt: drift.Value(DateTime.now()),
+    )).toList().cast<TransactionItemsCompanion>();
+
+    await db.transactionDao.insertCheckout(tx, txItems);
 
     PaymentSuccessOverlay.show(
       context,

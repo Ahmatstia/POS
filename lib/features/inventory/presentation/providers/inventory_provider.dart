@@ -23,10 +23,10 @@ final inventoryMetricsProvider = Provider<InventoryMetrics>((ref) {
   int totalVal = 0;
   
   for (final p in products) {
-    if (p.stockQuantity <= p.minStock) {
+    if (p.currentStock <= p.minStock) {
       lowStock++;
     }
-    totalVal += (p.stockQuantity * p.priceRupiah);
+    totalVal += (p.currentStock * p.sellingPrice);
   }
   
   return (

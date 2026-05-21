@@ -11,23 +11,24 @@ final cartRepositoryProvider = Provider<CartRepository>((ref) {
 /// Global cart state — Map<productId, CartItem>.
 /// Single source of truth for the transaction.
 final cartNotifierProvider =
-    AsyncNotifierProvider<CartNotifier, Map<String, CartItem>>(
+    AsyncNotifierProvider<CartNotifier, Map<int, CartItem>>(
   CartNotifier.new,
 );
 
 /// Manages cart mutations — add, remove, update quantity, clear, hold.
-class CartNotifier extends AsyncNotifier<Map<String, CartItem>> {
+class CartNotifier extends AsyncNotifier<Map<int, CartItem>> {
   @override
-  Future<Map<String, CartItem>> build() async {
+  Future<Map<int, CartItem>> build() async {
     final repo = ref.read(cartRepositoryProvider);
     return repo.getCart();
   }
 
   /// Add item to cart (increments if exists).
   Future<void> addItem({
-    required String productId,
+    required int productId,
     required String productName,
     required int priceRupiah,
+    required int costPrice,
   }) async {
     state = await AsyncValue.guard(() async {
       final repo = ref.read(cartRepositoryProvider);
@@ -35,13 +36,14 @@ class CartNotifier extends AsyncNotifier<Map<String, CartItem>> {
         productId: productId,
         productName: productName,
         priceRupiah: priceRupiah,
+        costPrice: costPrice,
       );
       return repo.getCart();
     });
   }
 
   /// Remove item from cart.
-  Future<void> removeItem(String productId) async {
+  Future<void> removeItem(int productId) async {
     state = await AsyncValue.guard(() async {
       final repo = ref.read(cartRepositoryProvider);
       await repo.removeItem(productId);
@@ -50,7 +52,7 @@ class CartNotifier extends AsyncNotifier<Map<String, CartItem>> {
   }
 
   /// Update quantity (must be >= 1).
-  Future<void> updateQuantity(String productId, int quantity) async {
+  Future<void> updateQuantity(int productId, int quantity) async {
     state = await AsyncValue.guard(() async {
       final repo = ref.read(cartRepositoryProvider);
       await repo.updateQuantity(productId, quantity);

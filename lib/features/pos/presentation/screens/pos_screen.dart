@@ -17,7 +17,7 @@ class PosScreen extends ConsumerWidget {
       body: Row(
         children: [
           // Left: Product grid (main content area)
-          Expanded(
+          const Expanded(
             child: ProductGrid(),
           ),
           // Right: Cart panel (sticky)

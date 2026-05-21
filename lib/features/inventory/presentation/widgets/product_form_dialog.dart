@@ -39,8 +39,8 @@ class _ProductFormDialogState extends ConsumerState<ProductFormDialog> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.initialData?.name ?? '');
-    _priceController = TextEditingController(text: widget.initialData?.priceRupiah.toString() ?? '');
-    _stockController = TextEditingController(text: widget.initialData?.stockQuantity.toString() ?? '');
+    _priceController = TextEditingController(text: widget.initialData?.sellingPrice.toString() ?? '');
+    _stockController = TextEditingController(text: widget.initialData?.currentStock.toString() ?? '');
     _minStockController = TextEditingController(text: widget.initialData?.minStock.toString() ?? '10');
   }
 
@@ -58,7 +58,7 @@ class _ProductFormDialogState extends ConsumerState<ProductFormDialog> {
 
     final repo = ref.read(productCatalogRepositoryProvider);
     
-    final id = widget.initialData?.id ?? 'prod_${DateTime.now().millisecondsSinceEpoch}';
+    final id = widget.initialData?.id ?? 0; // 0 for new product
     final name = _nameController.text.trim();
     final price = int.tryParse(_priceController.text) ?? 0;
     final stock = int.tryParse(_stockController.text) ?? 0;
@@ -66,13 +66,17 @@ class _ProductFormDialogState extends ConsumerState<ProductFormDialog> {
     
     final product = Product(
       id: id,
+      categoryId: widget.initialData?.categoryId ?? 1, // Default category
       name: name,
-      priceRupiah: price,
-      stockQuantity: stock,
+      sku: widget.initialData?.sku ?? 'SKU-${DateTime.now().millisecondsSinceEpoch}',
+      sellingPrice: price,
+      costPrice: widget.initialData?.costPrice ?? 0,
+      unit: widget.initialData?.unit ?? 'pcs',
       minStock: minStock,
-      categoryId: widget.initialData?.categoryId ?? 'cat_general',
+      currentStock: stock,
       isActive: true,
-      updatedAtMillis: DateTime.now().millisecondsSinceEpoch,
+      createdAt: widget.initialData?.createdAt ?? DateTime.now(),
+      updatedAt: DateTime.now(),
     );
 
     try {

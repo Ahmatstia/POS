@@ -21,15 +21,21 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Product {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  int get categoryId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  int get priceRupiah => throw _privateConstructorUsedError;
-  int get stockQuantity => throw _privateConstructorUsedError;
-  int get minStock => throw _privateConstructorUsedError;
-  String? get categoryId => throw _privateConstructorUsedError;
+  String get sku => throw _privateConstructorUsedError;
+  String? get barcode => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
+  int get sellingPrice => throw _privateConstructorUsedError;
+  int get costPrice => throw _privateConstructorUsedError;
+  String get unit => throw _privateConstructorUsedError;
+  int get minStock => throw _privateConstructorUsedError;
+  int get currentStock => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
-  int get updatedAtMillis => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Product to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,15 +52,21 @@ abstract class $ProductCopyWith<$Res> {
       _$ProductCopyWithImpl<$Res, Product>;
   @useResult
   $Res call({
-    String id,
+    int id,
+    int categoryId,
     String name,
-    int priceRupiah,
-    int stockQuantity,
-    int minStock,
-    String? categoryId,
+    String sku,
+    String? barcode,
+    String? description,
     String? imageUrl,
+    int sellingPrice,
+    int costPrice,
+    String unit,
+    int minStock,
+    int currentStock,
     bool isActive,
-    int updatedAtMillis,
+    DateTime createdAt,
+    DateTime updatedAt,
   });
 }
 
@@ -74,53 +86,83 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   @override
   $Res call({
     Object? id = null,
+    Object? categoryId = null,
     Object? name = null,
-    Object? priceRupiah = null,
-    Object? stockQuantity = null,
-    Object? minStock = null,
-    Object? categoryId = freezed,
+    Object? sku = null,
+    Object? barcode = freezed,
+    Object? description = freezed,
     Object? imageUrl = freezed,
+    Object? sellingPrice = null,
+    Object? costPrice = null,
+    Object? unit = null,
+    Object? minStock = null,
+    Object? currentStock = null,
     Object? isActive = null,
-    Object? updatedAtMillis = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(
       _value.copyWith(
             id: null == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
-                      as String,
+                      as int,
+            categoryId: null == categoryId
+                ? _value.categoryId
+                : categoryId // ignore: cast_nullable_to_non_nullable
+                      as int,
             name: null == name
                 ? _value.name
                 : name // ignore: cast_nullable_to_non_nullable
                       as String,
-            priceRupiah: null == priceRupiah
-                ? _value.priceRupiah
-                : priceRupiah // ignore: cast_nullable_to_non_nullable
-                      as int,
-            stockQuantity: null == stockQuantity
-                ? _value.stockQuantity
-                : stockQuantity // ignore: cast_nullable_to_non_nullable
-                      as int,
-            minStock: null == minStock
-                ? _value.minStock
-                : minStock // ignore: cast_nullable_to_non_nullable
-                      as int,
-            categoryId: freezed == categoryId
-                ? _value.categoryId
-                : categoryId // ignore: cast_nullable_to_non_nullable
+            sku: null == sku
+                ? _value.sku
+                : sku // ignore: cast_nullable_to_non_nullable
+                      as String,
+            barcode: freezed == barcode
+                ? _value.barcode
+                : barcode // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            description: freezed == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
                       as String?,
             imageUrl: freezed == imageUrl
                 ? _value.imageUrl
                 : imageUrl // ignore: cast_nullable_to_non_nullable
                       as String?,
+            sellingPrice: null == sellingPrice
+                ? _value.sellingPrice
+                : sellingPrice // ignore: cast_nullable_to_non_nullable
+                      as int,
+            costPrice: null == costPrice
+                ? _value.costPrice
+                : costPrice // ignore: cast_nullable_to_non_nullable
+                      as int,
+            unit: null == unit
+                ? _value.unit
+                : unit // ignore: cast_nullable_to_non_nullable
+                      as String,
+            minStock: null == minStock
+                ? _value.minStock
+                : minStock // ignore: cast_nullable_to_non_nullable
+                      as int,
+            currentStock: null == currentStock
+                ? _value.currentStock
+                : currentStock // ignore: cast_nullable_to_non_nullable
+                      as int,
             isActive: null == isActive
                 ? _value.isActive
                 : isActive // ignore: cast_nullable_to_non_nullable
                       as bool,
-            updatedAtMillis: null == updatedAtMillis
-                ? _value.updatedAtMillis
-                : updatedAtMillis // ignore: cast_nullable_to_non_nullable
-                      as int,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            updatedAt: null == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
           )
           as $Val,
     );
@@ -136,15 +178,21 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
   @override
   @useResult
   $Res call({
-    String id,
+    int id,
+    int categoryId,
     String name,
-    int priceRupiah,
-    int stockQuantity,
-    int minStock,
-    String? categoryId,
+    String sku,
+    String? barcode,
+    String? description,
     String? imageUrl,
+    int sellingPrice,
+    int costPrice,
+    String unit,
+    int minStock,
+    int currentStock,
     bool isActive,
-    int updatedAtMillis,
+    DateTime createdAt,
+    DateTime updatedAt,
   });
 }
 
@@ -163,53 +211,83 @@ class __$$ProductImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? categoryId = null,
     Object? name = null,
-    Object? priceRupiah = null,
-    Object? stockQuantity = null,
-    Object? minStock = null,
-    Object? categoryId = freezed,
+    Object? sku = null,
+    Object? barcode = freezed,
+    Object? description = freezed,
     Object? imageUrl = freezed,
+    Object? sellingPrice = null,
+    Object? costPrice = null,
+    Object? unit = null,
+    Object? minStock = null,
+    Object? currentStock = null,
     Object? isActive = null,
-    Object? updatedAtMillis = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(
       _$ProductImpl(
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as int,
+        categoryId: null == categoryId
+            ? _value.categoryId
+            : categoryId // ignore: cast_nullable_to_non_nullable
+                  as int,
         name: null == name
             ? _value.name
             : name // ignore: cast_nullable_to_non_nullable
                   as String,
-        priceRupiah: null == priceRupiah
-            ? _value.priceRupiah
-            : priceRupiah // ignore: cast_nullable_to_non_nullable
-                  as int,
-        stockQuantity: null == stockQuantity
-            ? _value.stockQuantity
-            : stockQuantity // ignore: cast_nullable_to_non_nullable
-                  as int,
-        minStock: null == minStock
-            ? _value.minStock
-            : minStock // ignore: cast_nullable_to_non_nullable
-                  as int,
-        categoryId: freezed == categoryId
-            ? _value.categoryId
-            : categoryId // ignore: cast_nullable_to_non_nullable
+        sku: null == sku
+            ? _value.sku
+            : sku // ignore: cast_nullable_to_non_nullable
+                  as String,
+        barcode: freezed == barcode
+            ? _value.barcode
+            : barcode // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        description: freezed == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
                   as String?,
         imageUrl: freezed == imageUrl
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
                   as String?,
+        sellingPrice: null == sellingPrice
+            ? _value.sellingPrice
+            : sellingPrice // ignore: cast_nullable_to_non_nullable
+                  as int,
+        costPrice: null == costPrice
+            ? _value.costPrice
+            : costPrice // ignore: cast_nullable_to_non_nullable
+                  as int,
+        unit: null == unit
+            ? _value.unit
+            : unit // ignore: cast_nullable_to_non_nullable
+                  as String,
+        minStock: null == minStock
+            ? _value.minStock
+            : minStock // ignore: cast_nullable_to_non_nullable
+                  as int,
+        currentStock: null == currentStock
+            ? _value.currentStock
+            : currentStock // ignore: cast_nullable_to_non_nullable
+                  as int,
         isActive: null == isActive
             ? _value.isActive
             : isActive // ignore: cast_nullable_to_non_nullable
                   as bool,
-        updatedAtMillis: null == updatedAtMillis
-            ? _value.updatedAtMillis
-            : updatedAtMillis // ignore: cast_nullable_to_non_nullable
-                  as int,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        updatedAt: null == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
       ),
     );
   }
@@ -220,42 +298,59 @@ class __$$ProductImplCopyWithImpl<$Res>
 class _$ProductImpl implements _Product {
   const _$ProductImpl({
     required this.id,
+    required this.categoryId,
     required this.name,
-    required this.priceRupiah,
-    required this.stockQuantity,
-    this.minStock = 10,
-    this.categoryId,
+    required this.sku,
+    this.barcode,
+    this.description,
     this.imageUrl,
+    required this.sellingPrice,
+    required this.costPrice,
+    required this.unit,
+    required this.minStock,
+    required this.currentStock,
     required this.isActive,
-    required this.updatedAtMillis,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory _$ProductImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
+  @override
+  final int categoryId;
   @override
   final String name;
   @override
-  final int priceRupiah;
+  final String sku;
   @override
-  final int stockQuantity;
+  final String? barcode;
   @override
-  @JsonKey()
-  final int minStock;
-  @override
-  final String? categoryId;
+  final String? description;
   @override
   final String? imageUrl;
   @override
+  final int sellingPrice;
+  @override
+  final int costPrice;
+  @override
+  final String unit;
+  @override
+  final int minStock;
+  @override
+  final int currentStock;
+  @override
   final bool isActive;
   @override
-  final int updatedAtMillis;
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, priceRupiah: $priceRupiah, stockQuantity: $stockQuantity, minStock: $minStock, categoryId: $categoryId, imageUrl: $imageUrl, isActive: $isActive, updatedAtMillis: $updatedAtMillis)';
+    return 'Product(id: $id, categoryId: $categoryId, name: $name, sku: $sku, barcode: $barcode, description: $description, imageUrl: $imageUrl, sellingPrice: $sellingPrice, costPrice: $costPrice, unit: $unit, minStock: $minStock, currentStock: $currentStock, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -264,21 +359,30 @@ class _$ProductImpl implements _Product {
         (other.runtimeType == runtimeType &&
             other is _$ProductImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.priceRupiah, priceRupiah) ||
-                other.priceRupiah == priceRupiah) &&
-            (identical(other.stockQuantity, stockQuantity) ||
-                other.stockQuantity == stockQuantity) &&
-            (identical(other.minStock, minStock) ||
-                other.minStock == minStock) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.sku, sku) || other.sku == sku) &&
+            (identical(other.barcode, barcode) || other.barcode == barcode) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.sellingPrice, sellingPrice) ||
+                other.sellingPrice == sellingPrice) &&
+            (identical(other.costPrice, costPrice) ||
+                other.costPrice == costPrice) &&
+            (identical(other.unit, unit) || other.unit == unit) &&
+            (identical(other.minStock, minStock) ||
+                other.minStock == minStock) &&
+            (identical(other.currentStock, currentStock) ||
+                other.currentStock == currentStock) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
-            (identical(other.updatedAtMillis, updatedAtMillis) ||
-                other.updatedAtMillis == updatedAtMillis));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -286,14 +390,20 @@ class _$ProductImpl implements _Product {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    name,
-    priceRupiah,
-    stockQuantity,
-    minStock,
     categoryId,
+    name,
+    sku,
+    barcode,
+    description,
     imageUrl,
+    sellingPrice,
+    costPrice,
+    unit,
+    minStock,
+    currentStock,
     isActive,
-    updatedAtMillis,
+    createdAt,
+    updatedAt,
   );
 
   /// Create a copy of Product
@@ -312,37 +422,55 @@ class _$ProductImpl implements _Product {
 
 abstract class _Product implements Product {
   const factory _Product({
-    required final String id,
+    required final int id,
+    required final int categoryId,
     required final String name,
-    required final int priceRupiah,
-    required final int stockQuantity,
-    final int minStock,
-    final String? categoryId,
+    required final String sku,
+    final String? barcode,
+    final String? description,
     final String? imageUrl,
+    required final int sellingPrice,
+    required final int costPrice,
+    required final String unit,
+    required final int minStock,
+    required final int currentStock,
     required final bool isActive,
-    required final int updatedAtMillis,
+    required final DateTime createdAt,
+    required final DateTime updatedAt,
   }) = _$ProductImpl;
 
   factory _Product.fromJson(Map<String, dynamic> json) = _$ProductImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
+  @override
+  int get categoryId;
   @override
   String get name;
   @override
-  int get priceRupiah;
+  String get sku;
   @override
-  int get stockQuantity;
+  String? get barcode;
   @override
-  int get minStock;
-  @override
-  String? get categoryId;
+  String? get description;
   @override
   String? get imageUrl;
   @override
+  int get sellingPrice;
+  @override
+  int get costPrice;
+  @override
+  String get unit;
+  @override
+  int get minStock;
+  @override
+  int get currentStock;
+  @override
   bool get isActive;
   @override
-  int get updatedAtMillis;
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
 
   /// Create a copy of Product
   /// with the given fields replaced by the non-null parameter values.

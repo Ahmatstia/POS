@@ -28,7 +28,7 @@ class ProductCard extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: product.stockQuantity > 0 && product.isActive ? onTap : null,
+      onTap: product.currentStock > 0 && product.isActive ? onTap : null,
       child: _CardContent(product: product),
     );
   }
@@ -105,7 +105,7 @@ class _CardContentState extends State<_CardContent> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        formatCurrency(widget.product.priceRupiah),
+                        formatCurrency(widget.product.sellingPrice),
                         style: AppTextStyles.body12.copyWith(
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
@@ -121,13 +121,13 @@ class _CardContentState extends State<_CardContent> {
           Positioned(
             top: AppSpacing.s8,
             right: AppSpacing.s8,
-            child: _StockBadge(quantity: widget.product.stockQuantity),
+            child: _StockBadge(quantity: widget.product.currentStock),
           ),
           // Out-of-stock overlay
-          if (widget.product.stockQuantity == 0 || !widget.product.isActive)
+          if (widget.product.currentStock == 0 || !widget.product.isActive)
             Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.4),
+                color: Colors.black.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(AppRadius.card),
               ),
               child: Center(

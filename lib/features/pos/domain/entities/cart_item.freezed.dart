@@ -21,9 +21,10 @@ CartItem _$CartItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CartItem {
-  String get productId => throw _privateConstructorUsedError;
+  int get productId => throw _privateConstructorUsedError;
   String get productName => throw _privateConstructorUsedError;
-  int get priceRupiah => throw _privateConstructorUsedError;
+  int get priceRupiah => throw _privateConstructorUsedError; // Selling price
+  int get costPrice => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
 
   /// Serializes this CartItem to a JSON map.
@@ -42,9 +43,10 @@ abstract class $CartItemCopyWith<$Res> {
       _$CartItemCopyWithImpl<$Res, CartItem>;
   @useResult
   $Res call({
-    String productId,
+    int productId,
     String productName,
     int priceRupiah,
+    int costPrice,
     int quantity,
   });
 }
@@ -67,6 +69,7 @@ class _$CartItemCopyWithImpl<$Res, $Val extends CartItem>
     Object? productId = null,
     Object? productName = null,
     Object? priceRupiah = null,
+    Object? costPrice = null,
     Object? quantity = null,
   }) {
     return _then(
@@ -74,7 +77,7 @@ class _$CartItemCopyWithImpl<$Res, $Val extends CartItem>
             productId: null == productId
                 ? _value.productId
                 : productId // ignore: cast_nullable_to_non_nullable
-                      as String,
+                      as int,
             productName: null == productName
                 ? _value.productName
                 : productName // ignore: cast_nullable_to_non_nullable
@@ -82,6 +85,10 @@ class _$CartItemCopyWithImpl<$Res, $Val extends CartItem>
             priceRupiah: null == priceRupiah
                 ? _value.priceRupiah
                 : priceRupiah // ignore: cast_nullable_to_non_nullable
+                      as int,
+            costPrice: null == costPrice
+                ? _value.costPrice
+                : costPrice // ignore: cast_nullable_to_non_nullable
                       as int,
             quantity: null == quantity
                 ? _value.quantity
@@ -103,9 +110,10 @@ abstract class _$$CartItemImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    String productId,
+    int productId,
     String productName,
     int priceRupiah,
+    int costPrice,
     int quantity,
   });
 }
@@ -127,6 +135,7 @@ class __$$CartItemImplCopyWithImpl<$Res>
     Object? productId = null,
     Object? productName = null,
     Object? priceRupiah = null,
+    Object? costPrice = null,
     Object? quantity = null,
   }) {
     return _then(
@@ -134,7 +143,7 @@ class __$$CartItemImplCopyWithImpl<$Res>
         productId: null == productId
             ? _value.productId
             : productId // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as int,
         productName: null == productName
             ? _value.productName
             : productName // ignore: cast_nullable_to_non_nullable
@@ -142,6 +151,10 @@ class __$$CartItemImplCopyWithImpl<$Res>
         priceRupiah: null == priceRupiah
             ? _value.priceRupiah
             : priceRupiah // ignore: cast_nullable_to_non_nullable
+                  as int,
+        costPrice: null == costPrice
+            ? _value.costPrice
+            : costPrice // ignore: cast_nullable_to_non_nullable
                   as int,
         quantity: null == quantity
             ? _value.quantity
@@ -159,6 +172,7 @@ class _$CartItemImpl extends _CartItem {
     required this.productId,
     required this.productName,
     required this.priceRupiah,
+    required this.costPrice,
     required this.quantity,
   }) : super._();
 
@@ -166,17 +180,20 @@ class _$CartItemImpl extends _CartItem {
       _$$CartItemImplFromJson(json);
 
   @override
-  final String productId;
+  final int productId;
   @override
   final String productName;
   @override
   final int priceRupiah;
+  // Selling price
+  @override
+  final int costPrice;
   @override
   final int quantity;
 
   @override
   String toString() {
-    return 'CartItem(productId: $productId, productName: $productName, priceRupiah: $priceRupiah, quantity: $quantity)';
+    return 'CartItem(productId: $productId, productName: $productName, priceRupiah: $priceRupiah, costPrice: $costPrice, quantity: $quantity)';
   }
 
   @override
@@ -190,14 +207,22 @@ class _$CartItemImpl extends _CartItem {
                 other.productName == productName) &&
             (identical(other.priceRupiah, priceRupiah) ||
                 other.priceRupiah == priceRupiah) &&
+            (identical(other.costPrice, costPrice) ||
+                other.costPrice == costPrice) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, productId, productName, priceRupiah, quantity);
+  int get hashCode => Object.hash(
+    runtimeType,
+    productId,
+    productName,
+    priceRupiah,
+    costPrice,
+    quantity,
+  );
 
   /// Create a copy of CartItem
   /// with the given fields replaced by the non-null parameter values.
@@ -215,9 +240,10 @@ class _$CartItemImpl extends _CartItem {
 
 abstract class _CartItem extends CartItem {
   const factory _CartItem({
-    required final String productId,
+    required final int productId,
     required final String productName,
     required final int priceRupiah,
+    required final int costPrice,
     required final int quantity,
   }) = _$CartItemImpl;
   const _CartItem._() : super._();
@@ -226,11 +252,13 @@ abstract class _CartItem extends CartItem {
       _$CartItemImpl.fromJson;
 
   @override
-  String get productId;
+  int get productId;
   @override
   String get productName;
   @override
-  int get priceRupiah;
+  int get priceRupiah; // Selling price
+  @override
+  int get costPrice;
   @override
   int get quantity;
 

@@ -267,13 +267,13 @@ class _InventoryTableHeader extends StatelessWidget {
 }
 
 class _InventoryTableRow extends StatelessWidget {
-  const _InventoryTableRow({super.key, required this.product});
+  const _InventoryTableRow({required this.product});
 
   final Product product;
 
   @override
   Widget build(BuildContext context) {
-    final isLowStock = product.stockQuantity <= product.minStock;
+    final isLowStock = product.currentStock <= product.minStock;
     
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s20, vertical: AppSpacing.s12),
@@ -289,7 +289,7 @@ class _InventoryTableRow extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Text(
-              '${product.stockQuantity}',
+              '${product.currentStock}',
               style: AppTextStyles.body14.copyWith(
                 color: isLowStock ? AppColors.danger : AppColors.primary,
                 fontWeight: isLowStock ? FontWeight.w600 : FontWeight.w400,

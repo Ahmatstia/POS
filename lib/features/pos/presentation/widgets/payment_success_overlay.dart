@@ -14,7 +14,7 @@ class PaymentSuccessOverlay extends StatefulWidget {
   static void show(BuildContext context, {required VoidCallback onComplete}) {
     showDialog(
       context: context,
-      barrierColor: AppColors.success.withOpacity(0.1), // emerald-50 tint
+      barrierColor: AppColors.success.withValues(alpha: 0.1), // emerald-50 tint
       barrierDismissible: false,
       useSafeArea: false,
       builder: (context) => PaymentSuccessOverlay(onComplete: onComplete),

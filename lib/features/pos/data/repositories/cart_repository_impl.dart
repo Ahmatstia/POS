@@ -5,14 +5,15 @@ import 'package:lexa_pos/features/pos/domain/repositories/cart_repository.dart';
 class CartRepositoryImpl implements CartRepository {
   CartRepositoryImpl() : _items = {}, _heldOrders = {};
 
-  final Map<String, CartItem> _items;
-  final Map<String, Map<String, CartItem>> _heldOrders;
+  final Map<int, CartItem> _items;
+  final Map<String, Map<int, CartItem>> _heldOrders;
 
   @override
   Future<CartItem> addItem({
-    required String productId,
+    required int productId,
     required String productName,
     required int priceRupiah,
+    required int costPrice,
   }) async {
     final existing = _items[productId];
     final item = existing != null
@@ -21,6 +22,7 @@ class CartRepositoryImpl implements CartRepository {
             productId: productId,
             productName: productName,
             priceRupiah: priceRupiah,
+            costPrice: costPrice,
             quantity: 1,
           );
     _items[productId] = item;
@@ -28,12 +30,12 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<void> removeItem(String productId) async {
+  Future<void> removeItem(int productId) async {
     _items.remove(productId);
   }
 
   @override
-  Future<CartItem> updateQuantity(String productId, int quantity) async {
+  Future<CartItem> updateQuantity(int productId, int quantity) async {
     if (quantity < 1) {
       throw ArgumentError('Quantity must be >= 1');
     }
@@ -52,7 +54,7 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Map<String, CartItem>> getCart() async {
+  Future<Map<int, CartItem>> getCart() async {
     return Map.unmodifiable(_items);
   }
 
