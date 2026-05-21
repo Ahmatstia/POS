@@ -94,7 +94,6 @@ class AppButton extends StatelessWidget {
       height: AppSpacing.s48,
       child: Material(
         color: _getBgColor(),
-        borderRadius: BorderRadius.circular(10),
         shape: _getBorder(),
         child: InkWell(
           onTap: isLoading ? null : onPressed,
@@ -118,13 +117,16 @@ class AppButton extends StatelessWidget {
                           Icon(icon, color: _getTextColor(), size: 18),
                           const SizedBox(width: AppSpacing.s8),
                         ],
-                        Text(
-                          text,
-                          style: AppTextStyles.label14.copyWith(
-                            color: _getTextColor(),
-                            decoration: variant == AppButtonVariant.tertiary
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
+                        Flexible(
+                          child: Text(
+                            text,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.label14.copyWith(
+                              color: _getTextColor(),
+                              decoration: variant == AppButtonVariant.tertiary
+                                  ? TextDecoration.underline
+                                  : TextDecoration.none,
+                            ),
                           ),
                         ),
                       ],
@@ -169,13 +171,15 @@ class AppButton extends StatelessWidget {
     }
   }
 
-  RoundedRectangleBorder? _getBorder() {
+  RoundedRectangleBorder _getBorder() {
     if (variant == AppButtonVariant.secondary) {
       return RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: const BorderSide(color: AppColors.accent, width: 1),
       );
     }
-    return null;
+    return RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    );
   }
 }
