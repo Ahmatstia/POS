@@ -1,0 +1,266 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+01 — APP CONTEXT & PERSONA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Design a professional POS (Point of Sale) tablet application UI called "[AppName] POS".
+This is a real commercial product used by thousands of merchants in Indonesia.
+The design must feel like a funded startup product — not a student project or a template.
+
+Design references to internalize (do not copy, use as mood):
+  - Square POS: clean two-panel split layout, tactile product grid
+  - Linear.app: sharp typography, micro-whitespace, purposeful negative space
+  - Stripe Dashboard: data-dense without clutter, premium card surfaces
+  - Shopify POS: thumb-friendly tap targets, confident use of color
+
+Users:
+  - Cashier: needs speed. Every common action ≤ 2 taps.
+  - Manager: needs data. Scannable, dense, sortable tables.
+  - Owner: needs overview. High-level metrics, trends, alerts.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+02 — CANVAS & LAYOUT RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Canvas: 1280 × 800 px, landscape orientation (tablet)
+Device frame: optional — clean tablet bezel, dark gray, 12px corner radius
+
+LAYOUT SYSTEM:
+  Left sidebar (navigation rail): 72px wide, dark slate (#0F172A), icon + label
+  Main content area: remaining width, #F8FAFC background
+  Card surfaces: #FFFFFF, 1px #E2E8F0 border, 12px corner radius
+  No top AppBar — navigation is sidebar-only
+
+SPACING GRID: strict 8px base
+  Use: 8 / 16 / 24 / 32 / 48 / 64px — no other values
+
+SAFE ZONES:
+  Content padding from edge: 24px minimum
+  Between sections: 24px
+  Between cards: 16px
+  Inside card padding: 20px
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+03 — COLOR & TYPOGRAPHY TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXACT COLOR VALUES (use these, no deviation):
+  Background page   : #F8FAFC
+  Card surface      : #FFFFFF
+  Sidebar bg        : #0F172A
+  Sidebar icon      : #94A3B8  (inactive)
+  Sidebar icon active: #FFFFFF
+  Sidebar active pill: #6366F1  (indigo-500)
+  Primary text      : #0F172A
+  Secondary text    : #64748B
+  Subtle/hint text  : #94A3B8
+  Border default    : #E2E8F0
+  Accent / CTA      : #6366F1  (indigo-500)
+  Accent hover      : #4F46E5  (indigo-600)
+  Success           : #10B981  (emerald-500)
+  Success bg        : #ECFDF5
+  Warning           : #F59E0B
+  Warning bg        : #FFFBEB
+  Danger            : #EF4444
+  Danger bg         : #FEF2F2
+  Price / money     : #0F172A, font-weight 700, tabular nums
+
+TYPOGRAPHY:
+  Font family: Inter (use Inter variable font if available)
+  Size scale (px): 12 / 13 / 14 / 16 / 20 / 24 / 32
+  Weight: 400 body, 500 label/nav, 600 section heading, 700 price/amount only
+  Line height: 1.5 for body, 1.2 for headings and numbers
+  All currency: prefix "Rp" + thousands separator (e.g. Rp 125.000)
+
+ICONOGRAPHY:
+  Style: outline only, 2px stroke, rounded caps
+  Size: 20px in nav, 18px inline, 16px in dense tables
+  Color: inherit from text color context
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+04 — ANTI-GENERIC RULES (CRITICAL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NEVER use any of the following — they signal generic AI output:
+  ✗ Top app bar / toolbar with hamburger menu icon
+  ✗ Bottom navigation bar (this is a tablet app, use side nav)
+  ✗ Material blue (#2196F3) or teal anywhere
+  ✗ Generic card with just text + a chevron arrow (ListTile pattern)
+  ✗ Pie chart or donut chart as primary data visualization
+  ✗ Full-page modal dialogs for simple confirmations
+  ✗ Lorem ipsum text — use real realistic dummy data in Indonesian
+  ✗ Uniform white product cards with no visual hierarchy
+  ✗ Generic "icon in a colored circle" card layout (the DashCard pattern)
+  ✗ Tables with no alternating rows and no column sorting affordance
+  ✗ Form fields stacked uniformly with no section grouping
+
+ALWAYS do the following:
+  ✓ Left sidebar navigation rail with active state indicator pill
+  ✓ Product images with realistic placeholder (gray gradient aspect-ratio box)
+  ✓ Stock badges: colored pill positioned absolute top-right of product card
+  ✓ Data tables: alternating #F8FAFC / white rows, sort icon on header
+  ✓ Empty states: illustration area + clear headline + CTA button
+  ✓ Status badges: pill shape with colored bg + matching text (not just colored text)
+  ✓ Numbers/amounts: always right-aligned in tables
+  ✓ Use realistic dummy data: Indonesian product names, store name, cashier name
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+05 — COMPONENT SPECS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SIDEBAR NAVIGATION RAIL (72px wide):
+  Background: #0F172A
+  Top: app logo 32px + app name 13px #94A3B8
+  Nav items: icon (20px) + label (11px) stacked, 56px height per item
+  Active: indigo pill background (#6366F1), white icon + text
+  Inactive: #94A3B8 icon + text, no background
+  Bottom: user avatar + role badge + logout icon
+
+PRODUCT CARD (POS screen):
+  Size: ~160 × 200px, 12px radius
+  Structure: image area (55% height, #F1F5F9 bg) → name (13px, 2 lines max)
+             → price (16px 700 weight) → stock badge (absolute top-right)
+  Stock badge: "Tersedia" green pill / "Hampir habis" amber / "Habis" red
+  Hover state: 1px indigo border + subtle scale(1.02)
+
+CART / ORDER PANEL (right 380px, POS screen only):
+  Background: #FFFFFF, 1px left border #E2E8F0
+  Header: "Pesanan Baru" + order number badge
+  Item row: product name (14px 500) + qty stepper + line total (right-aligned)
+  Qty stepper: − [number] + in a pill, 32px height
+  Bottom sticky area: subtotal / diskon / pajak rows + "Bayar Rp X" primary button
+
+PRIMARY BUTTON ("Bayar" / "Simpan" / "Konfirmasi"):
+  Height: 48px, full width in context, 10px radius
+  Background: #6366F1, white text 15px 600 weight
+  Hover: #4F46E5
+  Disabled: #C7D2FE, #818CF8 text
+
+STATUS BADGE PILLS:
+  Active/Lunas  : bg #ECFDF5, text #065F46, 6px radius
+  Pending       : bg #FFFBEB, text #92400E
+  Inactive/Batal: bg #FEF2F2, text #991B1B
+  Info          : bg #EFF6FF, text #1E40AF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+06 — SCREEN-BY-SCREEN BRIEF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generate ALL 10 screens. For each screen, follow the layout and component specs above.
+Use realistic Indonesian dummy data throughout.
+
+─────────────────────────────────────────
+SCREEN 1: Login
+─────────────────────────────────────────
+Layout: centered card (480px wide) on #F8FAFC full-screen bg
+Content: app logo (top, 48px) + app name + tagline
+         "Nama Pengguna" input field
+         "Kata Sandi" input field + show/hide toggle
+         "Masuk" primary button (full width)
+         "Lupa kata sandi?" subtle link below button
+No sidebar on this screen.
+
+─────────────────────────────────────────
+SCREEN 2: Dashboard
+─────────────────────────────────────────
+Sidebar: active on "Dashboard" icon
+Top header: "Selamat datang, Budi" + date + shift badge "Shift Pagi"
+Metric row (4 cards): Pendapatan Hari Ini / Total Transaksi / Item Terjual / Pelanggan Baru
+  Each: number large (24px 700) + label muted + trend indicator (↑ green or ↓ red)
+Chart area: sparkline bar chart "Penjualan 7 hari" (NOT pie chart)
+Two columns below: "Transaksi Terbaru" (mini table, 5 rows) + "Produk Terlaris" (ranked list)
+Low stock alert banner: amber, dismissible, shows 3 products
+
+─────────────────────────────────────────
+SCREEN 3: POS / Kasir (MOST IMPORTANT)
+─────────────────────────────────────────
+Sidebar: active on "Kasir" icon
+Left panel (flex remaining): 
+  Top: search bar full width + category filter pills (Semua / Makanan / Minuman / Snack / dll)
+  Product grid: 4 columns × 3 rows visible, scrollable
+Right panel (380px, fixed):
+  Header: "Pesanan #0042" + "Tahan" button (secondary)
+  Cart items: 3–4 items with qty steppers and line totals
+  Divider
+  Subtotal / Diskon (0%) / Pajak (11%) / Total rows
+  "Pilih Pelanggan" secondary button
+  "Bayar Rp 87.500" primary button full width 56px
+
+─────────────────────────────────────────
+SCREEN 4: Payment screen
+─────────────────────────────────────────
+Sidebar: hidden (focused mode, full screen)
+Layout: centered two-column card (840px wide)
+Left: order summary (product list, subtotal, total)
+Right: payment method selector
+  Payment method tabs: Tunai / QRIS / Kartu / Transfer (pill tabs)
+  Tunai selected: large numpad (4×4) + "Uang Diterima" input + "Kembalian Rp X" display
+  "Proses Pembayaran" primary button full width bottom
+
+─────────────────────────────────────────
+SCREEN 5: Payment success
+─────────────────────────────────────────
+Full-screen overlay on blurred POS screen behind
+Centered card (480px wide):
+  Large checkmark circle (emerald-500, 72px)
+  "Pembayaran Berhasil" 24px heading
+  "Rp 87.500 diterima via Tunai" subtitle
+  Kembalian Rp 12.500 (if any) in emerald badge
+  Two buttons: "Cetak Struk" (secondary) + "Transaksi Baru" (primary)
+
+─────────────────────────────────────────
+SCREEN 6: Product management
+─────────────────────────────────────────
+Sidebar: active on "Produk" icon
+Header: "Manajemen Produk" + "Tambah Produk" primary button (top right)
+Filter bar: search + category dropdown + status filter + "Export" secondary button
+Product table: image thumbnail / Nama / SKU / Kategori / Harga / Stok / Status / Aksi
+  8 rows, alternating row bg, status as colored pills
+  Aksi column: edit icon + archive icon
+
+─────────────────────────────────────────
+SCREEN 7: Inventory / Stock
+─────────────────────────────────────────
+Sidebar: active on "Inventori" icon
+Top: 3 metric cards (Total SKU / Stok Rendah / Nilai Inventori)
+Alert section: amber banner "5 produk mendekati batas stok minimum"
+Table: Produk / Stok Saat Ini / Min. Stok / Status / Terakhir Diperbarui / Aksi
+  "Opname" and "Restock" buttons in Aksi column
+
+─────────────────────────────────────────
+SCREEN 8: Reports
+─────────────────────────────────────────
+Sidebar: active on "Laporan" icon
+Date range picker at top + "Terapkan" button
+Summary metric row: 4 cards (same pattern as dashboard)
+Bar chart "Pendapatan per Hari" (full width, 220px height)
+Two tables below: "Per Kategori" + "Per Metode Pembayaran"
+Export buttons: "PDF" + "Excel" (secondary, top right)
+
+─────────────────────────────────────────
+SCREEN 9: Customer management
+─────────────────────────────────────────
+Sidebar: active on "Pelanggan" icon
+Header + "Tambah Pelanggan" button
+Search + filter bar
+Customer table: Nama / No. HP / Total Belanja / Kunjungan / Poin Loyalti / Aksi
+  6 rows with realistic Indonesian customer names
+  Loyalty points shown as "1.250 poin" with star icon
+
+─────────────────────────────────────────
+SCREEN 10: Settings
+─────────────────────────────────────────
+Sidebar: active on "Pengaturan" icon
+Two-column layout: left = settings category list (active highlight), right = settings panel
+Categories: Profil Toko / Pajak & Biaya / Printer / Pengguna & Akses / Integrasi / Tentang
+Active panel shown: "Profil Toko"
+  Form fields: Nama Toko / Alamat / No. NPWP / Logo (upload area) / Jam Operasional
+  Save button at bottom
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+07 — OUTPUT INSTRUCTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTPUT REQUIREMENTS:
+  - Generate all 10 screens as separate frames/artboards
+  - Name each frame clearly: "01 - Login", "02 - Dashboard", etc.
+  - Each frame: exactly 1280 × 800 px
+  - Consistent sidebar across all screens (except Login and Payment screens)
+  - All dummy data must be realistic, Indonesian-language, consistent across screens
+    (same store name, same products appearing in POS and product list, same cashier name)
+  - Do NOT add any decorative elements not specified above
+  - Do NOT use gradients, shadows heavier than 1px border, glow, or neon
+  - Hover states: show on at least 1 interactive element per screen
+  - Ensure visual hierarchy is clear: primary action always most prominent element

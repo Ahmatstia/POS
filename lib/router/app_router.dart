@@ -10,6 +10,10 @@ import 'package:lexa_pos/features/auth/presentation/screens/pin_lock_screen.dart
 import 'package:lexa_pos/features/home/presentation/screens/home_shell_screen.dart';
 import 'package:lexa_pos/features/home/presentation/screens/manager_dashboard_screen.dart';
 import 'package:lexa_pos/features/catalog/presentation/screens/catalog_management_screen.dart';
+import 'package:lexa_pos/features/inventory/presentation/screens/inventory_screen.dart';
+import 'package:lexa_pos/features/reports/presentation/screens/reports_screen.dart';
+import 'package:lexa_pos/features/customer/presentation/screens/customer_management_screen.dart';
+import 'package:lexa_pos/features/settings/presentation/screens/settings_screen.dart';
 
 /// Route path constants for deep links and navigation.
 abstract final class AppRoutes {
@@ -19,6 +23,10 @@ abstract final class AppRoutes {
   static const String home = '/home';
   static const String manager = '/manager';
   static const String catalog = '/catalog';
+  static const String inventory = '/inventory';
+  static const String reports = '/reports';
+  static const String customer = '/customer';
+  static const String settings = '/settings';
 }
 
 /// Provides the application [GoRouter] with auth, PIN, shift, and role guards.
@@ -59,6 +67,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'catalog',
         builder: (context, state) => const CatalogManagementScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.inventory,
+        name: 'inventory',
+        builder: (context, state) => const InventoryScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.reports,
+        name: 'reports',
+        builder: (context, state) => const ReportsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.customer,
+        name: 'customer',
+        builder: (context, state) => const CustomerManagementScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        name: 'settings',
+        builder: (context, state) => const SettingsScreen(),
+      ),
     ],
     redirect: (context, state) {
       final location = state.matchedLocation;
@@ -81,7 +109,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         return location == AppRoutes.shift ? null : AppRoutes.shift;
       }
 
-      if ((location == AppRoutes.manager || location == AppRoutes.catalog) && 
+      if ((location == AppRoutes.manager || location == AppRoutes.catalog || location == AppRoutes.inventory || location == AppRoutes.reports || location == AppRoutes.customer || location == AppRoutes.settings) && 
           !session.user.role.isManagerOrAbove) {
         return AppRoutes.home;
       }

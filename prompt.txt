@@ -1,5 +1,3 @@
-<USER_REQUEST>
-saya ingin kamu melanjutkan project saya ini,tapi sblm itu coba pahamin dulu apa isi dan mksd dari promt yg saya buat
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 01
  PROJECT IDENTITY & PERSONA
@@ -12,4 +10,315 @@ App name     : [AppName] POS
 Design ref   : Linear.app meets Square POS — ultra-clean, data-dense, intentional whitespace
 Target device: Android & iOS tablet, landscape-first, 10"–13" screen
 User persona : Cashier (speed-focused), Manager (data-focused), Owner (overview-focused)
-<truncated 16745 bytes>
+Core feeling : Fast, trustworthy, frictionless. Every tap should feel immediate and purposeful.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+02
+ VISUAL DIRECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL REFERENCES (internalize these, do not copy):
+  - Square POS: clean two-panel split, no decorative chrome
+  - Linear.app: razor-sharp typography, micro-whitespace discipline
+  - Stripe Dashboard: data density without clutter, purposeful color use
+  - Shopify POS: product grid tactility, thumb-friendly tap targets
+
+COLOR PALETTE (strict — do not deviate):
+  Primary     : #0F172A  (slate-900)  — base text, primary actions
+  Surface      : #F8FAFC  (slate-50)   — main background
+  Card         : #FFFFFF              — card surfaces
+  Accent       : #6366F1  (indigo-500) — primary CTA, active states
+  Accent dark  : #4F46E5  (indigo-600) — pressed state
+  Success      : #10B981  (emerald-500)
+  Warning      : #F59E0B  (amber-500)
+  Danger       : #EF4444  (red-500)
+  Border       : #E2E8F0  (slate-200)  — 1px only, never thicker
+  Muted text   : #64748B  (slate-500)
+  Subtle text  : #94A3B8  (slate-400)
+
+TYPOGRAPHY (strict):
+  Font family  : 'Inter' via google_fonts package
+  Scale        : 12 / 13 / 14 / 16 / 20 / 24 / 32px — NO other sizes
+  Weight       : 400 (body), 500 (label), 600 (heading), 700 (numeral/price only)
+  Price display: Always Inter 700, tabular-nums, letter-spacing: -0.5px
+  ALL monetary values rendered with Rp prefix, thousands separator
+
+SPACING SYSTEM (8px grid — strict):
+  4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64px
+  Never use odd values like 10px, 15px, 18px, 22px
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+03
+ DESIGN SYSTEM & COMPONENT RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BORDER RADIUS:
+  Button      : 10px
+  Card        : 12px
+  Input field : 8px
+  Dialog      : 16px
+  Chip/badge  : 6px
+  Circle icon : 50%
+
+ELEVATION MODEL (no drop shadows — use border instead):
+  Level 0 (background): Surface color, no border
+  Level 1 (card)       : White + 1px slate-200 border
+  Level 2 (sheet)      : White + 1px slate-300 border + slight darken overlay behind
+  Level 3 (dialog)     : White + 1px slate-300 + scrim backdrop Color(0x66000000)
+
+BUTTON HIERARCHY:
+  Primary   : filled indigo-500, white text, 48px height (main CTA like "Charge")
+  Secondary : white bg, 1px indigo border, indigo text
+  Tertiary  : transparent bg, no border, slate-600 text, underline on hover
+  Danger    : filled red-500, white text
+  Icon-only : 40x40, border-radius 8px, slate-100 bg, slate-700 icon
+
+PRODUCT CARD (POS grid):
+  Width: adaptive (4-5 cols), aspect-ratio 3:4
+  Structure: product image (top 60%) → name (1 line, clamp) → price (bottom)
+  Stock badge: absolute top-right, 6px radius
+  Out-of-stock: grayscale filter 0.8 + strikethrough price, still tappable with warning
+
+INPUT FIELDS:
+  Height: 48px, border-radius 8px, 1px slate-200 border
+  Focus: 2px indigo-400 ring, no border change
+  Error: 1px red-400 border + red helper text 12px below
+  Always show label above field, never placeholder-as-label
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+04
+ ANTI-GENERIC UI RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STRICTLY FORBIDDEN — never produce any of the following:
+  ✗ Generic AppBar with title centered and hamburger menu
+  ✗ ListTile as primary UI pattern (use custom cards only)
+  ✗ Default Flutter blue (#2196F3) anywhere in the app
+  ✗ CircularProgressIndicator as loading state (use shimmer skeleton)
+  ✗ AlertDialog with "OK / Cancel" for destructive actions (use bottom sheet)
+  ✗ Snackbar with default dark background (use custom toast widget)
+  ✗ GridView with uniform white cards and no depth
+  ✗ Lorem ipsum placeholder text anywhere
+  ✗ Flat color product placeholder (use shimmer image placeholder)
+  ✗ Default Material switch, checkbox — use custom styled versions
+  ✗ Form with all fields stacked vertically without visual grouping
+  ✗ Receipt screen that looks like a plain list
+  ✗ Dashboard with pie charts as primary visualization
+
+INSTEAD, ALWAYS:
+  ✓ Use custom NavigationRail (left sidebar) with icon + label + active indicator
+  ✓ Use contextual bottom sheets instead of dialogs for input
+  ✓ Use skeleton shimmer (shimmer package) for all loading states
+  ✓ Use custom toast/overlay that slides from bottom-right with icon
+  ✓ Use staggered animation when grid items load
+  ✓ Use SliverAppBar-style collapsing headers in list screens
+  ✓ Data tables must have alternating row tint, sortable headers
+  ✓ Empty states must have branded illustration + descriptive CTA
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+05
+ CODING STYLE & ARCHITECTURE RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ARCHITECTURE: Clean Architecture, feature-first folder structure
+  lib/
+  ├── core/
+  │   ├── design/         ← AppColors, AppTextStyles, AppSpacing (all as static const)
+  │   ├── widgets/        ← reusable: AppButton, AppCard, AppTextField, StatusBadge, etc.
+  │   ├── extensions/     ← BuildContext, String, int, DateTime extensions
+  │   ├── utils/          ← formatCurrency(), formatDate(), validators
+  │   └── constants/      ← ApiEndpoints, StorageKeys, AppConfig
+  └── features/[feature]/
+      ├── data/           ← repository_impl, datasource, model (freezed)
+      ├── domain/         ← repository (abstract), entity, usecase
+      └── presentation/   ← screen, widget, provider (riverpod)
+
+DART CODE RULES (non-negotiable):
+  - Every Widget class: single responsibility, max ~100 lines. Extract sub-widgets.
+  - No business logic inside build() method. Ever.
+  - No inline styling magic numbers. All spacing from AppSpacing.*, colors from AppColors.*
+  - Riverpod: use @riverpod annotation + code generation. No manual Provider() calls.
+  - Every async call: must handle loading / data / error state explicitly (AsyncValue)
+  - Monetary values: always stored and calculated as int (in Rupiah sen / smallest unit)
+  - No String for status — use sealed class or enum with extension methods
+  - All models: immutable, generated with freezed + json_serializable
+  - Repository pattern: domain layer never imports dart:io or package:http
+  - File naming: snake_case. Class naming: PascalCase. No abbreviations (no "Mgr", "Util")
+  - Every public method/class: dartdoc comment (/// ) — brief, describes intent not code
+  - No TODO comments in generated code — either implement or file an issue
+
+WIDGET CODE PATTERN:
+  class ProductCard extends StatelessWidget {
+    const ProductCard({super.key, required this.product, this.onTap});
+    final Product product;
+    final VoidCallback? onTap;
+
+    @override
+    Widget build(BuildContext context) {
+      return GestureDetector(
+        onTap: onTap,
+        child: _CardContent(product: product),   // extract to private sub-widget
+      );
+    }
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+06
+ STATE FLOW RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CART STATE (core of POS):
+  - Cart is a single Riverpod StateNotifier — single source of truth
+  - Cart items: Map — O(1) lookup, no duplicates
+  - Every mutation returns new immutable state (copyWith). No direct mutation.
+  - Cart subtotal, tax, discount: computed via selectors (not stored in state)
+  - CartItem quantity: min = 1, enforced at state level (not UI)
+  - Hold orders: List in separate provider, max 10 concurrent holds
+
+SCREEN STATE RULES:
+  - Every screen: has exactly 3 states → loading / content / error
+  - Loading: full-area shimmer, not partial spinners scattered around
+  - Error: branded error screen with retry button + error code (not raw exception message)
+  - Empty: branded empty state, never show a blank screen
+
+NAVIGATION STATE:
+  - GoRouter with typed routes (using go_router_builder)
+  - Deep-link support for every screen (for manager override flows)
+  - Route guards: auth, role-based, shift-open check
+  - Never use Navigator.push directly — always go through router
+
+FORM STATE:
+  - Use flutter_form_builder or reactive_forms — never raw TextEditingController soup
+  - Validate on submit + show inline errors (not SnackBar)
+  - Dirty state tracking: warn on navigation away from unsaved form
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+07
+ MICROINTERACTION GUIDANCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REQUIRED ANIMATIONS (use flutter_animate package):
+  Product added to cart:
+    → Card scale 0.95 → 1.05 → 1.0 over 180ms (spring curve)
+    → Cart item count badge: bump scale 1.0 → 1.3 → 1.0 over 200ms
+    → Cart panel: new row slides in from right, fades in (150ms)
+
+  Payment success:
+    → Full-screen overlay: checkmark draws itself (stroke animation, 400ms)
+    → Background: brief pulse of emerald-50 tint
+    → Receipt card: slides up from bottom (300ms, ease-out)
+
+  Number pad input:
+    → Each key: scale 0.94 on press, back to 1.0 on release (80ms)
+    → Amount display: slide-up replace (not blink) when digit added
+
+  Category filter tap:
+    → Active pill: width-animated underline slides to new tab (200ms)
+    → Grid: staggered fade-in + translateY(+8px → 0) per card, 30ms delay between items
+
+  Hold order:
+    → Cart slides out to the left (300ms), new empty cart slides in from right
+
+  Error shake:
+    → Input field or card: horizontal shake (±4px, 3 cycles, 300ms total)
+
+HAPTIC FEEDBACK:
+    → Item add to cart   : HapticFeedback.lightImpact()
+    → Payment success    : HapticFeedback.heavyImpact()
+    → Destructive action : HapticFeedback.mediumImpact()
+    → Error / warning    : HapticFeedback.vibrate()
+
+LOADING SKELETONS:
+    → Match exact layout of real content (not generic rectangles)
+    → Product grid skeleton: 4×3 cards with correct aspect ratio
+    → Transaction row skeleton: 3 lines matching real row height
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+08
+ PERFORMANCE CONSTRAINTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HARD PERFORMANCE TARGETS:
+  → Cold start to POS screen        : < 2.5 seconds
+  → Add item to cart (UI response)  : < 16ms (single frame)
+  → Product grid scroll             : 60 fps, no jank
+  → Receipt print trigger to done   : < 3 seconds
+  → API response → UI update        : < 300ms (perceived)
+
+RENDERING RULES:
+  → Product images: use cached_network_image with memCacheWidth/Height set
+  → Long lists: always use ListView.builder / SliverList — never ListView with children
+  → Product grid: use SliverGrid with delegate — not GridView.count
+  → Never rebuild entire screen — use Consumer or select() to scope rebuilds
+  → Expensive computations (totals, reports): run in Isolate via compute()
+  → Image assets: WebP format, max 80KB per product image
+
+OFFLINE-FIRST RULES:
+  → POS core (scan, add to cart, checkout with cash): must work 100% offline
+  → Sync queue: failed API calls → stored in Isar → retry on reconnect (exponential backoff)
+  → Conflict resolution: last-write-wins for product data; server-wins for inventory stock
+  → Always show connectivity status indicator in top-right (1 line, non-intrusive)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+09
+ ENTERPRISE UX DETAIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CASHIER SCREEN — UX RULES:
+  → Most common action (add item) must be reachable in max 2 taps from any state
+  → Search bar auto-focused on screen load, keyboard does NOT cover product grid
+  → Barcode scan result: auto-add to cart + brief highlight on product card
+  → Long-press product card: quick-edit dialog (price override, note) — manager only
+  → Cart quantity: tap to edit inline (number input), not +/- buttons only
+  → "Charge" button: always visible, full-width, 56px height, sticky bottom of cart panel
+  → Multiple payment method: visualized as split bar (not just a list)
+
+MANAGER / OWNER SCREENS — UX RULES:
+  → Dashboard: data-first. No decorative charts. Use sparklines over donut charts.
+  → All reports: filterable by date range with calendar picker, not dropdown period selector
+  → Table rows: tappable for detail drawer (not full navigation)
+  → Bulk actions: multi-select with floating action bar (à la Linear.app)
+  → Confirmation dialogs: always show what will be affected (item count, value)
+  → Void / refund: requires PIN input + reason selection before execution
+
+ACCESSIBILITY:
+  → All interactive elements: min 44×44px tap target
+  → All icons used as buttons: Semantics wrapper with label
+  → Color is never the ONLY indicator of state (always pair with text/icon)
+  → Support system font scaling (textScaleFactor) without layout breaking
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10
+ FEATURES, STACK & FIRST TASK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TECH STACK:
+  State       : flutter_riverpod + riverpod_annotation (code-gen)
+  Navigation  : go_router + go_router_builder
+  Local DB    : Isar (offline-first)
+  HTTP        : Dio + Retrofit + pretty_dio_logger
+  Models      : Freezed + JsonSerializable
+  UI extras   : flutter_animate, shimmer, cached_network_image
+  Scanner     : mobile_scanner
+  Printer     : bluetooth_print (ESC/POS)
+  Charts      : fl_chart (sparkline only — no pie)
+  PDF         : pdf + printing
+  Forms       : flutter_form_builder + form_builder_validators
+  Fonts       : google_fonts (Inter)
+  Auth        : JWT + flutter_secure_storage
+
+CORE MODULES (build in this order):
+  1. Design system (AppColors, AppTextStyles, AppSpacing, core widgets)
+  2. Auth (login, PIN lock, role guard)
+  3. POS screen (product grid + cart + payment flow)
+  4. Dashboard
+  5. Product & inventory management
+  6. Transaction history & reports
+  7. Settings & printer setup
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START WITH:
+Build Module 1 — the design system foundation.
+
+Produce:
+  - lib/core/design/app_colors.dart      (all colors as static const Color)
+  - lib/core/design/app_text_styles.dart (all TextStyle as static const)
+  - lib/core/design/app_spacing.dart     (all spacing as static const double)
+  - lib/core/widgets/app_button.dart     (all 5 button variants)
+  - lib/core/widgets/app_card.dart       (level 1 and level 2 card)
+  - lib/core/widgets/status_badge.dart   (active/inactive/warning/danger)
+  - lib/core/widgets/shimmer_box.dart    (reusable skeleton block)
+
+Each file: fully implemented, no placeholder comments, production-ready.
+Include a WidgetbookComponent or simple main() preview for each widget.
