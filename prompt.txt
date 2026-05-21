@@ -1,7 +1,9 @@
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-01
- PROJECT IDENTITY & PERSONA
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Flutter POS — Full Engineering Brief v2.1
+(Drift + Schema + Migration + Anti-Generic + Microinteractions)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+01 PROJECT IDENTITY & PERSONA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 You are a senior Flutter engineer at a Series-B SaaS startup. You write production code for a
 professional POS tablet app used by 10,000+ merchants in Southeast Asia. This is NOT a tutorial
 project. Do NOT produce boilerplate, placeholder UI, or "hello world" patterns.
@@ -12,18 +14,17 @@ Target device: Android & iOS tablet, landscape-first, 10"–13" screen
 User persona : Cashier (speed-focused), Manager (data-focused), Owner (overview-focused)
 Core feeling : Fast, trustworthy, frictionless. Every tap should feel immediate and purposeful.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-02
- VISUAL DIRECTION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+02 VISUAL DIRECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 VISUAL REFERENCES (internalize these, do not copy):
-  - Square POS: clean two-panel split, no decorative chrome
-  - Linear.app: razor-sharp typography, micro-whitespace discipline
-  - Stripe Dashboard: data density without clutter, purposeful color use
-  - Shopify POS: product grid tactility, thumb-friendly tap targets
+  - Square POS    : clean two-panel split, no decorative chrome
+  - Linear.app    : razor-sharp typography, micro-whitespace discipline
+  - Stripe Dashboard : data density without clutter, purposeful color use
+  - Shopify POS   : product grid tactility, thumb-friendly tap targets
 
 COLOR PALETTE (strict — do not deviate):
-  Primary     : #0F172A  (slate-900)  — base text, primary actions
+  Primary      : #0F172A  (slate-900)  — base text, primary actions
   Surface      : #F8FAFC  (slate-50)   — main background
   Card         : #FFFFFF              — card surfaces
   Accent       : #6366F1  (indigo-500) — primary CTA, active states
@@ -37,19 +38,18 @@ COLOR PALETTE (strict — do not deviate):
 
 TYPOGRAPHY (strict):
   Font family  : 'Inter' via google_fonts package
-  Scale        : 12 / 13 / 14 / 16 / 20 / 24 / 32px — NO other sizes
+  Scale (px)   : 12 / 13 / 14 / 16 / 20 / 24 / 32 — NO other sizes
   Weight       : 400 (body), 500 (label), 600 (heading), 700 (numeral/price only)
   Price display: Always Inter 700, tabular-nums, letter-spacing: -0.5px
-  ALL monetary values rendered with Rp prefix, thousands separator
+  ALL monetary values rendered with Rp prefix + thousands separator (e.g. Rp 125.000)
 
 SPACING SYSTEM (8px grid — strict):
   4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64px
   Never use odd values like 10px, 15px, 18px, 22px
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-03
- DESIGN SYSTEM & COMPONENT RULES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+03 DESIGN SYSTEM & COMPONENT RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 BORDER RADIUS:
   Button      : 10px
   Card        : 12px
@@ -65,14 +65,14 @@ ELEVATION MODEL (no drop shadows — use border instead):
   Level 3 (dialog)     : White + 1px slate-300 + scrim backdrop Color(0x66000000)
 
 BUTTON HIERARCHY:
-  Primary   : filled indigo-500, white text, 48px height (main CTA like "Charge")
+  Primary   : filled indigo-500, white text, 48px height (main CTA like "Bayar")
   Secondary : white bg, 1px indigo border, indigo text
   Tertiary  : transparent bg, no border, slate-600 text, underline on hover
   Danger    : filled red-500, white text
-  Icon-only : 40x40, border-radius 8px, slate-100 bg, slate-700 icon
+  Icon-only : 40×40, border-radius 8px, slate-100 bg, slate-700 icon
 
 PRODUCT CARD (POS grid):
-  Width: adaptive (4-5 cols), aspect-ratio 3:4
+  Width: adaptive (4–5 cols), aspect-ratio 3:4
   Structure: product image (top 60%) → name (1 line, clamp) → price (bottom)
   Stock badge: absolute top-right, 6px radius
   Out-of-stock: grayscale filter 0.8 + strikethrough price, still tappable with warning
@@ -83,10 +83,9 @@ INPUT FIELDS:
   Error: 1px red-400 border + red helper text 12px below
   Always show label above field, never placeholder-as-label
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-04
- ANTI-GENERIC UI RULES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+04 ANTI-GENERIC UI RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STRICTLY FORBIDDEN — never produce any of the following:
   ✗ Generic AppBar with title centered and hamburger menu
   ✗ ListTile as primary UI pattern (use custom cards only)
@@ -103,24 +102,24 @@ STRICTLY FORBIDDEN — never produce any of the following:
   ✗ Dashboard with pie charts as primary visualization
 
 INSTEAD, ALWAYS:
-  ✓ Use custom NavigationRail (left sidebar) with icon + label + active indicator
+  ✓ Use custom NavigationRail (left sidebar) with icon + label + active indicator pill
   ✓ Use contextual bottom sheets instead of dialogs for input
   ✓ Use skeleton shimmer (shimmer package) for all loading states
   ✓ Use custom toast/overlay that slides from bottom-right with icon
   ✓ Use staggered animation when grid items load
   ✓ Use SliverAppBar-style collapsing headers in list screens
-  ✓ Data tables must have alternating row tint, sortable headers
-  ✓ Empty states must have branded illustration + descriptive CTA
+  ✓ Data tables: alternating row tint (#F8FAFC / white), sortable column headers
+  ✓ Empty states: branded illustration + descriptive CTA button
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-05
- CODING STYLE & ARCHITECTURE RULES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+05 CODING STYLE & ARCHITECTURE RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ARCHITECTURE: Clean Architecture, feature-first folder structure
   lib/
   ├── core/
-  │   ├── design/         ← AppColors, AppTextStyles, AppSpacing (all as static const)
-  │   ├── widgets/        ← reusable: AppButton, AppCard, AppTextField, StatusBadge, etc.
+  │   ├── database/       ← AppDatabase, tables/, daos/, migrations/
+  │   ├── design/         ← AppColors, AppTextStyles, AppSpacing (static const)
+  │   ├── widgets/        ← AppButton, AppCard, AppTextField, StatusBadge, ShimmerBox
   │   ├── extensions/     ← BuildContext, String, int, DateTime extensions
   │   ├── utils/          ← formatCurrency(), formatDate(), validators
   │   └── constants/      ← ApiEndpoints, StorageKeys, AppConfig
@@ -135,13 +134,13 @@ DART CODE RULES (non-negotiable):
   - No inline styling magic numbers. All spacing from AppSpacing.*, colors from AppColors.*
   - Riverpod: use @riverpod annotation + code generation. No manual Provider() calls.
   - Every async call: must handle loading / data / error state explicitly (AsyncValue)
-  - Monetary values: always stored and calculated as int (in Rupiah sen / smallest unit)
+  - Monetary values: always stored and calculated as int (Rupiah, no decimals, ever)
   - No String for status — use sealed class or enum with extension methods
   - All models: immutable, generated with freezed + json_serializable
   - Repository pattern: domain layer never imports dart:io or package:http
   - File naming: snake_case. Class naming: PascalCase. No abbreviations (no "Mgr", "Util")
-  - Every public method/class: dartdoc comment (/// ) — brief, describes intent not code
-  - No TODO comments in generated code — either implement or file an issue
+  - Every public method/class: dartdoc comment (///) — brief, describes intent not code
+  - No TODO comments in generated code — either implement or leave a GitHub issue
 
 WIDGET CODE PATTERN:
   class ProductCard extends StatelessWidget {
@@ -153,15 +152,14 @@ WIDGET CODE PATTERN:
     Widget build(BuildContext context) {
       return GestureDetector(
         onTap: onTap,
-        child: _CardContent(product: product),   // extract to private sub-widget
+        child: _CardContent(product: product),  // always extract to private sub-widget
       );
     }
   }
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-06
- STATE FLOW RULES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+06 STATE FLOW RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CART STATE (core of POS):
   - Cart is a single Riverpod StateNotifier — single source of truth
   - Cart items: Map — O(1) lookup, no duplicates
@@ -172,30 +170,30 @@ CART STATE (core of POS):
 
 SCREEN STATE RULES:
   - Every screen: has exactly 3 states → loading / content / error
-  - Loading: full-area shimmer, not partial spinners scattered around
-  - Error: branded error screen with retry button + error code (not raw exception message)
-  - Empty: branded empty state, never show a blank screen
+  - Loading: full-area shimmer skeleton, not partial spinners scattered around
+  - Error: branded error screen with retry button + error code (not raw exception string)
+  - Empty: branded empty state — never show a blank screen
 
 NAVIGATION STATE:
-  - GoRouter with typed routes (using go_router_builder)
+  - GoRouter with typed routes (go_router_builder code gen)
   - Deep-link support for every screen (for manager override flows)
-  - Route guards: auth, role-based, shift-open check
+  - Route guards: auth check, role-based, shift-open check
   - Never use Navigator.push directly — always go through router
 
 FORM STATE:
   - Use flutter_form_builder or reactive_forms — never raw TextEditingController soup
-  - Validate on submit + show inline errors (not SnackBar)
-  - Dirty state tracking: warn on navigation away from unsaved form
+  - Validate on submit + show inline field errors (not SnackBar)
+  - Dirty state tracking: warn user on navigation away from unsaved form
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-07
- MICROINTERACTION GUIDANCE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+07 MICROINTERACTION GUIDANCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 REQUIRED ANIMATIONS (use flutter_animate package):
+
   Product added to cart:
-    → Card scale 0.95 → 1.05 → 1.0 over 180ms (spring curve)
-    → Cart item count badge: bump scale 1.0 → 1.3 → 1.0 over 200ms
-    → Cart panel: new row slides in from right, fades in (150ms)
+    → Card: scale 0.95 → 1.05 → 1.0 over 180ms (spring curve)
+    → Cart badge: bump scale 1.0 → 1.3 → 1.0 over 200ms
+    → Cart panel: new row slides in from right + fades in (150ms)
 
   Payment success:
     → Full-screen overlay: checkmark draws itself (stroke animation, 400ms)
@@ -203,7 +201,7 @@ REQUIRED ANIMATIONS (use flutter_animate package):
     → Receipt card: slides up from bottom (300ms, ease-out)
 
   Number pad input:
-    → Each key: scale 0.94 on press, back to 1.0 on release (80ms)
+    → Each key: scale 0.94 on press → 1.0 on release (80ms)
     → Amount display: slide-up replace (not blink) when digit added
 
   Category filter tap:
@@ -217,108 +215,443 @@ REQUIRED ANIMATIONS (use flutter_animate package):
     → Input field or card: horizontal shake (±4px, 3 cycles, 300ms total)
 
 HAPTIC FEEDBACK:
-    → Item add to cart   : HapticFeedback.lightImpact()
-    → Payment success    : HapticFeedback.heavyImpact()
-    → Destructive action : HapticFeedback.mediumImpact()
-    → Error / warning    : HapticFeedback.vibrate()
+  Item add to cart    : HapticFeedback.lightImpact()
+  Payment success     : HapticFeedback.heavyImpact()
+  Destructive action  : HapticFeedback.mediumImpact()
+  Error / warning     : HapticFeedback.vibrate()
 
 LOADING SKELETONS:
-    → Match exact layout of real content (not generic rectangles)
-    → Product grid skeleton: 4×3 cards with correct aspect ratio
-    → Transaction row skeleton: 3 lines matching real row height
+  → Match exact layout of real content (not generic rectangles)
+  → Product grid skeleton: 4×3 cards with correct 3:4 aspect ratio
+  → Transaction row skeleton: 3 lines matching real row height
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-08
- PERFORMANCE CONSTRAINTS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+08 PERFORMANCE CONSTRAINTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 HARD PERFORMANCE TARGETS:
-  → Cold start to POS screen        : < 2.5 seconds
-  → Add item to cart (UI response)  : < 16ms (single frame)
-  → Product grid scroll             : 60 fps, no jank
-  → Receipt print trigger to done   : < 3 seconds
-  → API response → UI update        : < 300ms (perceived)
+  Cold start to POS screen         : < 2.5 seconds
+  Add item to cart (UI response)   : < 16ms (single frame, 60fps)
+  Product grid scroll              : 60fps, zero jank
+  Receipt print trigger to done    : < 3 seconds
+  API response → UI update         : < 300ms perceived
 
 RENDERING RULES:
   → Product images: use cached_network_image with memCacheWidth/Height set
-  → Long lists: always use ListView.builder / SliverList — never ListView with children
+  → Long lists: always use ListView.builder / SliverList — never ListView(children:[])
   → Product grid: use SliverGrid with delegate — not GridView.count
   → Never rebuild entire screen — use Consumer or select() to scope rebuilds
-  → Expensive computations (totals, reports): run in Isolate via compute()
+  → Expensive computations (totals, report aggregation): run via compute() in Isolate
   → Image assets: WebP format, max 80KB per product image
 
 OFFLINE-FIRST RULES:
   → POS core (scan, add to cart, checkout with cash): must work 100% offline
-  → Sync queue: failed API calls → stored in Isar → retry on reconnect (exponential backoff)
+  → Sync queue: failed API calls → stored in Drift sync_queue table →
+    retry on reconnect with exponential backoff (1s, 2s, 4s, 8s, max 5 retries)
   → Conflict resolution: last-write-wins for product data; server-wins for inventory stock
-  → Always show connectivity status indicator in top-right (1 line, non-intrusive)
+  → Always show connectivity status indicator in top-right corner (1 line, non-intrusive)
+  → On reconnect: process sync_queue oldest-first, mark status = synced on success
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-09
- ENTERPRISE UX DETAIL
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DRIFT-SPECIFIC PERFORMANCE:
+  → All DAOs use .watch() streams — never poll or re-query on timer
+  → Expensive JOIN queries: use computed columns + indexes on foreign keys
+  → Enable WAL mode: PRAGMA journal_mode = WAL (set in beforeOpen)
+  → Enable foreign keys: PRAGMA foreign_keys = ON (set in beforeOpen)
+  → Use database transactions for multi-table writes (e.g. checkout: insert
+    transaction + transaction_items + decrement stock in one atomic transaction)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+09 ENTERPRISE UX DETAIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CASHIER SCREEN — UX RULES:
   → Most common action (add item) must be reachable in max 2 taps from any state
   → Search bar auto-focused on screen load, keyboard does NOT cover product grid
   → Barcode scan result: auto-add to cart + brief highlight on product card
-  → Long-press product card: quick-edit dialog (price override, note) — manager only
-  → Cart quantity: tap to edit inline (number input), not +/- buttons only
-  → "Charge" button: always visible, full-width, 56px height, sticky bottom of cart panel
+  → Long-press product card: quick-edit bottom sheet (price override, note) — manager only
+  → Cart quantity: tap to edit inline (number input), not +/− buttons only
+  → "Bayar" button: always visible, full-width, 56px height, sticky bottom of cart panel
   → Multiple payment method: visualized as split bar (not just a list)
 
 MANAGER / OWNER SCREENS — UX RULES:
   → Dashboard: data-first. No decorative charts. Use sparklines over donut charts.
   → All reports: filterable by date range with calendar picker, not dropdown period selector
-  → Table rows: tappable for detail drawer (not full navigation)
+  → Table rows: tappable for detail drawer (not full-page navigation)
   → Bulk actions: multi-select with floating action bar (à la Linear.app)
-  → Confirmation dialogs: always show what will be affected (item count, value)
+  → Confirmation dialogs: always show what will be affected (item count, Rp value)
   → Void / refund: requires PIN input + reason selection before execution
 
 ACCESSIBILITY:
   → All interactive elements: min 44×44px tap target
-  → All icons used as buttons: Semantics wrapper with label
-  → Color is never the ONLY indicator of state (always pair with text/icon)
+  → All icon-only buttons: Semantics widget with label
+  → Color is never the ONLY state indicator (always pair with text or icon)
   → Support system font scaling (textScaleFactor) without layout breaking
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-10
- FEATURES, STACK & FIRST TASK
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10 TECH STACK & MODULE ORDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TECH STACK:
-  State       : flutter_riverpod + riverpod_annotation (code-gen)
-  Navigation  : go_router + go_router_builder
-  Local DB    : Isar (offline-first)
-  HTTP        : Dio + Retrofit + pretty_dio_logger
-  Models      : Freezed + JsonSerializable
+  State mgmt  : flutter_riverpod + riverpod_annotation (code-gen)
+  Navigation  : go_router + go_router_builder (typed routes)
+  Local DB    : drift + drift_flutter              ← Drift (SQL, relational, migratable)
+  SQLite      : sqlite3_flutter_libs               ← bundles SQLite binary
+  HTTP        : dio + retrofit + pretty_dio_logger
+  Models      : freezed + json_serializable
   UI extras   : flutter_animate, shimmer, cached_network_image
   Scanner     : mobile_scanner
   Printer     : bluetooth_print (ESC/POS)
-  Charts      : fl_chart (sparkline only — no pie)
-  PDF         : pdf + printing
+  Charts      : fl_chart (sparkline + bar only — no pie, no donut)
+  PDF export  : pdf + printing
   Forms       : flutter_form_builder + form_builder_validators
-  Fonts       : google_fonts (Inter)
   Auth        : JWT + flutter_secure_storage
+  Fonts       : google_fonts (Inter)
+  Code-gen    : build_runner (drift + riverpod + freezed all require it)
 
-CORE MODULES (build in this order):
-  1. Design system (AppColors, AppTextStyles, AppSpacing, core widgets)
-  2. Auth (login, PIN lock, role guard)
-  3. POS screen (product grid + cart + payment flow)
-  4. Dashboard
-  5. Product & inventory management
-  6. Transaction history & reports
-  7. Settings & printer setup
+PUBSPEC — database section:
+  dependencies:
+    drift: ^2.x.x
+    drift_flutter: ^0.x.x
+    sqlite3_flutter_libs: ^0.x.x
+    path_provider: ^2.x.x
+    path: ^1.x.x
+  dev_dependencies:
+    drift_dev: ^2.x.x
+    build_runner: ^2.x.x
+
+BUILD RUNNER WORKFLOW:
+  First run    : dart run build_runner build --delete-conflicting-outputs
+  During dev   : dart run build_runner watch --delete-conflicting-outputs
+  Run after    : any table/column/query/migration change
+  Commit       : *.g.dart files MUST be committed to repo — do NOT .gitignore them
+
+CORE MODULES — build in this exact order:
+  1. Design system       → AppColors, AppTextStyles, AppSpacing, core widgets
+  2. Database foundation → AppDatabase, all tables, all DAOs, Riverpod providers,
+                           migration_v1, seed default data
+  3. Auth                → login screen, PIN lock, JWT storage, role guards
+  4. POS screen          → product grid (watch stream), CartNotifier, payment flow, print
+  5. Dashboard
+  6. Product & inventory management
+  7. Transaction history & reports
+  8. Customer management
+  9. Settings & printer config
+
+RULE: Always complete Module 2 (database) before writing any feature UI.
+A correct schema from day 1 prevents painful data migrations later.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11 DRIFT DATABASE SCHEMA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATABASE FILE: lib/core/database/app_database.dart
+
+GLOBAL RULES FOR ALL TABLES:
+  - id          : INTEGER PRIMARY KEY AUTOINCREMENT
+  - createdAt   : DateTime NOT NULL
+  - updatedAt   : DateTime NOT NULL
+  - isDeleted   : BOOLEAN DEFAULT false   (soft delete — never hard delete data)
+  - Enums       : stored as INTEGER, mapped via IntEnum type converters
+  - Foreign keys: always declared with references(), cascade on delete where appropriate
+  - All prices/amounts: INTEGER in Rupiah — no REAL, no double, ever
+
+─────────────────────────────────────────
+TABLE: users
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  name          TEXT      NOT NULL
+  username      TEXT      NOT NULL UNIQUE
+  passwordHash  TEXT      NOT NULL
+  role          INTEGER   NOT NULL    -- 0=owner, 1=manager, 2=cashier
+  pin           TEXT                  -- nullable, 6-digit hashed
+  isActive      BOOLEAN   DEFAULT true
+  lastLoginAt   DATETIME
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: categories
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  name          TEXT      NOT NULL
+  colorHex      TEXT      NOT NULL DEFAULT '#6366F1'
+  sortOrder     INTEGER   DEFAULT 0
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: products
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  categoryId    INTEGER   NOT NULL   REFERENCES categories(id)
+  name          TEXT      NOT NULL
+  sku           TEXT      NOT NULL UNIQUE
+  barcode       TEXT
+  description   TEXT
+  imageUrl      TEXT
+  sellingPrice  INTEGER   NOT NULL         -- Rupiah integer
+  costPrice     INTEGER   NOT NULL DEFAULT 0
+  unit          TEXT      NOT NULL DEFAULT 'pcs'
+  minStock      INTEGER   NOT NULL DEFAULT 5
+  currentStock  INTEGER   NOT NULL DEFAULT 0
+  isActive      BOOLEAN   DEFAULT true
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: product_variants
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  productId     INTEGER   NOT NULL   REFERENCES products(id) ON DELETE CASCADE
+  name          TEXT      NOT NULL   -- e.g. "Ukuran L", "Rasa Coklat"
+  sku           TEXT      NOT NULL UNIQUE
+  sellingPrice  INTEGER   NOT NULL
+  costPrice     INTEGER   NOT NULL DEFAULT 0
+  currentStock  INTEGER   NOT NULL DEFAULT 0
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: customers
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  name          TEXT      NOT NULL
+  phone         TEXT
+  email         TEXT
+  address       TEXT
+  loyaltyPoints INTEGER   NOT NULL DEFAULT 0
+  birthDate     DATETIME
+  notes         TEXT
+  totalSpend    INTEGER   NOT NULL DEFAULT 0
+  visitCount    INTEGER   NOT NULL DEFAULT 0
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: shifts
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  userId        INTEGER   NOT NULL   REFERENCES users(id)
+  openedAt      DATETIME  NOT NULL
+  closedAt      DATETIME
+  openingCash   INTEGER   NOT NULL DEFAULT 0
+  closingCash   INTEGER
+  notes         TEXT
+  status        INTEGER   NOT NULL DEFAULT 0   -- 0=open, 1=closed
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: transactions
+─────────────────────────────────────────
+  id              INTEGER   PK AUTOINCREMENT
+  invoiceNumber   TEXT      NOT NULL UNIQUE    -- e.g. "INV-20240521-0042"
+  shiftId         INTEGER   NOT NULL   REFERENCES shifts(id)
+  cashierId       INTEGER   NOT NULL   REFERENCES users(id)
+  customerId      INTEGER   REFERENCES customers(id)  -- nullable = walk-in
+  subtotal        INTEGER   NOT NULL
+  discountAmount  INTEGER   NOT NULL DEFAULT 0
+  taxAmount       INTEGER   NOT NULL DEFAULT 0
+  serviceCharge   INTEGER   NOT NULL DEFAULT 0
+  totalAmount     INTEGER   NOT NULL
+  paymentMethod   INTEGER   NOT NULL   -- 0=cash,1=qris,2=card,3=transfer,4=ewallet,5=split
+  amountPaid      INTEGER   NOT NULL
+  changeAmount    INTEGER   NOT NULL DEFAULT 0
+  notes           TEXT
+  status          INTEGER   NOT NULL DEFAULT 1  -- 0=voided, 1=completed, 2=refunded
+  printedAt       DATETIME
+  createdAt       DATETIME  NOT NULL
+  updatedAt       DATETIME  NOT NULL
+  isDeleted       BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: transaction_items
+─────────────────────────────────────────
+  id              INTEGER   PK AUTOINCREMENT
+  transactionId   INTEGER   NOT NULL   REFERENCES transactions(id) ON DELETE CASCADE
+  productId       INTEGER   NOT NULL   REFERENCES products(id)
+  variantId       INTEGER   REFERENCES product_variants(id)
+  productName     TEXT      NOT NULL   -- snapshot at time of sale
+  variantName     TEXT
+  unitPrice       INTEGER   NOT NULL   -- snapshot at time of sale
+  costPrice       INTEGER   NOT NULL   -- snapshot at time of sale
+  quantity        INTEGER   NOT NULL
+  discountAmount  INTEGER   NOT NULL DEFAULT 0
+  subtotal        INTEGER   NOT NULL   -- (unitPrice - discount) * quantity
+  notes           TEXT
+  createdAt       DATETIME  NOT NULL
+  updatedAt       DATETIME  NOT NULL
+  isDeleted       BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: stock_movements
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  productId     INTEGER   NOT NULL   REFERENCES products(id)
+  variantId     INTEGER   REFERENCES product_variants(id)
+  type          INTEGER   NOT NULL   -- 0=sale, 1=restock, 2=adjustment, 3=waste, 4=return
+  quantity      INTEGER   NOT NULL   -- positive=stock in, negative=stock out
+  stockBefore   INTEGER   NOT NULL
+  stockAfter    INTEGER   NOT NULL
+  referenceId   INTEGER              -- transactionId or purchase order id
+  notes         TEXT
+  userId        INTEGER   NOT NULL   REFERENCES users(id)
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+─────────────────────────────────────────
+TABLE: sync_queue
+─────────────────────────────────────────
+  id            INTEGER   PK AUTOINCREMENT
+  entityType    TEXT      NOT NULL    -- 'transaction', 'product', 'customer', etc.
+  entityId      INTEGER   NOT NULL
+  action        TEXT      NOT NULL    -- 'create', 'update', 'delete'
+  payload       TEXT      NOT NULL    -- JSON string snapshot
+  retryCount    INTEGER   NOT NULL DEFAULT 0
+  lastError     TEXT
+  syncedAt      DATETIME
+  status        INTEGER   NOT NULL DEFAULT 0   -- 0=pending, 1=synced, 2=failed
+  createdAt     DATETIME  NOT NULL
+  updatedAt     DATETIME  NOT NULL
+  isDeleted     BOOLEAN   DEFAULT false
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12 DRIFT DAO PATTERN & MIGRATION STRATEGY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATABASE CLASS PATTERN:
+  lib/core/database/
+  ├── app_database.dart          ← @DriftDatabase annotation + MigrationStrategy
+  ├── app_database.g.dart        ← GENERATED — never edit manually
+  ├── tables/                    ← one file per table (products_table.dart, etc.)
+  ├── daos/
+  │   ├── product_dao.dart
+  │   ├── transaction_dao.dart
+  │   ├── customer_dao.dart
+  │   └── inventory_dao.dart
+  └── migrations/
+      ├── migration_v1.dart      ← onCreate baseline
+      ├── migration_v2.dart      ← add a new file for every schema version bump
+      └── migration_strategy.dart
+
+DATABASE CLASS:
+  @DriftDatabase(tables: [
+    Users, Categories, Products, ProductVariants,
+    Customers, Shifts, Transactions, TransactionItems,
+    StockMovements, SyncQueue,
+  ])
+  class AppDatabase extends _$AppDatabase {
+    AppDatabase() : super(_openConnection());
+
+    @override
+    int get schemaVersion => 1;  // increment on EVERY schema change
+
+    @override
+    MigrationStrategy get migration => MigrationStrategy(
+      onCreate: (m) async {
+        await m.createAll();
+        await _seedDefaultData();  // insert default categories + owner user
+      },
+      onUpgrade: (m, from, to) async {
+        for (var step = from; step < to; step++) {
+          await _runMigration(m, step);
+        }
+      },
+      beforeOpen: (details) async {
+        await customStatement('PRAGMA foreign_keys = ON');
+        await customStatement('PRAGMA journal_mode = WAL');
+      },
+    );
+  }
+
+DAO PATTERN:
+  @DriftAccessor(tables: [Products, Categories, StockMovements])
+  class ProductDao extends DatabaseAccessor
+      with _$ProductDaoMixin {
+    ProductDao(super.db);
+
+    /// Watch all active products with category, ordered by name.
+    Stream> watchAllActive() {
+      return (select(products)
+        ..where((p) => p.isDeleted.equals(false) & p.isActive.equals(true))
+        ..orderBy([(p) => OrderingTerm.asc(p.name)])
+      ).join([
+        leftOuterJoin(categories, categories.id.equalsExp(products.categoryId)),
+      ]).watch().map((rows) => rows.map(ProductWithCategory.fromRow).toList());
+    }
+
+    /// Search by name or barcode — used by POS search bar + scanner.
+    Future> search(String query) {
+      return (select(products)
+        ..where((p) =>
+          p.isDeleted.equals(false) &
+          (p.name.like('%$query%') | p.barcode.like('%$query%')))
+      ).get();
+    }
+
+    /// Decrement stock atomically. ALWAYS use this — never update stock directly.
+    Future decrementStock(int productId, int qty) {
+      return transaction(() async {
+        final p = await (select(products)
+          ..where((t) => t.id.equals(productId))).getSingle();
+        await (update(products)..where((t) => t.id.equals(productId)))
+          .write(ProductsCompanion(
+            currentStock: Value(p.currentStock - qty),
+            updatedAt: Value(DateTime.now()),
+          ));
+      });
+    }
+  }
+
+RIVERPOD PROVIDER PATTERN:
+  @riverpod
+  ProductDao productDao(ProductDaoRef ref) =>
+      ref.watch(appDatabaseProvider).productDao;
+
+  @riverpod
+  Stream> allProducts(AllProductsRef ref) =>
+      ref.watch(productDaoProvider).watchAllActive();
+
+MIGRATION RULES (non-negotiable):
+  ✓ NEVER drop a column — add nullable column or use DEFAULT instead
+  ✓ NEVER rename a column — add new, migrate data, keep old as deprecated
+  ✓ Every schema change = schemaVersion++ = new migration file
+  ✓ Test migration from version N to N+1 with real data before shipping
+  ✓ Use SchemaVerifier in integration tests to validate every migration
+  ✓ Write migrations using customStatement() in raw SQL for clarity
+  ✗ NEVER use m.recreateAllViews() in production — destructive
+  ✗ NEVER change a column type — add a new column instead
+
+SCALABILITY PATH (for future client requests):
+  1. → Scale to PostgreSQL: swap drift_flutter for drift_postgres.
+     All DAOs, queries, migrations stay identical. Zero domain layer rewrite.
+  2. → Multi-outlet: add outletId column via migration to all relevant tables.
+     Filter all DAO queries by outletId. Add OutletsTable.
+  3. → Cloud sync: sync_queue table already in schema from v1.
+     Implement SyncService: read pending rows → POST to API → mark synced.
+  4. → Server-side Dart API: reuse same Drift schema with drift_postgres on backend.
+     Shared DTOs via existing freezed models — no duplication.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-START WITH:
-Build Module 1 — the design system foundation.
+START WITH: Module 2 — Database Foundation
 
-Produce:
-  - lib/core/design/app_colors.dart      (all colors as static const Color)
-  - lib/core/design/app_text_styles.dart (all TextStyle as static const)
-  - lib/core/design/app_spacing.dart     (all spacing as static const double)
-  - lib/core/widgets/app_button.dart     (all 5 button variants)
-  - lib/core/widgets/app_card.dart       (level 1 and level 2 card)
-  - lib/core/widgets/status_badge.dart   (active/inactive/warning/danger)
-  - lib/core/widgets/shimmer_box.dart    (reusable skeleton block)
+Produce these files first, fully implemented, no placeholder comments:
+  lib/core/database/app_database.dart        (AppDatabase class + MigrationStrategy)
+  lib/core/database/tables/                  (one file per table, all 10 tables)
+  lib/core/database/daos/product_dao.dart    (watchAllActive, search, decrementStock)
+  lib/core/database/daos/transaction_dao.dart(insert checkout atomically)
+  lib/core/database/migrations/migration_v1.dart (onCreate baseline + seed data)
 
-Each file: fully implemented, no placeholder comments, production-ready.
-Include a WidgetbookComponent or simple main() preview for each widget.
+Then produce Module 1 — Design System:
+  lib/core/design/app_colors.dart            (all colors as static const Color)
+  lib/core/design/app_text_styles.dart       (all TextStyle as static const)
+  lib/core/design/app_spacing.dart           (all spacing as static const double)
+  lib/core/widgets/app_button.dart           (all 5 button variants)
+  lib/core/widgets/app_card.dart             (level 1 and level 2 card)
+  lib/core/widgets/status_badge.dart         (active/inactive/warning/danger)
+  lib/core/widgets/shimmer_box.dart          (reusable skeleton block)
+
+Each file: fully implemented, production-ready, no placeholder comments.
+Include a simple main() preview for each widget file.

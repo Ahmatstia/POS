@@ -1,217 +1,181 @@
 import 'package:flutter/material.dart';
-import '../design/app_colors.dart';
-import '../design/app_spacing.dart';
-import '../design/app_text_styles.dart';
+import 'package:lexa_pos/core/design/app_colors.dart';
+import 'package:lexa_pos/core/design/app_spacing.dart';
+import 'package:lexa_pos/core/design/app_text_styles.dart';
 
 enum AppButtonVariant { primary, secondary, tertiary, danger, iconOnly }
 
-/// A custom button component that adheres strictly to the design system.
-/// Button Hierarchy:
-/// Primary   : filled indigo-500, white text, 48px height
-/// Secondary : white bg, 1px indigo border, indigo text
-/// Tertiary  : transparent bg, no border, slate-600 text, underline on hover
-/// Danger    : filled red-500, white text
-/// Icon-only : 40x40, border-radius 8px, slate-100 bg, slate-700 icon
-class AppButton extends StatefulWidget {
-  final AppButtonVariant variant;
-  final String? text;
-  final IconData? icon;
-  final VoidCallback? onPressed;
-  final bool isLoading;
-  final double? height;
+class AppButton extends StatelessWidget {
+  const AppButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.variant = AppButtonVariant.primary,
+    this.icon,
+    this.isLoading = false,
+  });
 
   const AppButton.primary({
     super.key,
     required this.text,
-    this.onPressed,
+    required this.onPressed,
+    this.icon,
     this.isLoading = false,
-    this.height,
-  })  : variant = AppButtonVariant.primary,
-        icon = null;
+  }) : variant = AppButtonVariant.primary;
 
   const AppButton.secondary({
     super.key,
     required this.text,
-    this.onPressed,
+    required this.onPressed,
+    this.icon,
     this.isLoading = false,
-    this.height,
-  })  : variant = AppButtonVariant.secondary,
-        icon = null;
+  }) : variant = AppButtonVariant.secondary;
 
   const AppButton.tertiary({
     super.key,
     required this.text,
-    this.onPressed,
+    required this.onPressed,
+    this.icon,
     this.isLoading = false,
-    this.height,
-  })  : variant = AppButtonVariant.tertiary,
-        icon = null;
+  }) : variant = AppButtonVariant.tertiary;
 
   const AppButton.danger({
     super.key,
     required this.text,
-    this.onPressed,
+    required this.onPressed,
+    this.icon,
     this.isLoading = false,
-    this.height,
-  })  : variant = AppButtonVariant.danger,
-        icon = null;
+  }) : variant = AppButtonVariant.danger;
 
-  const AppButton.icon({
+  const AppButton.iconOnly({
     super.key,
     required this.icon,
-    this.onPressed,
+    required this.onPressed,
     this.isLoading = false,
-    this.height,
-  })  : variant = AppButtonVariant.iconOnly,
-        text = null;
+  })  : text = '',
+        variant = AppButtonVariant.iconOnly;
 
-  @override
-  State<AppButton> createState() => _AppButtonState();
-}
-
-class _AppButtonState extends State<AppButton> {
-  bool _isHovered = false;
+  final String text;
+  final VoidCallback? onPressed;
+  final AppButtonVariant variant;
+  final IconData? icon;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    if (widget.variant == AppButtonVariant.iconOnly) {
-      return _buildIconButton();
-    }
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: SizedBox(
-        height: widget.height ?? AppSpacing.s48,
-        child: ElevatedButton(
-          onPressed: widget.isLoading ? null : widget.onPressed,
-          style: _getButtonStyle(),
-          child: _buildChild(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIconButton() {
-    return SizedBox(
-      width: AppSpacing.s40,
-      height: AppSpacing.s40,
-      child: Material(
-        color: const Color(0xFFF1F5F9), // slate-100
-        borderRadius: BorderRadius.circular(AppSpacing.s8),
-        child: InkWell(
-          onTap: widget.isLoading ? null : widget.onPressed,
+    if (variant == AppButtonVariant.iconOnly) {
+      return SizedBox(
+        width: AppSpacing.s40,
+        height: AppSpacing.s40,
+        child: Material(
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.s8),
-          child: Center(
-            child: widget.isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-                    ),
-                  )
-                : Icon(
-                    widget.icon,
-                    color: const Color(0xFF334155), // slate-700
-                    size: 20,
-                  ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  ButtonStyle _getButtonStyle() {
-    final bool isDisabled = widget.onPressed == null || widget.isLoading;
-
-    switch (widget.variant) {
-      case AppButtonVariant.primary:
-        return ElevatedButton.styleFrom(
-          backgroundColor: AppColors.accent,
-          foregroundColor: AppColors.card,
-          disabledBackgroundColor: AppColors.accent.withOpacity(0.5),
-          disabledForegroundColor: AppColors.card.withOpacity(0.5),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10), // strict 10px
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s24),
-        );
-      case AppButtonVariant.secondary:
-        return ElevatedButton.styleFrom(
-          backgroundColor: AppColors.card,
-          foregroundColor: AppColors.accent,
-          disabledBackgroundColor: AppColors.card,
-          disabledForegroundColor: AppColors.accent.withOpacity(0.5),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              color: isDisabled ? AppColors.accent.withOpacity(0.5) : AppColors.accent,
-              width: 1,
+          child: InkWell(
+            onTap: isLoading ? null : onPressed,
+            borderRadius: BorderRadius.circular(AppSpacing.s8),
+            child: Center(
+              child: isLoading
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      ),
+                    )
+                  : Icon(icon, color: AppColors.primary, size: 20),
             ),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s24),
-        );
-      case AppButtonVariant.tertiary:
-        return ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          foregroundColor: AppColors.mutedText,
-          disabledForegroundColor: AppColors.mutedText.withOpacity(0.5),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s24),
-        ).copyWith(
-          overlayColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.hovered) || _isHovered) {
-              return Colors.transparent;
-            }
-            return null;
-          }),
-        );
-      case AppButtonVariant.danger:
-        return ElevatedButton.styleFrom(
-          backgroundColor: AppColors.danger,
-          foregroundColor: AppColors.card,
-          disabledBackgroundColor: AppColors.danger.withValues(alpha: 0.5),
-          disabledForegroundColor: AppColors.card.withValues(alpha: 0.5),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s24),
-        );
-      case AppButtonVariant.iconOnly:
-        throw UnimplementedError(); // Handled separately
-    }
-  }
-
-  Widget _buildChild() {
-    if (widget.isLoading) {
-      final color = widget.variant == AppButtonVariant.primary || widget.variant == AppButtonVariant.danger
-          ? AppColors.primary.withValues(alpha: 0.1)
-          : AppColors.primary.withValues(alpha: 0.2);
-      return SizedBox(
-        width: 20,
-        height: 20,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation<Color>(color),
         ),
       );
     }
 
-    return Text(
-      widget.text!,
-      style: AppTextStyles.label14.copyWith(
-        decoration: (widget.variant == AppButtonVariant.tertiary && _isHovered)
-            ? TextDecoration.underline
-            : TextDecoration.none,
+    return SizedBox(
+      height: AppSpacing.s48,
+      child: Material(
+        color: _getBgColor(),
+        borderRadius: BorderRadius.circular(10),
+        shape: _getBorder(),
+        child: InkWell(
+          onTap: isLoading ? null : onPressed,
+          borderRadius: BorderRadius.circular(10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s24),
+            child: Center(
+              child: isLoading
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(_getTextColor()),
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (icon != null) ...[
+                          Icon(icon, color: _getTextColor(), size: 18),
+                          const SizedBox(width: AppSpacing.s8),
+                        ],
+                        Text(
+                          text,
+                          style: AppTextStyles.label14.copyWith(
+                            color: _getTextColor(),
+                            decoration: variant == AppButtonVariant.tertiary
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+        ),
       ),
     );
+  }
+
+  Color _getBgColor() {
+    if (onPressed == null && variant != AppButtonVariant.tertiary) {
+      return AppColors.border; // Disabled state
+    }
+    switch (variant) {
+      case AppButtonVariant.primary:
+        return AppColors.accent;
+      case AppButtonVariant.secondary:
+        return AppColors.card;
+      case AppButtonVariant.tertiary:
+        return Colors.transparent;
+      case AppButtonVariant.danger:
+        return AppColors.danger;
+      case AppButtonVariant.iconOnly:
+        return AppColors.surface;
+    }
+  }
+
+  Color _getTextColor() {
+    if (onPressed == null) return AppColors.subtleText;
+    switch (variant) {
+      case AppButtonVariant.primary:
+      case AppButtonVariant.danger:
+        return AppColors.card; // White
+      case AppButtonVariant.secondary:
+        return AppColors.accent;
+      case AppButtonVariant.tertiary:
+        return AppColors.mutedText;
+      case AppButtonVariant.iconOnly:
+        return AppColors.primary;
+    }
+  }
+
+  RoundedRectangleBorder? _getBorder() {
+    if (variant == AppButtonVariant.secondary) {
+      return RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: AppColors.accent, width: 1),
+      );
+    }
+    return null;
   }
 }

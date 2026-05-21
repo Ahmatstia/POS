@@ -1,73 +1,88 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:lexa_pos/core/database/tables/categories.dart';
+import 'package:lexa_pos/core/database/tables/customers.dart';
+import 'package:lexa_pos/core/database/tables/product_variants.dart';
 import 'package:lexa_pos/core/database/tables/products.dart';
-import 'package:lexa_pos/core/database/tables/sync_outbox.dart';
+import 'package:lexa_pos/core/database/tables/shifts.dart';
+import 'package:lexa_pos/core/database/tables/stock_movements.dart';
+import 'package:lexa_pos/core/database/tables/sync_queue.dart';
+import 'package:lexa_pos/core/database/tables/transaction_items.dart';
 import 'package:lexa_pos/core/database/tables/transactions.dart';
+import 'package:lexa_pos/core/database/tables/users.dart';
+import 'package:lexa_pos/core/database/daos/product_dao.dart';
+import 'package:lexa_pos/core/database/daos/transaction_dao.dart';
+import 'package:lexa_pos/core/database/daos/customer_dao.dart';
+import 'package:lexa_pos/core/database/daos/inventory_dao.dart';
 
 part 'app_database.g.dart';
 
 /// Lexa POS on-device SQLite database (Drift).
-@DriftDatabase(tables: [Products, SyncOutbox, Transactions])
+@DriftDatabase(tables: [
+  Users,
+  Categories,
+  Products,
+  ProductVariants,
+  Customers,
+  Shifts,
+  Transactions,
+  TransactionItems,
+  StockMovements,
+  SyncQueue,
+])
 class AppDatabase extends _$AppDatabase {
   /// Opens the default app database file on device storage.
   AppDatabase([QueryExecutor? executor])
-      : super(executor ?? driftDatabase(name: 'lexa_pos'));
+      : super(executor ?? driftDatabase(name: 'lexa_pos_v2'));
+
+  ProductDao get productDao => ProductDao(this);
+  TransactionDao get transactionDao => TransactionDao(this);
+  CustomerDao get customerDao => CustomerDao(this);
+  InventoryDao get inventoryDao => InventoryDao(this);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 1;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator migrator) async {
           await migrator.createAll();
-          await _seedDemoProducts();
+          await _seedDefaultData();
         },
         onUpgrade: (Migrator migrator, int from, int to) async {
-          if (from < 3) {
-            try {
-              await migrator.addColumn(products, products.minStock);
-            } catch (e) {
-              // Ignore if column already exists
-            }
-          }
+          // Future migrations will go here
+        },
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
+          await customStatement('PRAGMA journal_mode = WAL');
         },
       );
 
-  Future<void> _seedDemoProducts() async {
-    final now = DateTime.now().millisecondsSinceEpoch;
+  Future<void> _seedDefaultData() async {
+    final now = DateTime.now();
+    
     await batch((batch) {
-      batch.insertAll(
-        products,
-        [
-          ProductsCompanion.insert(
-            id: 'demo_kopi',
-            name: 'Kopi Tubruk',
-            priceRupiah: 15000,
-            stockQuantity: const Value(120),
-            categoryId: const Value('cat_beverages'),
-            imageUrl: const Value.absent(),
-            updatedAtMillis: Value(now),
-          ),
-          ProductsCompanion.insert(
-            id: 'demo_nasi',
-            name: 'Nasi Uduk Komplit',
-            priceRupiah: 25000,
-            stockQuantity: const Value(45),
-            categoryId: const Value('cat_food'),
-            imageUrl: const Value.absent(),
-            updatedAtMillis: Value(now),
-          ),
-          ProductsCompanion.insert(
-            id: 'demo_air',
-            name: 'Air Mineral 600ml',
-            priceRupiah: 4000,
-            stockQuantity: const Value(200),
-            categoryId: const Value('cat_beverages'),
-            imageUrl: const Value.absent(),
-            updatedAtMillis: Value(now),
-          ),
-        ],
-        mode: InsertMode.insertOrReplace,
+      // 1. Seed Owner User
+      batch.insert(
+        users,
+        UsersCompanion.insert(
+          name: 'Owner',
+          username: 'owner',
+          passwordHash: 'hash', // mock
+          role: 0,
+          createdAt: now,
+          updatedAt: now,
+        ),
+      );
+
+      // 2. Seed default categories
+      batch.insert(
+        categories,
+        CategoriesCompanion.insert(
+          name: 'Umum',
+          createdAt: now,
+          updatedAt: now,
+        ),
       );
     });
   }

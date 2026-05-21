@@ -7,15 +7,21 @@ part 'product.g.dart';
 @freezed
 class Product with _$Product {
   const factory Product({
-    required String id,
+    required int id,
+    required int categoryId,
     required String name,
-    required int priceRupiah,
-    required int stockQuantity,
-    @Default(10) int minStock,
-    String? categoryId,
+    required String sku,
+    String? barcode,
+    String? description,
     String? imageUrl,
+    required int sellingPrice,
+    required int costPrice,
+    required String unit,
+    required int minStock,
+    required int currentStock,
     required bool isActive,
-    required int updatedAtMillis,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _Product;
 
   factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
